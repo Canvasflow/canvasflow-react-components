@@ -1,5 +1,9 @@
-export function Example() {
+export function Example({message}: ExampleProps) {
     return <div>
-        This is an example component
+        {message ? message : 'Example component'}
     </div>
+}
+
+interface ExampleProps {
+    message?: string;
 }
