@@ -28,8 +28,12 @@ jobs:
       - name: pack
         run: npm pack --dry-run
 
+      - run: |
+          echo @lexacode:https://npm.pkg.github.com/ > .npmrc
+          echo '//npm.pkg.github.com/:_authToken=${{secrets.NPM_TOKEN}}' >> .npmrc
+
       - name: publish
-        run: npm publish --registry=https://npm.pkg.github.com
+        run: npm publish
 
         env:
           NPM_TOKEN: ${{secrets.NPM_TOKEN}}
