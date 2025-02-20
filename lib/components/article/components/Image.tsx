@@ -1,11 +1,10 @@
-import { OnOff, Devices } from "./Types";
+import { OnOff } from "./Types";
 
 export const Image = (props: ImageProps) => {
   const {
     id,
     fullwidth,
     align,
-    expandfullwidth,
     bleed,
     fixedwidth,
     imageurl,
