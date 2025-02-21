@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { OnOff, Devices } from "./Types";
+import { Canvasflow } from "../../../Canvasflow";
 import styles from "./../article.module.css";
 export const Text = (props: TextProps) => {
   const {
@@ -109,25 +109,7 @@ export const Text = (props: TextProps) => {
   );
 };
 
-interface TextProps {
-  id: string;
-  IMAGECAPTION?: string;
-  text_lang?: any;
-  unit?: any;
-  bleed?: OnOff;
-  animation: any;
-  devices: Devices;
-  text?: any | string;
-  expandfullwidth?: OnOff;
-  css?: string;
-  imageenabled?: OnOff;
-  imageurl?: string;
-  imagemargin?: string;
-  imagefloat?: "left" | "right";
-  imageWidth?: string;
-  style?: any;
-  dropcap?: OnOff;
-  component: string;
+interface TextProps extends Canvasflow.Text {
   lang?: string;
 }
 
