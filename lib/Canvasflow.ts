@@ -104,8 +104,14 @@ export namespace Canvasflow {
     component: "advert";
     imageurl: string;
     height: number;
+    width: number;
+    linktype: "none" | "web" | "page";
     imagelink?: string;
     externallinktarget: OnOff;
+    advertlink?: `/article/${number}`;
+    pagelink?: number;
+    unselectable: OnOff;
+    imgunselectable: OnOff;
     fit: "fit-width" | "fit-height";
   }
 }
