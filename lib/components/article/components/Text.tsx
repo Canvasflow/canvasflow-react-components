@@ -108,6 +108,6 @@ export const Text = (props: TextProps) => {
   );
 };
 
-interface TextProps extends Canvasflow.Text {
+interface TextProps extends Canvasflow.Component.Text {
   lang?: string;
 }

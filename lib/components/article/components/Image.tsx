@@ -129,7 +129,7 @@ export const Image = (props: ImageProps) => {
   );
 };
 
-interface ImageProps extends Canvasflow.Image {
+interface ImageProps extends Canvasflow.Component.Image {
   lang?: string;
 }
 
