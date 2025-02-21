@@ -1,7 +1,4 @@
 export namespace Canvasflow {
-  type OnOff = "on" | "off";
-  type LeftRight = "left" | "right";
-
   export interface Article {
     id: `${number}`;
     ArticleID: `${number}`;
@@ -13,7 +10,23 @@ export namespace Canvasflow {
   }
 
   export namespace Component {
-    export type Type = Text | Image | Advert | Anchor;
+    export type Type = Text | Image | Advert | Anchor | Map;
+
+    type BaseComponentType =
+      | TextComponent
+      | "image"
+      | "advert"
+      | "anchor"
+      | "map";
+
+    type OnOff = "on" | "off";
+    type LeftRight = "left" | "right";
+
+    interface Devices {
+      tablet: OnOff;
+      desktop: OnOff;
+      phone: OnOff;
+    }
 
     interface BaseComponent {
       id: string;
@@ -22,13 +35,6 @@ export namespace Canvasflow {
       expandfullwidth?: OnOff;
       component: BaseComponentType;
       unselectable: OnOff;
-    }
-    type BaseComponentType = TextComponent | "image" | "advert" | "anchor";
-
-    export interface Devices {
-      tablet: OnOff;
-      desktop: OnOff;
-      phone: OnOff;
     }
 
     export interface Anchor extends BaseComponent {
@@ -82,7 +88,30 @@ export namespace Canvasflow {
       fixedwidth?: OnOff;
       link?: string;
       url: string;
-      imageclip: ImageClip;
+      imageclip:
+        | "none"
+        | "circle"
+        | "ellipse"
+        | "triangle"
+        | "trapezoid"
+        | "parallelogram"
+        | "rhombus"
+        | "pentagon"
+        | "hexagon"
+        | "heptagon"
+        | "octagon"
+        | "nonagon"
+        | "decogon"
+        | "bevel"
+        | "rabbet"
+        | "leftarrow"
+        | "rightarrow"
+        | "leftpoint"
+        | "rightpoint"
+        | "rightchevron"
+        | "leftchevron"
+        | "star"
+        | "close";
       linktype: string;
       lightbox: OnOff;
       style?: any;
@@ -94,31 +123,6 @@ export namespace Canvasflow {
       imageurl: string;
       imagelink: string;
     }
-
-    type ImageClip =
-      | "none"
-      | "circle"
-      | "ellipse"
-      | "triangle"
-      | "trapezoid"
-      | "parallelogram"
-      | "rhombus"
-      | "pentagon"
-      | "hexagon"
-      | "heptagon"
-      | "octagon"
-      | "nonagon"
-      | "decogon"
-      | "bevel"
-      | "rabbet"
-      | "leftarrow"
-      | "rightarrow"
-      | "leftpoint"
-      | "rightpoint"
-      | "rightchevron"
-      | "leftchevron"
-      | "star"
-      | "close";
 
     export interface Advert extends BaseComponent {
       component: "advert";
@@ -133,6 +137,29 @@ export namespace Canvasflow {
       unselectable: OnOff;
       imgunselectable: OnOff;
       fit: "fit-width" | "fit-height";
+    }
+
+    export interface Map extends BaseComponent {
+      component: "map";
+      captionenabled: OnOff;
+      caption: string;
+      zoom: number;
+      lat: `${number}` | number;
+      lng: `${number}` | number;
+      marker: OnOff;
+      mapstyle:
+        | "google"
+        | "apple"
+        | "greyscale"
+        | "lightdream"
+        | "midnight"
+        | "navigation"
+        | "oldtimer"
+        | "paledawn"
+        | "paper"
+        | "retro"
+        | "schoolmap"
+        | "subtleblue";
     }
   }
 }
