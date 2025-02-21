@@ -10,7 +10,7 @@ export namespace Canvasflow {
   }
 
   export namespace Component {
-    export type Type = Text | Image | Advert | Anchor | Map | Spacer;
+    export type Type = Text | Image | Advert | Anchor | Map | Spacer | Divider;
 
     export type Types =
       | TextComponent
@@ -18,7 +18,8 @@ export namespace Canvasflow {
       | "advert"
       | "anchor"
       | "map"
-      | "spacer";
+      | "spacer"
+      | "divider";
 
     type OnOff = "on" | "off";
     type LeftRight = "left" | "right";
@@ -166,6 +167,11 @@ export namespace Canvasflow {
     export interface Spacer extends BaseComponent {
       component: "spacer";
       margin: `margin-${1 | 20 | 50 | 75 | 100}`;
+    }
+
+    export interface Divider extends BaseComponent {
+      component: "divider";
+      style: "none" | string;
     }
   }
 }
