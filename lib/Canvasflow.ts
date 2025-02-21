@@ -10,14 +10,15 @@ export namespace Canvasflow {
   }
 
   export namespace Component {
-    export type Type = Text | Image | Advert | Anchor | Map;
+    export type Type = Text | Image | Advert | Anchor | Map | Spacer;
 
-    type BaseComponentType =
+    export type Types =
       | TextComponent
       | "image"
       | "advert"
       | "anchor"
-      | "map";
+      | "map"
+      | "spacer";
 
     type OnOff = "on" | "off";
     type LeftRight = "left" | "right";
@@ -33,7 +34,7 @@ export namespace Canvasflow {
       devices: Devices;
       bleed?: OnOff | LeftRight;
       expandfullwidth?: OnOff;
-      component: BaseComponentType;
+      component: Types;
       unselectable: OnOff;
     }
 
@@ -160,6 +161,11 @@ export namespace Canvasflow {
         | "retro"
         | "schoolmap"
         | "subtleblue";
+    }
+
+    export interface Spacer extends BaseComponent {
+      component: "spacer";
+      margin: `margin-${1 | 20 | 50 | 75 | 100}`;
     }
   }
 }
