@@ -1,4 +1,6 @@
-import { OnOff } from "./Types";
+import { Canvasflow } from "../../../Canvasflow";
+import { Caption } from "./Caption";
+import { Credit } from "./Credit";
 
 export const Image = (props: ImageProps) => {
   const {
@@ -10,10 +12,16 @@ export const Image = (props: ImageProps) => {
     imageurl,
     htmlclass,
     imageclip,
-    style,
     caption,
+    credit,
     width,
     component,
+    captionenabled,
+    creditenabled,
+    style,
+    onlyShowCaptionInLightbox,
+    onlyShowCreditInLightbox,
+    lang,
   } = props;
 
   let classNames = ["media", component];
@@ -78,17 +86,28 @@ export const Image = (props: ImageProps) => {
     setImageInlineStyles(containerStyle, style);
   }
 
-  const imageComponent = (
-    <img
-      src={`${imageurl.replace(/\\/g, "/")}`}
-      alt={caption || ""}
-      height={1000}
-      style={imageStyle}
-    />
-  );
+  let captionContent = "";
+  if (caption) {
+    captionContent =
+      typeof caption === "string"
+        ? caption
+        : lang && caption[lang]
+          ? caption[lang]
+          : "";
+  }
+
+  let creditContent = "";
+  if (credit) {
+    creditContent = credit;
+  }
+
+  const captionEnabled: boolean =
+    captionenabled === "on" && !onlyShowCaptionInLightbox && captionContent;
+
+  const creditEnabled: boolean =
+    creditenabled === "on" && !onlyShowCreditInLightbox;
 
   return (
-    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <figure
       id={id}
       className={classNames.join(" ")}
@@ -96,45 +115,22 @@ export const Image = (props: ImageProps) => {
       //   onKeyDown={click}
       //   onClick={click}
     >
-      {imageComponent}
-      {/* {captionenabled && caption && !onlyShowCaptionInLightbox ? (
-        <VirtualCaption style={captionStyle} content={caption} />
-      ) : null}
-      {creditEnabled && credit && !onlyShowCreditInLightbox ? (
-        <Credit style={captionStyle} content={credit} />
-      ) : null} */}
+      <img
+        src={`${imageurl.replace(/\\/g, "/")}`}
+        alt={captionContent}
+        height={1000}
+        style={imageStyle}
+      />
+      {captionEnabled && (
+        <Caption content={captionContent} style={captionStyle} />
+      )}
+      {creditEnabled && <Credit content={creditContent} style={captionStyle} />}
     </figure>
   );
 };
 
-interface ImageProps {
-  id: string;
-  align?: string;
-  bleed?: OnOff | "left" | "right";
-  style: any;
-  fullwidth?: OnOff;
-  expandfullwidth?: OnOff;
-  externallinktarget?: string;
-  caption?: string;
-  captionenabled?: OnOff;
-  captionposition?: string;
-  credit?: string;
-  animation?: any;
-  creditenabled?: OnOff;
-  width?: number | null;
-  fixedwidth?: OnOff;
-  link?: string;
-  url: string;
-  imageclip: string;
-  linktype: string;
-  lightbox: OnOff;
-  htmlclass: Array<any>;
-  onlyShowCaptionInLightbox: OnOff;
-  onlyShowCreditInLightbox: OnOff;
-  component: string;
+interface ImageProps extends Canvasflow.Image {
   lang?: string;
-  imageurl: string;
-  imagelink: string;
 }
 
 function getClipPath(imageClip: string) {
@@ -216,59 +212,3 @@ function setImageInlineStyles(containerStyle: any, style: any) {
     }
   }
 }
-
-// {
-//     "fullwidth": "off",
-//     "onlyShowCaptionInLightbox": false,
-//     "lightbox": "off",
-//     "imageframestyle": "none",
-//     "aspectratio": "free",
-//     "align": "center",
-//     "expandfullwidth": "off",
-//     "onlyShowCreditInLightbox": false,
-//     "animation": {
-//       "type": "none",
-//       "params": {
-//         "speed": "medium",
-//         "delay": "1",
-//         "repeat": "0"
-//       }
-//     },
-//     "bleed": "off",
-//     "caption": "",
-//     "role": "image",
-//     "width": 300,
-//     "linktype": "none",
-//     "credit": "",
-//     "alt": "",
-//     "rawimage": "off",
-//     "externallinktarget": "on",
-//     "unselectable": "off",
-//     "imagefilter": "none",
-//     "imageclip": "none",
-//     "hpadding": 0,
-//     "imagelink": "",
-//     "captionposition": "below",
-//     "imageurl": "https://admin.cflowdev.com/usercontent/143476/611E08D7-9BF1-446E-AF18C84964F205BB.jpg",
-//     "templateId": 143476,
-//     "captionenabled": "off",
-//     "cacheparam": 1,
-//     "devices": {
-//       "tablet": "on",
-//       "desktop": "on",
-//       "phone": "on"
-//     },
-//     "fixedwidth": "off",
-//     "pagelink": "none",
-//     "tag": "",
-//     "creditenabled": "off",
-//     "htmlclass": "",
-//     "id": "Cf2-1565384310",
-//     "articleid": 143476,
-//     "imgunselectable": "off",
-//     "title": "",
-//     "component": "image",
-//     "behaviour": {
-//       "type": "none"
-//     }
-//   }

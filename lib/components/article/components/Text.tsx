@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { Canvasflow } from "../../../Canvasflow";
 import styles from "./../article.module.css";
+
 export const Text = (props: TextProps) => {
   const {
     id,
@@ -112,55 +111,3 @@ export const Text = (props: TextProps) => {
 interface TextProps extends Canvasflow.Text {
   lang?: string;
 }
-
-/*
-    {
-			"expandfullwidth": "off",
-			"animation": {
-				"type": "none",
-				"params": {
-					"speed": "medium",
-					"delay": "1",
-					"repeat": "0"
-				}
-			},
-			"bleed": "off",
-			"dropcap": "off",
-			"linktype": "none",
-			"imagefloat": "left",
-			"externallinktarget": "off",
-			"imageenabled": "off",
-			"imagelink": "",
-			"text_lang": {
-				"en": "<p></p><p id=\"best-stand-mixers-at-a-glance-970fc10d\"><a name=\"glance\">Best stand mixers at a glance</a></p><a name=\"glance\">\n </a><p></p>"
-			},
-			"imageurl": "https://cfstock.s3.amazonaws.com/components/image/placeholder.jpg",
-			"text": "<p></p><p id=\"best-stand-mixers-at-a-glance-970fc10d\"><a name=\"glance\">Best stand mixers at a glance</a></p><a name=\"glance\">\n </a><p></p>",
-			"cacheparam": 1,
-			"devices": {
-				"tablet": "on",
-				"desktop": "on",
-				"phone": "on"
-			},
-			"channels": {
-				"applenews": {
-					"image": {
-						"enabled": "on"
-					}
-				}
-			},
-			"pagelink": "nones",
-			"tag": "",
-			"displayname": "Title Bottom 10",
-			"excludedchannels": [],
-			"htmlclass": "",
-			"id": "Cf2-2109518099",
-			"imagemargin": 5,
-			"articleid": "150934",
-			"unit": {
-				"imagewidth": "px"
-			},
-			"component": "text21",
-			"imagewidth": 250
-		}
-*/
