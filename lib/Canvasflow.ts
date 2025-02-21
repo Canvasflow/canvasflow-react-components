@@ -1,30 +1,74 @@
 export namespace Canvasflow {
+  /**
+   * This is an object representing a Canvasflow Article.
+   */
   export interface Article {
+    /**
+     * Unique identifier for the article
+     */
     id: `${number}`;
+
+    /**
+     * Identifier for the article in system
+     */
     ArticleID: `${number}`;
+
+    /**
+     * Represents the article in a human readable format
+     * @example
+     * - `this-is-an-article`
+     * - `another-article`
+     */
     slug?: string;
+
+    /**
+     * List of features that are required by the user to read the article
+     */
     features: Array<string>;
+
+    /**
+     * Order of the article
+     */
     index: number;
+
+    /**
+     * Style used by the article
+     */
     style: `${number}`;
+
+    /**
+     * List of {@link Component.Type} that compose the article
+     */
     components: Array<Component.Type>;
   }
 
+  /**
+   * This is an object representing a Canvasflow Component. You can retrieve
+   * it to see properties of the component that are sent by System
+   */
   export namespace Component {
+    /**
+     * This is type that group all the components supported by Canvasflow
+     */
     export type Type = Text | Image | Advert | Anchor | Map | Spacer | Divider;
 
-    export type Types =
-      | TextComponent
-      | "image"
-      | "advert"
-      | "anchor"
-      | "map"
-      | "spacer"
-      | "divider";
-
+    /*
+     * Represents if a property is enabled or not
+     * @internal
+     */
     type OnOff = "on" | "off";
+
+    /*
+     * Represents if a property is left or right
+     * @internal
+     */
     type LeftRight = "left" | "right";
 
-    interface Devices {
+    /**
+     * This is an object that represent the devices that are supported by
+     * a particular component
+     */
+    export interface Devices {
       tablet: OnOff;
       desktop: OnOff;
       phone: OnOff;
@@ -35,9 +79,21 @@ export namespace Canvasflow {
       devices: Devices;
       bleed?: OnOff | LeftRight;
       expandfullwidth?: OnOff;
-      component: Types;
+      component: Component;
       unselectable: OnOff;
     }
+
+    /**
+     * String type that represent all the component properties
+     */
+    export type Component =
+      | TextComponent
+      | "image"
+      | "advert"
+      | "anchor"
+      | "map"
+      | "spacer"
+      | "divider";
 
     export interface Anchor extends BaseComponent {
       component: "anchor";
@@ -60,6 +116,9 @@ export namespace Canvasflow {
       component: TextComponent;
     }
 
+    /**
+     * String type that represent all the available text components
+     */
     type TextComponent =
       | "headline"
       | "title"
@@ -73,6 +132,10 @@ export namespace Canvasflow {
       | "imagecaption"
       | `text${TextRange}`;
 
+    /**
+     * Type that represent the range for text component.
+     * From `text1` to `text40`
+     */
     type TextRange = NumericRange<CreateArrayWithLengthX<1>, 40>;
 
     export interface Image extends BaseComponent {
