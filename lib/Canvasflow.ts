@@ -50,15 +50,34 @@ export namespace Canvasflow {
     /**
      * This is type that group all the components supported by Canvasflow
      */
-    export type Type = Text | Image | Advert | Anchor | Map | Spacer | Divider;
+    export type Type =
+      | Text
+      | Image
+      | Gallery
+      | Map
+      | Video
+      | Audio
+      | Button
+      | Anchor
+      | Advert
+      | Custom
+      | Twitter
+      | Infogram
+      | Instagram
+      | Table
+      | TikTok
+      | Columns
+      | Container
+      | Spacer
+      | Divider;
 
-    /*
+    /**
      * Represents if a property is enabled or not
      * @internal
      */
     type OnOff = "on" | "off";
 
-    /*
+    /**
      * Represents if a property is left or right
      * @internal
      */
@@ -89,17 +108,30 @@ export namespace Canvasflow {
     export type Component =
       | TextComponent
       | "image"
-      | "advert"
-      | "anchor"
+      | "gallery"
+      | "mosaic"
       | "map"
+      | "video"
+      | "audio"
+      | "button"
+      | "anchor"
+      | "advert"
+      | "custom"
+      | "twitter"
+      | "infogram"
+      | "instagram"
+      | "table"
+      | "tiktok"
+      | "columns"
+      | "container"
       | "spacer"
       | "divider";
 
-    export interface Anchor extends BaseComponent {
-      component: "anchor";
-      name: string;
-    }
-
+    /**
+     * ----------------------------------------------
+     * TEXT
+     * ----------------------------------------------
+     */
     export interface Text extends BaseComponent {
       IMAGECAPTION?: string;
       text_lang?: any;
@@ -137,6 +169,12 @@ export namespace Canvasflow {
      * From `text1` to `text40`
      */
     type TextRange = NumericRange<CreateArrayWithLengthX<1>, 40>;
+
+    /**
+     * ----------------------------------------------
+     * MEDIA
+     * ----------------------------------------------
+     */
 
     export interface Image extends BaseComponent {
       align?: LeftRight | "center" | "float-left" | "float-right";
@@ -189,20 +227,8 @@ export namespace Canvasflow {
       imagelink: string;
     }
 
-    export interface Advert extends BaseComponent {
-      component: "advert";
-      imageurl: string;
-      height: number;
-      width: number;
-      linktype: "none" | "web" | "page";
-      imagelink?: string;
-      externallinktarget: OnOff;
-      advertlink?: `/article/${number}`;
-      pagelink?: number;
-      unselectable: OnOff;
-      imgunselectable: OnOff;
-      fit: "fit-width" | "fit-height";
-    }
+    // TODO Implement component
+    export interface Gallery extends BaseComponent {}
 
     export interface Map extends BaseComponent {
       component: "map";
@@ -226,6 +252,65 @@ export namespace Canvasflow {
         | "schoolmap"
         | "subtleblue";
     }
+
+    // TODO Implement component
+    export interface Video extends BaseComponent {}
+
+    // TODO Implement component
+    export interface Audio extends BaseComponent {}
+
+    // TODO Implement component
+    export interface Button extends BaseComponent {}
+
+    export interface Anchor extends BaseComponent {
+      component: "anchor";
+      name: string;
+    }
+
+    export interface Advert extends BaseComponent {
+      component: "advert";
+      imageurl: string;
+      height: number;
+      width: number;
+      linktype: "none" | "web" | "page";
+      imagelink?: string;
+      externallinktarget: OnOff;
+      advertlink?: `/article/${number}`;
+      pagelink?: number;
+      unselectable: OnOff;
+      imgunselectable: OnOff;
+      fit: "fit-width" | "fit-height";
+    }
+
+    // TODO Implement component
+    export interface Custom extends BaseComponent {}
+
+    // TODO Implement component
+    export interface Twitter extends BaseComponent {}
+
+    // TODO Implement component
+    export interface Infogram extends BaseComponent {}
+
+    // TODO Implement component
+    export interface Instagram extends BaseComponent {}
+
+    // TODO Implement component
+    export interface Table extends BaseComponent {}
+
+    // TODO Implement component
+    export interface TikTok extends BaseComponent {}
+
+    /**
+     * ----------------------------------------------
+     * LAYOUT
+     * ----------------------------------------------
+     */
+
+    // TODO Implement component
+    export interface Columns extends BaseComponent {}
+
+    // TODO Implement component
+    export interface Container extends BaseComponent {}
 
     export interface Spacer extends BaseComponent {
       component: "spacer";
