@@ -151,7 +151,7 @@ export namespace Canvasflow {
     /**
      * String type that represent all the available text components
      */
-    type TextComponent =
+    export type TextComponent =
       | "headline"
       | "title"
       | "subtitle"
@@ -333,7 +333,27 @@ export namespace Canvasflow {
      */
 
     // TODO Implement component
-    export interface Columns extends BaseComponent {}
+    export interface Columns extends BaseComponent {
+      component: "columns";
+      columns: Array<Array<Type>>;
+      styles: Array<`${number}` | number>;
+      width: `${number}` | number;
+      gutter: number;
+      contentmode: "default" | "multicol" | "flow";
+      multicolcount: number;
+      backgroundimage: OnOff;
+      imagepositionleft: number;
+      columnorder: "default" | "invert";
+      imageopacity: number;
+      colsplit: string;
+      video: {
+        autoloop: boolean;
+        poster: string;
+        url: string;
+        horizontalalignment: LeftRight | "center";
+        fillmode: "fit" | "cover";
+      };
+    }
 
     // TODO Implement component
     export interface Container extends BaseComponent {}
@@ -349,6 +369,29 @@ export namespace Canvasflow {
     }
   }
 }
+
+export const isTextComponent = (c: Canvasflow.Component.Type): boolean => {
+  const { component } = c;
+  const MAX_COMPONENTS = 40;
+  const textComponents = new Set([
+    "headline",
+    "title",
+    "subtitle",
+    "intro",
+    "body",
+    "crosshead",
+    "byline",
+    "blockquote",
+    "footer",
+    "imagecaption",
+  ]);
+
+  for (let i = 0; i < MAX_COMPONENTS; i++) {
+    textComponents.add(`text${i + 1}`);
+  }
+
+  return textComponents.has(component);
+};
 
 type CreateArrayWithLengthX<
   LENGTH extends number,

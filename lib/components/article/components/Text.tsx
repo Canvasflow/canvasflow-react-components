@@ -1,7 +1,8 @@
+import { ReactElement } from "react";
 import { Canvasflow } from "../../../Canvasflow";
 import styles from "./../article.module.css";
 
-export const Text = (props: TextProps) => {
+export const Text = (props: TextProps): ReactElement | null => {
   const {
     id,
     bleed = "off",
