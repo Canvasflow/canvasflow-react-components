@@ -129,6 +129,8 @@ export const Image = (props: ImageProps) => {
   );
 };
 
+export default Image;
+
 interface ImageProps extends Canvasflow.Component.Image {
   lang?: string;
 }

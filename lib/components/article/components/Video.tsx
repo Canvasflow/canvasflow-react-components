@@ -7,3 +7,5 @@ export const Video = (
   console.log(props);
   return null;
 };
+
+export default Video;

@@ -12,6 +12,8 @@ export const Caption = (props: CaptionProps) => {
   );
 };
 
+export default Caption;
+
 interface CaptionProps {
   content: string;
   style?: any;

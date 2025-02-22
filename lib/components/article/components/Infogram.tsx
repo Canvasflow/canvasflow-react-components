@@ -7,3 +7,5 @@ export const Infogram = (
   console.log(props);
   return null;
 };
+
+export default Infogram;

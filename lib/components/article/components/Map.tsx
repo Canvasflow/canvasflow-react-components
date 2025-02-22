@@ -5,3 +5,5 @@ export const Map = (props: Canvasflow.Component.Map): ReactElement | null => {
   console.log(props);
   return null;
 };
+
+export default Map;

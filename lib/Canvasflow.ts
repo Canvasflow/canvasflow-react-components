@@ -109,7 +109,6 @@ export namespace Canvasflow {
       | TextComponent
       | "image"
       | "gallery"
-      | "mosaic"
       | "map"
       | "video"
       | "audio"
@@ -332,7 +331,6 @@ export namespace Canvasflow {
      * ----------------------------------------------
      */
 
-    // TODO Implement component
     export interface Columns extends BaseComponent {
       component: "columns";
       columns: Array<Array<Type>>;

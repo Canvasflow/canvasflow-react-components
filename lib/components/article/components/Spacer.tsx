@@ -7,3 +7,5 @@ export const Spacer = (
   console.log(props);
   return null;
 };
+
+export default Spacer;

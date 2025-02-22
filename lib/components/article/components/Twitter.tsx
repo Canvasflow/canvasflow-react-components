@@ -7,3 +7,5 @@ export const Twitter = (
   console.log(props);
   return null;
 };
+
+export default Twitter;

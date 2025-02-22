@@ -7,3 +7,5 @@ export const Custom = (
   console.log(props);
   return null;
 };
+
+export default Custom;

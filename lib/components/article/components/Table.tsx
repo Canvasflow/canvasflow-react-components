@@ -7,3 +7,5 @@ export const Table = (
   console.log(props);
   return null;
 };
+
+export default Table;

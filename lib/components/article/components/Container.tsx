@@ -7,3 +7,5 @@ export const Container = (
   console.log(props);
   return null;
 };
+
+export default Container;

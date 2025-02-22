@@ -7,3 +7,5 @@ export const Advert = (
   console.log(props);
   return null;
 };
+
+export default Advert;

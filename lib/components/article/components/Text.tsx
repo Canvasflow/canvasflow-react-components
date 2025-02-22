@@ -112,3 +112,5 @@ export const Text = (props: TextProps): ReactElement | null => {
 interface TextProps extends Canvasflow.Component.Text {
   lang?: string;
 }
+
+export default Text;

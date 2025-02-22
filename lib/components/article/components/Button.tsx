@@ -7,3 +7,5 @@ export const Button = (
   console.log(props);
   return null;
 };
+
+export default Button;
