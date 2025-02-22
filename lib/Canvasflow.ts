@@ -227,8 +227,24 @@ export namespace Canvasflow {
       imagelink: string;
     }
 
-    // TODO Implement component
-    export interface Gallery extends BaseComponent {}
+    export interface Gallery extends BaseComponent {
+      component: "gallery";
+      role: "default" | "mosaic";
+      animation: "fade" | "slide" | "cube" | "coverflow" | "flip";
+      autoplay: OnOff;
+      images: Array<GalleryImage>;
+      caption?: { [key: string]: string } | string;
+      captionenabled: OnOff;
+      credit?: string;
+      creditenabled: OnOff;
+      direction: "horizontal" | "vertical";
+      "control-speed": "slow" | "medium" | "fast" | "vfast";
+    }
+
+    interface GalleryImage {
+      imageurl: string;
+      caption?: { [key: string]: string } | string;
+    }
 
     export interface Map extends BaseComponent {
       component: "map";
