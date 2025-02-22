@@ -275,8 +275,18 @@ export namespace Canvasflow {
     // TODO Implement component
     export interface Audio extends BaseComponent {}
 
-    // TODO Implement component
-    export interface Button extends BaseComponent {}
+    export interface Button extends BaseComponent {
+      component: "button";
+      text: string;
+      pagetarget: "external" | "lightbox" | "internal";
+      resource: "none" | "url" | "page";
+      align: LeftRight | "center";
+      style: "none" | string;
+      size: "frontstyle" | "xsmall" | "small" | "medium" | "large" | "xlarge";
+      link: string;
+      externallinktarget: OnOff;
+      pageid?: `${number}` | number;
+    }
 
     export interface Anchor extends BaseComponent {
       component: "anchor";
