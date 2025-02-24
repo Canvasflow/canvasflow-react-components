@@ -13,6 +13,7 @@ module.exports = {
   rules: {
     "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/no-explicit-any": "off",
+    "no-inline-styles": "off",
     "no-case-declarations": "off",
     "react-refresh/only-export-components": [
       "warn",
