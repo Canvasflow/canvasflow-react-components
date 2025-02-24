@@ -14,7 +14,9 @@ export class Styles {
     return stylesMap;
   }
 
-  private static reduceStyles(acc: Map<string, Canvasflow.Style>, style: Canvasflow.Style) {
+  private static reduceStyles(
+    acc: Map<string, Canvasflow.Style>,
+    style: Canvasflow.Style) {
     acc.set(`${style.id}`, style);
     return acc;
   }
