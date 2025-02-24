@@ -16,8 +16,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const World: Story = {
+export const ComponentStory: Story = {
   args: {
-    name: "Hello World 🌍!",
+    name: ''
   },
 };
