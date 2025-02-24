@@ -327,6 +327,7 @@ export namespace Canvasflow {
     // TODO Implement component
     export interface Custom extends BaseComponent {
       component: "custom";
+      content: string;
     }
 
     // TODO Implement component
