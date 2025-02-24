@@ -9,8 +9,7 @@ export class Styles {
       new Map(),
     );
     for (const style of styles) {
-      const parentId = style.parent ? `${style.parent}` : null;
-      Styles.mergeParentProperties(style, parentId, stylesMap);
+      Styles.mergeParentProperties(style, stylesMap);
     }
     return stylesMap;
   }
@@ -22,16 +21,15 @@ export class Styles {
 
   static mergeParentProperties(
     style: Canvasflow.Style,
-    parentId: string | null,
     stylesMap: Map<string, Canvasflow.Style>,
   ): Canvasflow.Style {
     // I don't have parent so i return
-    if (!parentId) {
+    if (!style.parent) {
       return style;
     }
 
     // Search for parent
-    const parentStyle = stylesMap.get(parentId);
+    const parentStyle = stylesMap.get(style.parent);
 
     // This happens if the parent style is missin (aka System Error)
     if (!parentStyle) {
@@ -42,12 +40,11 @@ export class Styles {
 
     // Avoid recalculation
     const parent = Styles.mergeParentProperties(
-      clone(parentStyle),
-      parentStyle.parent,
+      parentStyle,
       stylesMap,
     );
     parent.parent = null;
-    stylesMap.set(`${parent.id}`, clone(parent));
+    stylesMap.set(`${parent.id}`, parent);
 
     // In here we overwrite the parents properties with the children style
     const properties = Styles.overwriteProperties(
@@ -82,11 +79,6 @@ export class Styles {
 
       if (!result[property]) {
         result[property] = {};
-      }
-
-      if (property === "canvas") {
-        console.log(`RESULT: `, result[property]);
-        console.log(`OVERWRITE: `, overwrite[property]);
       }
 
       result[property] = Styles.mergeDeep(
@@ -198,9 +190,4 @@ export class Styles {
 
 function isObject(item: any) {
   return item && typeof item === "object" && !Array.isArray(item);
-}
-
-function clone(obj: any) {
-  if (!obj) return obj;
-  return JSON.parse(JSON.stringify(obj));
 }

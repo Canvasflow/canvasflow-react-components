@@ -6,8 +6,12 @@ test("Check if inheritance resolves", () => {
   const styles = getStyles();
   const stylesMap = Styles.resolveInheritance(styles);
   expect(stylesMap.size).toBeGreaterThan(0);
-  const properties = stylesMap.get("22705")?.properties;
+  const styleId = "22705";
+  const properties = stylesMap.get(styleId)?.properties;
   expect(properties?.["canvas"].padding_top).toBe(0);
+  expect(properties?.["canvas"].background_color).toBe('000000');
+  expect(properties?.["canvas"].body_color).toBe('ffffff');
+  expect(properties?.["text10"].line_height).toBe(112.5);
 });
 
 function getStyles(): Array<Canvasflow.Style> {
