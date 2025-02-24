@@ -322,8 +322,12 @@ export namespace Canvasflow {
     // TODO Implement component
     export interface Table extends BaseComponent {}
 
-    // TODO Implement component
-    export interface TikTok extends BaseComponent {}
+    export interface TikTok extends BaseComponent {
+      params: {
+        username: string;
+        videoID: string;
+      };
+    }
 
     /**
      * ----------------------------------------------
