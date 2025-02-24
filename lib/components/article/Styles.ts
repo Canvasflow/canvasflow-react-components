@@ -4,25 +4,36 @@ export class Styles {
   static resolveInheritance(
     styles: Array<Canvasflow.Style>,
   ): Map<string, Canvasflow.Style> {
-    const stylesMap = new Map<string, Canvasflow.Style>();
+    const stylesMap: Map<string, Canvasflow.Style> = styles.reduce(
+      (acc, style) => {
+        acc.set(`${style.id}`, style);
+        return acc;
+      },
+      new Map(),
+    );
     for (const style of styles) {
-      Styles.mergeParentProperties(style, stylesMap);
+      const parentId = style.parent ? `${style.parent}` : null;
+      Styles.mergeParentProperties(style, parentId, stylesMap);
     }
     return stylesMap;
   }
 
   static mergeParentProperties(
     style: Canvasflow.Style,
+    parentId: string | null,
     stylesMap: Map<string, Canvasflow.Style>,
   ): Canvasflow.Style {
     // I don't have parent so i return
-    if (style.parent === null) {
-      stylesMap.set(style.id, style);
+    if (!parentId) {
+      if (style.id === "22351") {
+        console.log(`Style`, style);
+      }
+
       return style;
     }
 
     // Search for parent
-    const parentStyle = stylesMap.get(style.parent);
+    const parentStyle = stylesMap.get(parentId);
 
     // This happens if the parent style is missin (aka System Error)
     if (!parentStyle) {
@@ -32,9 +43,17 @@ export class Styles {
     }
 
     // Avoid recalculation
-    const parent = Styles.mergeParentProperties(style, stylesMap);
+    const parent = Styles.mergeParentProperties(
+      style,
+      parentStyle.parent,
+      stylesMap,
+    );
     parent.parent = null;
-    stylesMap.set(`${parent.id}`, clone(parent));
+    stylesMap.set(`${parentId}`, clone(parent));
+
+    if (style.id === "22705") {
+      console.log(`Parent Properties`, parent.properties);
+    }
 
     const properties = Styles.overwriteProperties(
       parent.properties,
@@ -56,7 +75,7 @@ export class Styles {
     const result = { ...properties };
     overwrite = { ...overwrite };
 
-    for (const property in properties) {
+    for (const property in overwrite) {
       if (Array.isArray(overwrite[property])) {
         if (!result[property]) {
           result[property] = [];
@@ -65,8 +84,14 @@ export class Styles {
         result[property] = result[property].concat(overwrite[property]);
         continue;
       }
+
       if (!result[property]) {
         result[property] = {};
+      }
+
+      if (property === "canvas") {
+        console.log(`RESULT: `, result[property]);
+        console.log(`OVERWRITE: `, overwrite[property]);
       }
 
       result[property] = Styles.mergeDeep(

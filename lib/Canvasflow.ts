@@ -5,7 +5,7 @@ export namespace Canvasflow {
     description: string;
     properties: { [key: string]: any };
     supportedDevices: Array<"mobile" | "tablet" | "desktop">;
-    type: "article" | "device";
+    type: "article" | "device" | "custom";
     parent: `${number}` | null;
     tablet: `${number}` | null;
     desktop: `${number}` | null;
