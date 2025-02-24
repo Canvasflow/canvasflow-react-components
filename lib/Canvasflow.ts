@@ -112,7 +112,7 @@ export namespace Canvasflow {
       bleed?: OnOff | LeftRight;
       expandfullwidth?: OnOff;
       component: Component;
-      unselectable: OnOff;
+      unselectable?: OnOff;
     }
 
     /**
