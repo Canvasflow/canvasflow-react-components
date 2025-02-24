@@ -3,12 +3,14 @@ export namespace Canvasflow {
     id: string;
     name: string;
     description: string;
-    properties: { [key: string]: any }
-    supportedDevices: Array<'mobile' | 'tablet' | 'desktop'>;
-    type: 'article';
+    properties: { [key: string]: any };
+    supportedDevices: Array<"mobile" | "tablet" | "desktop">;
+    type: "article" | "device";
     parent: `${number}` | null;
     tablet: `${number}` | null;
     desktop: `${number}` | null;
+    created: any;
+    lastModified: any;
   }
   /**
    * This is an object representing a Canvasflow Article.
@@ -202,29 +204,29 @@ export namespace Canvasflow {
       link?: string;
       url: string;
       imageclip:
-      | "none"
-      | "circle"
-      | "ellipse"
-      | "triangle"
-      | "trapezoid"
-      | "parallelogram"
-      | "rhombus"
-      | "pentagon"
-      | "hexagon"
-      | "heptagon"
-      | "octagon"
-      | "nonagon"
-      | "decogon"
-      | "bevel"
-      | "rabbet"
-      | "leftarrow"
-      | "rightarrow"
-      | "leftpoint"
-      | "rightpoint"
-      | "rightchevron"
-      | "leftchevron"
-      | "star"
-      | "close";
+        | "none"
+        | "circle"
+        | "ellipse"
+        | "triangle"
+        | "trapezoid"
+        | "parallelogram"
+        | "rhombus"
+        | "pentagon"
+        | "hexagon"
+        | "heptagon"
+        | "octagon"
+        | "nonagon"
+        | "decogon"
+        | "bevel"
+        | "rabbet"
+        | "leftarrow"
+        | "rightarrow"
+        | "leftpoint"
+        | "rightpoint"
+        | "rightchevron"
+        | "leftchevron"
+        | "star"
+        | "close";
       linktype: string;
       lightbox: OnOff;
       style?: any;
@@ -265,18 +267,18 @@ export namespace Canvasflow {
       lng: `${number}` | number;
       marker: OnOff;
       mapstyle:
-      | "google"
-      | "apple"
-      | "greyscale"
-      | "lightdream"
-      | "midnight"
-      | "navigation"
-      | "oldtimer"
-      | "paledawn"
-      | "paper"
-      | "retro"
-      | "schoolmap"
-      | "subtleblue";
+        | "google"
+        | "apple"
+        | "greyscale"
+        | "lightdream"
+        | "midnight"
+        | "navigation"
+        | "oldtimer"
+        | "paledawn"
+        | "paper"
+        | "retro"
+        | "schoolmap"
+        | "subtleblue";
     }
 
     // TODO Implement component
