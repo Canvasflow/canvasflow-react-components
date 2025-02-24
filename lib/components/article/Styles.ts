@@ -112,58 +112,6 @@ export class Styles {
     return result;
   }
 
-  /*
-    22705 -> 22351
-    22705 {
-        properties: {
-            'canvas': {
-                "background_color": "000000",
-                "body_color": "ffffff"
-            }
-        }
-    }
-
-    22351 {
-        properties: {
-            canvas: {
-                "body_color": "ffffff",
-                "component_margin_bottom": 20,
-                "mobile_font_size": 62.5,
-                "tablet_font_size": 62.5,
-                "desktop_font_size": 62.5,
-                "background_color": "ffffff",
-                "padding_top": 0,
-                "padding_bottom": 2,
-                "padding_left": 20,
-                "padding_right": 20,
-                "border_type": "none",
-                "border_edge": "bottom",
-                "border_width": 3,
-                "border_radius": 0,
-                "border_color": "000",
-                "margin_left": 0,
-                "margin_right": 0,
-                "margin_top": 0,
-                "margin_bottom": 0,
-                "unit": {
-                "padding_bottom": "%",
-                "padding_right": "px",
-                "border_width": "px",
-                "padding_top": "%",
-                "padding_left": "px",
-                "margin_right": "px",
-                "margin_left": "px",
-                "margin_bottom": "px",
-                "border_radius": "px",
-                "margin_top": "px"
-                }
-            }
-        }
-    }
-
-    27777 -> 22351
-  */
-
   /**
    * Deep merge two objects.
    * @param target
