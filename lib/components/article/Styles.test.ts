@@ -15,7 +15,6 @@ test("Check if inheritance resolves", () => {
     expect(properties["text10"].line_height).toBe(112.5);
     expect(properties["dividers"].length).toBeGreaterThan(0);
   }
-
 });
 
 function getStyles(): Array<Canvasflow.Style> {
