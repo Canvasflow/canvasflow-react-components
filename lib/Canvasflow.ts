@@ -269,10 +269,14 @@ export namespace Canvasflow {
     }
 
     // TODO Implement component
-    export interface Video extends BaseComponent {}
+    export interface Video extends BaseComponent {
+      component: "video";
+    }
 
     // TODO Implement component
-    export interface Audio extends BaseComponent {}
+    export interface Audio extends BaseComponent {
+      component: "audio";
+    }
 
     export interface Button extends BaseComponent {
       component: "button";
@@ -308,21 +312,32 @@ export namespace Canvasflow {
     }
 
     // TODO Implement component
-    export interface Custom extends BaseComponent {}
+    export interface Custom extends BaseComponent {
+      component: "custom";
+    }
 
     // TODO Implement component
-    export interface Twitter extends BaseComponent {}
+    export interface Twitter extends BaseComponent {
+      component: "twitter";
+    }
 
     // TODO Implement component
-    export interface Infogram extends BaseComponent {}
+    export interface Infogram extends BaseComponent {
+      component: "infogram";
+    }
 
     // TODO Implement component
-    export interface Instagram extends BaseComponent {}
+    export interface Instagram extends BaseComponent {
+      component: "instagram";
+    }
 
     // TODO Implement component
-    export interface Table extends BaseComponent {}
+    export interface Table extends BaseComponent {
+      component: "table";
+    }
 
     export interface TikTok extends BaseComponent {
+      component: "tiktok";
       params: {
         username: string;
         videoID: string;
@@ -358,7 +373,9 @@ export namespace Canvasflow {
     }
 
     // TODO Implement component
-    export interface Container extends BaseComponent {}
+    export interface Container extends BaseComponent {
+      component: "container";
+    }
 
     export interface Spacer extends BaseComponent {
       component: "spacer";
