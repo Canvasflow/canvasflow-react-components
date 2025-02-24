@@ -22,6 +22,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
+    "test": "vitest",
     "build-storybook": "storybook build"
   },
   "peerDependencies": {
@@ -53,7 +54,8 @@
     "typescript": "^5.4.3",
     "vite": "^4.5.3",
     "vite-plugin-dts": "^3.7.3",
-    "vite-plugin-lib-inject-css": "^2.0.1"
+    "vite-plugin-lib-inject-css": "^2.0.1",
+    "vitest": "^3.0.7"
   },
   "dependencies": {
     "@storybook/test": "^8.0.4",
