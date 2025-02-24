@@ -5,10 +5,7 @@ export class Styles {
     styles: Array<Canvasflow.Style>,
   ): Map<string, Canvasflow.Style> {
     const stylesMap: Map<string, Canvasflow.Style> = styles.reduce(
-      (acc, style) => {
-        acc.set(`${style.id}`, style);
-        return acc;
-      },
+      Styles.reduceStyles,
       new Map(),
     );
     for (const style of styles) {
@@ -18,6 +15,11 @@ export class Styles {
     return stylesMap;
   }
 
+  static reduceStyles(acc: Map<string, Canvasflow.Style>, style: Canvasflow.Style) {
+    acc.set(`${style.id}`, style);
+    return acc;
+  }
+
   static mergeParentProperties(
     style: Canvasflow.Style,
     parentId: string | null,
@@ -25,10 +27,6 @@ export class Styles {
   ): Canvasflow.Style {
     // I don't have parent so i return
     if (!parentId) {
-      if (style.id === "22351") {
-        console.log(`Style`, style);
-      }
-
       return style;
     }
 
@@ -44,17 +42,14 @@ export class Styles {
 
     // Avoid recalculation
     const parent = Styles.mergeParentProperties(
-      style,
+      clone(parentStyle),
       parentStyle.parent,
       stylesMap,
     );
     parent.parent = null;
-    stylesMap.set(`${parentId}`, clone(parent));
+    stylesMap.set(`${parent.id}`, clone(parent));
 
-    if (style.id === "22705") {
-      console.log(`Parent Properties`, parent.properties);
-    }
-
+    // In here we overwrite the parents properties with the children style
     const properties = Styles.overwriteProperties(
       parent.properties,
       style.properties,
