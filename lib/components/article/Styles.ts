@@ -14,12 +14,12 @@ export class Styles {
     return stylesMap;
   }
 
-  static reduceStyles(acc: Map<string, Canvasflow.Style>, style: Canvasflow.Style) {
+  private static reduceStyles(acc: Map<string, Canvasflow.Style>, style: Canvasflow.Style) {
     acc.set(`${style.id}`, style);
     return acc;
   }
 
-  static mergeParentProperties(
+  private static mergeParentProperties(
     style: Canvasflow.Style,
     stylesMap: Map<string, Canvasflow.Style>,
   ): Canvasflow.Style {
@@ -60,7 +60,7 @@ export class Styles {
     return style;
   }
 
-  static overwriteProperties(
+  private static overwriteProperties(
     properties: { [key: string]: any },
     overwrite: { [key: string]: any },
   ) {
@@ -117,7 +117,7 @@ export class Styles {
    * @param target
    * @param ...sources
    */
-  static mergeDeep(target: any, ...sources: any): any {
+  private static mergeDeep(target: any, ...sources: any): any {
     if (!sources.length) return target;
     const source = sources.shift();
 
