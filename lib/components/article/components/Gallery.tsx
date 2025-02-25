@@ -10,6 +10,9 @@ import "swiper/css/pagination";
 import { Canvasflow } from "../../../Canvasflow";
 import { Caption } from "./Caption";
 import { Credit } from "./Credit";
+
+import styles from '../article.module.css';
+
 export const Gallery = (props: GalleryProps): ReactElement | null => {
   const {
     role
@@ -81,7 +84,7 @@ const Default = (props: GalleryProps): ReactElement | null => {
 
   const containerStyle: any = {};
 
-  const className = ["media", "gallery"];
+  const className = ["media", "gallery", styles['gallery']];
   if (bleed === "on") {
     className.push("bleed");
   }
