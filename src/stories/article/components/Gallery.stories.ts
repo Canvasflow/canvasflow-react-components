@@ -9,7 +9,41 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {
-    //content: { control: "text" },
+
+    id: {
+      table: {
+        disable: true
+      }
+    },
+    component: {
+      table: {
+        disable: true
+      }
+    },
+    role: {
+      options: ["default", "mosaic"],
+      control: { type: "select", },
+    },
+    autoplay: {
+      options: ["on", "off"],
+      control: { type: "select", }
+    },
+    captionenabled: {
+      options: ["on", "off"],
+      control: { type: "select", }
+    },
+    creditenabled: {
+      options: ["on", "off"],
+      control: { type: "select", }
+    },
+    "control-speed": {
+      options: ["slow", "medium", "fast", "vfast"],
+      control: { type: "select", }
+    },
+    animation: {
+      options: ["fade", "slide", "cube", "coverflow", "flip"],
+      control: { type: "select", }
+    },
   },
 } satisfies Meta<typeof Gallery>;
 
@@ -22,8 +56,8 @@ export const ComponentStory: Story = {
     index: 0,
     component: "gallery",
     role: "default",
-    animation: "fade",
-    autoplay: "off",
+    animation: "cube",
+    autoplay: "on",
     caption: "caption test",
     captionenabled: "on",
     credit: "credit test",
@@ -51,7 +85,7 @@ export const ComponentStory: Story = {
         caption: "fourth image test",
       },
     ],
-    "control-speed": "slow",
+    "control-speed": "fast",
     devices: {
       tablet: "on",
       phone: "on",
