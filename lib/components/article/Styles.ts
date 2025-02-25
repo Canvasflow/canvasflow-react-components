@@ -138,6 +138,19 @@ export class Styles {
   }
 }
 
+export class StyleBuilder {
+  articles: Array<Canvasflow.Article>;
+  styles: Array<Canvasflow.Style>;
+  constructor(articles: Array<Canvasflow.Article>, styles: Array<Canvasflow.Style>) {
+    this.articles = articles;
+    this.styles = styles;
+  }
+
+  build(): string {
+    return '';
+  }
+}
+
 function isObject(item: any) {
   return item && typeof item === "object" && !Array.isArray(item);
 }

@@ -1566,10 +1566,6 @@ export const ComponentStory: Story = {
                 ],
                 "gutter": 30,
                 "imageopacity": 50,
-
-
-
-
                 "devices": {
                     "tablet": "on",
                     "desktop": "on",
