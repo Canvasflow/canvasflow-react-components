@@ -13,7 +13,7 @@ import { Credit } from "./Credit";
 export const Gallery = (props: GalleryProps): ReactElement | null => {
   const {
     id,
-    role,
+    // role,
     images,
     captionenabled,
     caption,
