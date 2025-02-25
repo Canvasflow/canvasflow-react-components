@@ -100,9 +100,9 @@ export const Image = (props: ImageProps) => {
   if (credit) {
     creditContent = credit;
   }
-
+  
   const captionEnabled: boolean =
-    captionenabled === "on" && !onlyShowCaptionInLightbox && captionContent;
+    captionenabled === "on" && !onlyShowCaptionInLightbox && !!captionContent;
 
   const creditEnabled: boolean =
     creditenabled === "on" && !onlyShowCreditInLightbox;

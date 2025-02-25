@@ -147,17 +147,34 @@ export namespace Canvasflow {
     export interface Text extends BaseComponent {
       IMAGECAPTION?: string;
       text_lang?: any;
-      unit?: any;
       dropcap: OnOff;
       css?: string;
       text: string;
       imageenabled?: OnOff;
       imageurl?: string;
-      imagemargin?: string;
+      imagemargin?: string | `${number}`;
       imagefloat?: LeftRight;
       imagewidth?: string | number;
       style?: any;
       component: TextComponent;
+      // TODO ADD LATER
+      animation: any;
+      linktype: string;
+      externallinktarget: OnOff;
+      imagelink: string;
+      language: string;
+      cacheparam: number;
+      channels: any;
+      pagelink: string;
+      tag: string;
+      displayname: string;
+      excludedchannels: Array<any>;
+      htmlclass: string;
+      articleid: string;
+      PublicationID?: number;
+      unit?: {
+        imagewidth: 'px' | 'pt'
+      }
     }
 
     /**
@@ -191,7 +208,6 @@ export namespace Canvasflow {
     export interface Image extends BaseComponent {
       align?: LeftRight | "center" | "float-left" | "float-right";
       fullwidth?: OnOff;
-      expandfullwidth?: OnOff;
       externallinktarget?: string;
       caption?: { [key: string]: string } | string;
       captionenabled?: OnOff;
@@ -202,37 +218,53 @@ export namespace Canvasflow {
       width?: number | null;
       fixedwidth?: OnOff;
       link?: string;
-      url: string;
+      url?: string;
       imageclip:
-        | "none"
-        | "circle"
-        | "ellipse"
-        | "triangle"
-        | "trapezoid"
-        | "parallelogram"
-        | "rhombus"
-        | "pentagon"
-        | "hexagon"
-        | "heptagon"
-        | "octagon"
-        | "nonagon"
-        | "decogon"
-        | "bevel"
-        | "rabbet"
-        | "leftarrow"
-        | "rightarrow"
-        | "leftpoint"
-        | "rightpoint"
-        | "rightchevron"
-        | "leftchevron"
-        | "star"
-        | "close";
+      | "none"
+      | "circle"
+      | "ellipse"
+      | "triangle"
+      | "trapezoid"
+      | "parallelogram"
+      | "rhombus"
+      | "pentagon"
+      | "hexagon"
+      | "heptagon"
+      | "octagon"
+      | "nonagon"
+      | "decogon"
+      | "bevel"
+      | "rabbet"
+      | "leftarrow"
+      | "rightarrow"
+      | "leftpoint"
+      | "rightpoint"
+      | "rightchevron"
+      | "leftchevron"
+      | "star"
+      | "close";
       linktype: string;
       lightbox: OnOff;
+      imageframestyle?: string;
+      aspectratio?: string;
       style?: any;
-      htmlclass: Array<any>;
-      onlyShowCaptionInLightbox: OnOff;
-      onlyShowCreditInLightbox: OnOff;
+      role: string;
+      alt?: string;
+      rawimage?: string;
+      imagefilter?: string;
+      overflow?: string;
+      hpadding?: number;
+      language?: string;
+      templateId?: number;
+      cacheparam?: number;
+      articleid?: number;
+      imgunselectable?: OnOff;
+      title?: string;
+      pagelink: string;
+      tag: string;
+      htmlclass: Array<any> | string;
+      onlyShowCaptionInLightbox: boolean;
+      onlyShowCreditInLightbox: boolean;
       component: "image";
       lang?: string;
       imageurl: string;
@@ -267,18 +299,18 @@ export namespace Canvasflow {
       lng: `${number}` | number;
       marker: OnOff;
       mapstyle:
-        | "google"
-        | "apple"
-        | "greyscale"
-        | "lightdream"
-        | "midnight"
-        | "navigation"
-        | "oldtimer"
-        | "paledawn"
-        | "paper"
-        | "retro"
-        | "schoolmap"
-        | "subtleblue";
+      | "google"
+      | "apple"
+      | "greyscale"
+      | "lightdream"
+      | "midnight"
+      | "navigation"
+      | "oldtimer"
+      | "paledawn"
+      | "paper"
+      | "retro"
+      | "schoolmap"
+      | "subtleblue";
     }
 
     // TODO Implement component
@@ -371,18 +403,25 @@ export namespace Canvasflow {
       width: `${number}` | number;
       gutter: number;
       contentmode: "default" | "multicol" | "flow";
-      multicolcount: number;
+      multicolcount?: number;
       backgroundimage: OnOff;
       imagepositionleft: number;
       columnorder: "default" | "invert";
       imageopacity: number;
       colsplit: string;
+      colstyle?: string;
+      background?: string;
+      gradientangle?: number;
+      imagepositiontop?: number;
+      horizontalpadding?: number;
+      align: string;
+      animation?: any;
       video: {
         autoloop: boolean;
         poster: string;
         url: string;
-        horizontalalignment: LeftRight | "center";
-        fillmode: "fit" | "cover";
+        horizontalalignment?: LeftRight | "center";
+        fillmode?: "fit" | "cover";
       };
     }
 
