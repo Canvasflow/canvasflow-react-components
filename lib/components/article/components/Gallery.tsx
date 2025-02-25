@@ -1,4 +1,4 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
 import { EffectFade, Navigation, Pagination } from "swiper/modules";
 
@@ -12,11 +12,24 @@ import { Caption } from "./Caption";
 import { Credit } from "./Credit";
 export const Gallery = (props: GalleryProps): ReactElement | null => {
   const {
+    role
+  } = props;
+
+  if(role === 'mosaic') {
+    return <Mosaic {...props} />
+  }
+
+  return <Default {...props} />
+};
+
+const Default = (props: GalleryProps): ReactElement | null => {
+  const {
     id,
-    // role,
     images,
     captionenabled,
     caption,
+    autoplay,
+    animation,
     creditenabled,
     credit,
     bleed,
@@ -26,7 +39,47 @@ export const Gallery = (props: GalleryProps): ReactElement | null => {
   const [swiper, setSwiper] = useState<SwiperClass | null>(null);
   const [index, setIndex] = useState(props.index || 0);
 
-  let containerStyle = {};
+  const totalImages = images.length
+  const controlSpeed = props['control-speed'];
+
+  useEffect(() => {
+    if(!swiper) return;
+    if(autoplay === 'off') return;
+    let speed = 0;
+    
+    switch (controlSpeed) {
+      case 'slow':
+        speed = 11000;
+        break;
+      case 'medium':
+        speed = 7000;
+        break;
+      case 'fast':
+        speed = 3000;
+        break;
+      case 'vfast':
+        speed = 1500;
+        break;
+      default:
+        speed = 5000;
+        break;
+    }
+
+    const interval = setInterval(() => {
+      if (swiper.activeIndex >= totalImages) {
+        swiper.slideTo(0, 200);
+        return;
+      }
+      swiper.slideNext(200);
+    }, speed)
+    return () => {
+      if(interval) {
+        clearInterval(interval)
+      }
+    }
+  }, [swiper, autoplay, controlSpeed, totalImages]);
+
+  const containerStyle: any = {};
 
   const className = ["media", "gallery"];
   if (bleed === "on") {
@@ -34,6 +87,9 @@ export const Gallery = (props: GalleryProps): ReactElement | null => {
   }
 
   const dependencies = [Navigation, Pagination];
+  if (animation === 'fade') {
+    dependencies.push(EffectFade);
+  }
 
   const onSlideChange = ({ realIndex }: SwiperClass) => {
     setIndex(realIndex);
@@ -51,6 +107,7 @@ export const Gallery = (props: GalleryProps): ReactElement | null => {
       <Swiper
         modules={dependencies}
         navigation={true}
+        initialSlide={index}
         slidesPerView={"auto"}
         updateOnWindowResize={true}
         direction={direction}
@@ -108,7 +165,65 @@ export const Gallery = (props: GalleryProps): ReactElement | null => {
       ) : null}
     </div>
   );
-};
+} 
+
+const Mosaic = (props: GalleryProps): ReactElement | null => {
+  const {
+    id,
+	images,
+	captionenabled,
+	caption,
+	bleed,
+	credit,
+	creditenabled,
+  lang
+  } = props;
+  const classNames = ['media', 'gallery'];
+	let captionContent = '';
+	if (caption && lang) {
+		captionContent =
+			typeof caption === 'string' ? caption : caption[`${lang}`];
+	}
+
+	if (bleed) {
+		classNames.push('bleed');
+	}
+
+	if (!images.length) {
+		return null;
+	}
+
+	return (
+		<div id={id} className={classNames.join(' ')}>
+			<div>
+				{images.map(({ imageurl }) => (
+					<MosaicTile key={imageurl} url={imageurl} />
+				))}
+			</div>
+			{captionenabled === 'on' && caption ? (
+				<Caption content={captionContent} />
+			) : null}
+			{creditenabled === 'on' && credit ? (
+				<Credit content={credit} style={{}} />
+			) : null}
+		</div>
+	);
+}
+
+
+function MosaicTile({ url, caption }: MosaicTileProps) {
+	return (
+		<div>
+			<img src={url} alt={caption} />
+		</div>
+	);
+}
+
+interface MosaicTileProps {
+	url: string;
+	caption?: string;
+}
+
 
 interface GalleryProps extends Canvasflow.Component.Gallery {
   index?: number;
