@@ -59,6 +59,7 @@
   },
   "dependencies": {
     "@storybook/test": "^8.0.4",
-    "dangerously-set-html-content": "^1.1.0"
+    "dangerously-set-html-content": "^1.1.0",
+    "swiper": "^11.2.4"
   }
 }
