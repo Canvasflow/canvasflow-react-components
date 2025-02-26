@@ -405,16 +405,26 @@ export namespace Canvasflow {
     // TODO Implement component
     export interface Twitter extends BaseComponent {
       component: "twitter";
+      height?: number | `${number}`;
+      language?: string;
+      fixedheight?: OnOff;
+      name: string;
+      articleid?: `${number}` | number;
+      type: "feed" | "tweet";
     }
 
-    // TODO Implement component
     export interface Infogram extends BaseComponent {
       component: "infogram";
     }
 
-    // TODO Implement component
     export interface Instagram extends BaseComponent {
       component: "instagram";
+      language?: string;
+      params: {
+        videoID: "Cqva6aOM8Fp";
+        type: "reel";
+      };
+      articleid?: `${number}` | number;
     }
 
     // TODO Implement component
@@ -424,10 +434,12 @@ export namespace Canvasflow {
 
     export interface TikTok extends BaseComponent {
       component: "tiktok";
+      language?: string;
       params: {
         username: string;
         videoID: string;
       };
+      articleid?: `${number}` | number;
     }
 
     /**

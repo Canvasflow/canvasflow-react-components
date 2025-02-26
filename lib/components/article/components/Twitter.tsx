@@ -9,3 +9,22 @@ export const Twitter = (
 };
 
 export default Twitter;
+
+/*
+{
+    "height": 350,
+    "language": "en",
+    "devices": {
+        "tablet": "on",
+        "desktop": "on",
+        "phone": "on"
+    },
+    "fixedheight": "on",
+    "bleed": "on",
+    "name": "Canvasflow",
+    "id": "Cf2695787154",
+    "articleid": "406114",
+    "type": "feed",
+    "component": "twitter"
+}
+*/
