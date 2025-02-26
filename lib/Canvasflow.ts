@@ -55,9 +55,19 @@ export namespace Canvasflow {
     style: `${number}`;
 
     /**
+     * Stores the name of the article
+     */
+    name: { [key: string]: string } | string;
+
+    /**
      * List of {@link Component.Type} that compose the article
      */
     components: Array<Component.Type>;
+
+    /**
+     * Stores pages that are used for replica version
+     */
+    pages: Array<string>;
   }
 
   /**
@@ -132,9 +142,16 @@ export namespace Canvasflow {
       devices?: Devices;
       bleed?: OnOff | LeftRight;
       expandfullwidth?: OnOff;
+      imagemargin?: string | `${number}` | number;
       component: Component;
       unselectable?: OnOff;
       language?: string;
+      PublicationID?: number | `${number}`;
+      animation?: any;
+      cacheparam?: `${number}` | number
+      articleid?: `${number}` | number;
+      style?: any;
+      htmlclass?: string;
     }
 
     /**
@@ -169,31 +186,22 @@ export namespace Canvasflow {
     export interface Text extends BaseComponent {
       IMAGECAPTION?: string;
       text_lang?: any;
-      dropcap: OnOff;
+      dropcap?: OnOff;
       css?: string;
       text: string;
       imageenabled?: OnOff;
       imageurl?: string;
-      imagemargin?: string | `${number}`;
       imagefloat?: LeftRight;
-      imagewidth?: string | number;
-      style?: any;
+      imagewidth?: `${number}` | number;
       component: TextComponent;
-      // TODO ADD LATER
-      animation: any;
-      linktype: string;
-      externallinktarget: OnOff;
-      imagelink: string;
-      language: string;
-      cacheparam: number;
-      channels: any;
-      pagelink: string;
-      tag: string;
-      displayname: string;
-      excludedchannels: Array<any>;
-      htmlclass: string;
-      articleid: string;
-      PublicationID?: number;
+      linktype?: string;
+      externallinktarget?: OnOff;
+      imagelink?: string;
+      channels?: any;
+      pagelink?: string;
+      tag?: string;
+      displayname?: string;
+      excludedchannels?: Array<any>;
       unit?: {
         imagewidth: "px" | "pt";
       };
@@ -236,12 +244,15 @@ export namespace Canvasflow {
     export interface Image extends BaseComponent {
       align?: LeftRight | "center" | "float-left" | "float-right";
       fullwidth?: OnOff;
+      styles?: Array<number | `${number}`>;
+      types?: Array<string>;
+      fit?: string;
       externallinktarget?: string;
       caption?: { [key: string]: string } | string;
       captionenabled?: OnOff;
       captionposition?: string;
+      height?: number;
       credit?: string;
-      animation?: any;
       creditenabled?: OnOff;
       width?: number | null;
       fixedwidth?: OnOff;
@@ -285,18 +296,17 @@ export namespace Canvasflow {
       language?: string;
       templateId?: number;
       cacheparam?: number;
-      articleid?: number;
       imgunselectable?: OnOff;
       title?: string;
       pagelink?: string;
       tag?: string;
-      htmlclass?: Array<any> | string;
       onlyShowCaptionInLightbox?: boolean;
       onlyShowCreditInLightbox?: boolean;
       component: "image";
       lang?: string;
       imageurl: string;
       imagelink?: string;
+      behaviour?: any
     }
 
     export interface Gallery extends BaseComponent {
@@ -462,12 +472,17 @@ export namespace Canvasflow {
       component: "columns";
       columns: Array<Array<Type>>;
       styles: Array<`${number}` | number>;
+      backgroundcolor?: string;
       width: `${number}` | number;
+      verticalpadding: `${number}` | number;
+      multicolwidth?: `${number}` | number;
+      collapsetype?: string;
       gutter: number;
       contentmode: "default" | "multicol" | "flow";
       multicolcount?: number;
       backgroundimage: OnOff;
       imagepositionleft: number;
+      imageurl?: string;
       columnorder: "default" | "invert";
       imageopacity: number;
       colsplit: string;
@@ -477,7 +492,6 @@ export namespace Canvasflow {
       imagepositiontop?: number;
       horizontalpadding?: number;
       align: string;
-      animation?: any;
       video: {
         autoloop: boolean;
         poster: string;
