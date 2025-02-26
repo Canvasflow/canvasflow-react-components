@@ -1,3 +1,5 @@
+import styles from "../article.module.css";
+
 export const Credit = (props: CreditProps) => {
   const { content, style = {} } = props;
 
@@ -7,7 +9,7 @@ export const Credit = (props: CreditProps) => {
 
   return (
     <cite
-      className={["credit"].join(" ")}
+      className={["credit", styles["credit"]].join(" ")}
       style={style}
       dangerouslySetInnerHTML={{ __html: content }}
     />

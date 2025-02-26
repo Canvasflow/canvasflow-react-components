@@ -1,20 +1,31 @@
 import { ReactElement, useEffect, useState } from "react";
 import { Swiper, SwiperClass, SwiperSlide } from "swiper/react";
-import { EffectFade, Navigation, Pagination } from "swiper/modules";
 
-import "swiper/css";
-import "swiper/css/effect-fade";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
+import {
+  Navigation,
+  Pagination,
+  EffectFade,
+  EffectCube,
+  EffectFlip,
+  EffectCoverflow,
+} from "swiper/modules";
 
 import { Canvasflow, applyDeviceVisibility } from "../../../Canvasflow";
 import { Caption } from "./Caption";
 import { Credit } from "./Credit";
 
+import "swiper/css";
+import "swiper/css/effect-fade";
+import "swiper/css/effect-cube";
+import "swiper/css/effect-flip";
+import "swiper/css/effect-coverflow";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
 import styles from "../article.module.css";
 
 export const Gallery = (props: GalleryProps): ReactElement | null => {
-  const { role } = props;
+  const { role = "default" } = props;
 
   if (role === "mosaic") {
     return <Mosaic {...props} />;
@@ -27,26 +38,132 @@ const Default = (props: GalleryProps): ReactElement | null => {
   const {
     id,
     images,
-    captionenabled,
+    captionenabled = "on",
     caption,
-    autoplay,
+    autoplay = "on",
     animation,
-    creditenabled,
+    creditenabled = "on",
     credit,
     bleed,
     direction,
     devices,
     lang,
   } = props;
+
+  useEffect(() => {
+    document.documentElement.style.cssText = "--swiper-pagination-bottom: 0px";
+  }, []);
+
   const [swiper, setSwiper] = useState<SwiperClass | null>(null);
   const [index, setIndex] = useState(props.index || 0);
 
-  const totalImages = images.length;
-  const controlSpeed = props["control-speed"];
-
   useEffect(() => {
     if (!swiper) return;
-    if (autoplay === "off") return;
+    swiper.changeDirection(direction);
+  }, [swiper, direction]);
+
+  useAutoPlay({
+    swiper,
+    autoplay: autoplay === "on",
+    controlSpeed: props["control-speed"],
+    images,
+  });
+
+  const containerStyle: any = {};
+
+  const classNames = ["media", "gallery", styles["gallery"]];
+  if (bleed === "on") {
+    classNames.push("bleed");
+  }
+
+  applyDeviceVisibility(classNames, devices, styles);
+
+  const dependencies = [Navigation, Pagination];
+  switch (animation) {
+    case "fade":
+      dependencies.push(EffectFade);
+      break;
+    case "cube":
+      dependencies.push(EffectCube);
+      break;
+    case "coverflow":
+      dependencies.push(EffectCoverflow);
+      break;
+    case "flip":
+      dependencies.push(EffectFlip);
+      break;
+  }
+
+  const onSlideChange = ({ realIndex }: SwiperClass) => {
+    setIndex(realIndex);
+  };
+
+  let galleryCaptionText = "";
+  if (typeof caption === "string") {
+    galleryCaptionText = caption;
+  } else if (typeof caption === "object" && lang) {
+    galleryCaptionText = caption[lang];
+  }
+
+  return (
+    <div id={id} style={containerStyle} className={classNames.join(" ")}>
+      <Swiper
+        navigation={true}
+        modules={dependencies}
+        updateOnWindowResize={true}
+        direction={direction}
+        initialSlide={index}
+        slidesPerView={"auto"}
+        pagination={{
+          clickable: true,
+        }}
+        onSlideChange={onSlideChange}
+        onSwiper={(s: SwiperClass) => {
+          setSwiper(s);
+        }}
+      >
+        {images.map((image, i) => {
+          const { imageurl, caption } = image;
+          const slideClassesName = [styles["gallery-slider"]];
+
+          let captionText = "";
+          if (typeof caption === "string") {
+            captionText = caption;
+          } else if (typeof caption === "object" && lang) {
+            captionText = caption[lang];
+          }
+
+          return (
+            <SwiperSlide
+              key={i}
+              virtualIndex={i}
+              className={slideClassesName.join(" ")}
+            >
+              <figure className={styles["gallery-image"]}>
+                <img src={imageurl} alt={captionText} />
+                {captionenabled === "on" ? (
+                  <Caption content={captionText} />
+                ) : null}
+                {creditenabled === "on" && credit ? (
+                  <Credit content={credit} />
+                ) : null}
+              </figure>
+            </SwiperSlide>
+          );
+        })}
+      </Swiper>
+      {captionenabled === "on" && caption ? (
+        <Caption content={galleryCaptionText} />
+      ) : null}
+    </div>
+  );
+};
+
+function useAutoPlay({ swiper, autoplay, controlSpeed, images }: AutoPlayArgs) {
+  const totalImages = images.length;
+  useEffect(() => {
+    if (!swiper) return;
+    if (!autoplay) return;
     let speed = 0;
 
     switch (controlSpeed) {
@@ -80,88 +197,14 @@ const Default = (props: GalleryProps): ReactElement | null => {
       }
     };
   }, [swiper, autoplay, controlSpeed, totalImages]);
+}
 
-  const containerStyle: any = {};
-
-  const classNames = ["media", "gallery", styles["gallery"]];
-  if (bleed === "on") {
-    classNames.push("bleed");
-  }
-
-  applyDeviceVisibility(classNames, devices, styles);
-
-  const dependencies = [Navigation, Pagination];
-  if (animation === "fade") {
-    dependencies.push(EffectFade);
-  }
-
-  const onSlideChange = ({ realIndex }: SwiperClass) => {
-    setIndex(realIndex);
-  };
-
-  let galleryCaptionText = "";
-  if (typeof caption === "string") {
-    galleryCaptionText = caption;
-  } else if (typeof caption === "object" && lang) {
-    galleryCaptionText = caption[lang];
-  }
-
-  return (
-    <div id={id} style={containerStyle} className={classNames.join(" ")}>
-      <Swiper
-        modules={dependencies}
-        navigation={true}
-        initialSlide={index}
-        slidesPerView={"auto"}
-        updateOnWindowResize={true}
-        direction={direction}
-        pagination={{
-          clickable: true,
-        }}
-        onSlideChange={onSlideChange}
-        onSwiper={(s: SwiperClass) => {
-          setSwiper(s);
-        }}
-      >
-        {images.map((image, i) => {
-          const { imageurl, caption } = image;
-          // const slideClassesName = [galleryStyles["gallery-slider"]];
-          const slideClassesName: Array<string> = [];
-          /*if (i !== index) {
-            slideClassesName.push();
-          }*/
-
-          let captionText = "";
-          if (typeof caption === "string") {
-            captionText = caption;
-          } else if (typeof caption === "object" && lang) {
-            captionText = caption[lang];
-          }
-
-          return (
-            <SwiperSlide
-              key={i}
-              virtualIndex={i}
-              className={slideClassesName.join(" ")}
-            >
-              <div>
-                <img src={imageurl} alt={captionText} />
-                <Caption content={captionText} />
-                {creditenabled === "on" && credit ? (
-                  <Credit content={credit} />
-                ) : null}
-              </div>
-            </SwiperSlide>
-          );
-        })}
-      </Swiper>
-
-      {captionenabled === "on" && caption ? (
-        <Caption content={galleryCaptionText} />
-      ) : null}
-    </div>
-  );
-};
+interface AutoPlayArgs {
+  swiper: SwiperClass | null;
+  autoplay: boolean;
+  controlSpeed: string;
+  images: Array<Canvasflow.Component.GalleryImage>;
+}
 
 const Mosaic = (props: GalleryProps): ReactElement | null => {
   const {
@@ -177,8 +220,14 @@ const Mosaic = (props: GalleryProps): ReactElement | null => {
   } = props;
   const classNames = ["media", "gallery", styles["gallery"]];
   let captionContent = "";
-  if (caption && lang) {
-    captionContent = typeof caption === "string" ? caption : caption[`${lang}`];
+  if (caption) {
+    if (typeof caption === "string") {
+      captionContent = caption;
+    } else {
+      if (lang) {
+        captionContent = caption[`${lang}`];
+      }
+    }
   }
 
   if (bleed) {
@@ -198,7 +247,7 @@ const Mosaic = (props: GalleryProps): ReactElement | null => {
           <MosaicTile key={imageurl} url={imageurl} />
         ))}
       </div>
-      {captionenabled === "on" && caption ? (
+      {captionenabled === "on" && captionContent ? (
         <Caption content={captionContent} />
       ) : null}
       {creditenabled === "on" && credit ? (
@@ -210,7 +259,7 @@ const Mosaic = (props: GalleryProps): ReactElement | null => {
 
 function MosaicTile({ url, caption }: MosaicTileProps) {
   return (
-    <div>
+    <div className={styles["tile"]}>
       <img src={url} alt={caption} />
     </div>
   );

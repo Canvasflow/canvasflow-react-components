@@ -1,3 +1,5 @@
+import styles from "../article.module.css";
+
 export const Caption = (props: CaptionProps) => {
   const { content, style = {} } = props;
 
@@ -5,8 +7,10 @@ export const Caption = (props: CaptionProps) => {
     return null;
   }
 
+  const classNames = [styles["imagecaption"], "imagecaption"];
+
   return (
-    <figcaption className="imagecaption" style={style}>
+    <figcaption className={classNames.join(" ")} style={style}>
       <p dangerouslySetInnerHTML={{ __html: content }} />
     </figcaption>
   );

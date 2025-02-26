@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { TikTok } from "../../../../lib/components/article/components/TikTok";
 
 const meta = {
-  title: "TikTok",
+  title: "Article/Components/TikTok",
   component: TikTok,
   parameters: {
     layout: "centered",

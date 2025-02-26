@@ -1,4 +1,4 @@
-import { ReactElement, useState } from "react";
+import { ReactElement } from "react";
 import { Virtual } from "swiper/modules";
 import { SwiperSlide, Swiper, SwiperClass } from "swiper/react";
 
@@ -10,7 +10,7 @@ import { useStyles } from "./Articles.hooks";
 
 export const Articles = (props: ArticlesProps) => {
   const { articles, lang = "en", onSwiper } = props;
-  const [swiper, setSwiper] = useState<SwiperClass | null>(null);
+
   const { css, isLoading, error } = useStyles({
     articles,
     styles: props.styles,
@@ -35,12 +35,7 @@ export const Articles = (props: ArticlesProps) => {
         maxBackfaceHiddenSlides={20}
         preventClicks={true}
         virtual
-        onSwiper={(s: SwiperClass) => {
-          setSwiper(s);
-          if (onSwiper) {
-            onSwiper(s);
-          }
-        }}
+        onSwiper={onSwiper}
         scrollbar={{
           draggable: true,
         }}

@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Anchor } from "../../../../lib/components/article/components/Anchor";
+import { Image } from "../../../../lib/components/article/components/Image";
 
 const meta = {
-  title: "Article/Components/Anchor",
-  component: Anchor,
+  title: "Article/Components/Image",
+  component: Image,
   parameters: {
     layout: "centered",
   },
@@ -14,23 +14,30 @@ const meta = {
         disable: true,
       },
     },
+    lang: {
+      table: {
+        disable: true,
+      },
+    },
     component: {
       table: {
         disable: true,
       },
     },
-    name: { control: "text" },
+    imageurl: { control: "text" },
   },
-} satisfies Meta<typeof Anchor>;
+} satisfies Meta<typeof Image>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const ComponentStory: Story = {
+export const ImageStory: Story = {
   args: {
     id: "CF-123123123",
-    component: "anchor",
-    name: "",
+    component: "image",
+    imageclip: "none",
+    imageurl:
+      "https://cfstock.s3.amazonaws.com/components/image/placeholder.jpg",
     devices: {
       tablet: "on",
       phone: "on",

@@ -105,7 +105,7 @@ export namespace Canvasflow {
      * Represents if a property is enabled or not
      * @internal
      */
-    type OnOff = "on" | "off";
+    export type OnOff = "on" | "off";
 
     /**
      * Represents if a property is left or right
@@ -260,12 +260,12 @@ export namespace Canvasflow {
         | "leftchevron"
         | "star"
         | "close";
-      linktype: string;
-      lightbox: OnOff;
+      linktype?: string;
+      lightbox?: OnOff;
       imageframestyle?: string;
       aspectratio?: string;
       style?: any;
-      role: string;
+      role?: string;
       alt?: string;
       rawimage?: string;
       imagefilter?: string;
@@ -277,15 +277,15 @@ export namespace Canvasflow {
       articleid?: number;
       imgunselectable?: OnOff;
       title?: string;
-      pagelink: string;
-      tag: string;
-      htmlclass: Array<any> | string;
-      onlyShowCaptionInLightbox: boolean;
-      onlyShowCreditInLightbox: boolean;
+      pagelink?: string;
+      tag?: string;
+      htmlclass?: Array<any> | string;
+      onlyShowCaptionInLightbox?: boolean;
+      onlyShowCreditInLightbox?: boolean;
       component: "image";
       lang?: string;
       imageurl: string;
-      imagelink: string;
+      imagelink?: string;
     }
 
     export interface Gallery extends BaseComponent {
@@ -302,7 +302,7 @@ export namespace Canvasflow {
       "control-speed": "slow" | "medium" | "fast" | "vfast";
     }
 
-    interface GalleryImage {
+    export interface GalleryImage {
       imageurl: string;
       caption?: { [key: string]: string } | string;
     }

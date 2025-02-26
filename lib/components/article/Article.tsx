@@ -49,7 +49,7 @@ function useStyle(props: ArticleProps): Response {
     components,
   };
   const [css, setCSS] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(!!styles);
   const [error, setError] = useState<Error | null>(null);
   if (styles) {
     const builder = new Canvasflow.Styles.Builder([article], styles);

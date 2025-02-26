@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Custom } from "../../../../lib/components/article/components/Custom";
 
 const meta = {
-  title: "Custom",
+  title: "Article/Components/Custom",
   component: Custom,
   parameters: {
     layout: "centered",
