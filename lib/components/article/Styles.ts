@@ -1,3 +1,4 @@
+import * as format from 'css-format';
 import { Canvasflow } from "../../Canvasflow";
 
 export class Styles {
@@ -136,7 +137,7 @@ export class Builder {
 
   // TODO Format the css that comes in
   pretty(css: string) {
-    return css;
+    return format(css);
   }
 
   processArticleStyles(): void {
@@ -162,6 +163,12 @@ export class Builder {
           break;
         case 'spacer':
           this.css.push(this.mapSpacer(`.style-${styleId}`, props));
+          break;
+        case 'image':
+          this.css.push(this.mapImage(`.style-${styleId}`, props));
+          break;
+        case 'gallery':
+          this.css.push(this.mapGallery(`.style-${styleId}`, props));
           break;
       }
     }
@@ -252,11 +259,37 @@ export class Builder {
 
   // TODO Map Image properties
   mapImage(selector: string, properties: any): string {
-    return '';
+    const response = [];
+    const margin = getMargin(properties);
+    const padding = getPadding(properties);
+
+    const css = [margin, padding];
+    const filteredCSS = css.filter((i) => i).join('\n');
+    if (filteredCSS.length) {
+      response.push(`${selector} .image {
+                ${filteredCSS}
+            }`);
+    }
+
+    return response.join('\n');
   }
 
-  mapGallery(select: string, properties: any): string {
-    return '';
+  mapGallery(selector: string, properties: any): string {
+    const response = [];
+    const margin = getMargin(properties);
+    const padding = getPadding(properties);
+
+    const css = [margin, padding];
+
+    const filteredCSS = css.filter((i) => i).join('\n');
+
+    if (filteredCSS.length) {
+      response.push(`${selector} .gallery {
+                ${filteredCSS}
+            }`);
+    }
+
+    return response.join('\n');
   }
 
   mapBleed = (selector: string, properties: any): string => {
