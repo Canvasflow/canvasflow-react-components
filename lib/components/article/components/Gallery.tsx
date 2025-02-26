@@ -7,22 +7,20 @@ import "swiper/css/effect-fade";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-import { Canvasflow } from "../../../Canvasflow";
+import { Canvasflow, applyDeviceVisibility } from "../../../Canvasflow";
 import { Caption } from "./Caption";
 import { Credit } from "./Credit";
 
-import styles from '../article.module.css';
+import styles from "../article.module.css";
 
 export const Gallery = (props: GalleryProps): ReactElement | null => {
-  const {
-    role
-  } = props;
+  const { role } = props;
 
-  if(role === 'mosaic') {
-    return <Mosaic {...props} />
+  if (role === "mosaic") {
+    return <Mosaic {...props} />;
   }
 
-  return <Default {...props} />
+  return <Default {...props} />;
 };
 
 const Default = (props: GalleryProps): ReactElement | null => {
@@ -37,30 +35,31 @@ const Default = (props: GalleryProps): ReactElement | null => {
     credit,
     bleed,
     direction,
+    devices,
     lang,
   } = props;
   const [swiper, setSwiper] = useState<SwiperClass | null>(null);
   const [index, setIndex] = useState(props.index || 0);
 
-  const totalImages = images.length
-  const controlSpeed = props['control-speed'];
+  const totalImages = images.length;
+  const controlSpeed = props["control-speed"];
 
   useEffect(() => {
-    if(!swiper) return;
-    if(autoplay === 'off') return;
+    if (!swiper) return;
+    if (autoplay === "off") return;
     let speed = 0;
-    
+
     switch (controlSpeed) {
-      case 'slow':
+      case "slow":
         speed = 11000;
         break;
-      case 'medium':
+      case "medium":
         speed = 7000;
         break;
-      case 'fast':
+      case "fast":
         speed = 3000;
         break;
-      case 'vfast':
+      case "vfast":
         speed = 1500;
         break;
       default:
@@ -74,23 +73,25 @@ const Default = (props: GalleryProps): ReactElement | null => {
         return;
       }
       swiper.slideNext(200);
-    }, speed)
+    }, speed);
     return () => {
-      if(interval) {
-        clearInterval(interval)
+      if (interval) {
+        clearInterval(interval);
       }
-    }
+    };
   }, [swiper, autoplay, controlSpeed, totalImages]);
 
   const containerStyle: any = {};
 
-  const className = ["media", "gallery", styles['gallery']];
+  const classNames = ["media", "gallery", styles["gallery"]];
   if (bleed === "on") {
-    className.push("bleed");
+    classNames.push("bleed");
   }
 
+  applyDeviceVisibility(classNames, devices, styles);
+
   const dependencies = [Navigation, Pagination];
-  if (animation === 'fade') {
+  if (animation === "fade") {
     dependencies.push(EffectFade);
   }
 
@@ -106,7 +107,7 @@ const Default = (props: GalleryProps): ReactElement | null => {
   }
 
   return (
-    <div id={id} style={containerStyle} className={className.join(" ")}>
+    <div id={id} style={containerStyle} className={classNames.join(" ")}>
       <Swiper
         modules={dependencies}
         navigation={true}
@@ -120,14 +121,6 @@ const Default = (props: GalleryProps): ReactElement | null => {
         onSlideChange={onSlideChange}
         onSwiper={(s: SwiperClass) => {
           setSwiper(s);
-
-          /*swiper.changeDirection(direction);
-          setTimeout(() => {
-            swiper.update();
-          }, 1000);
-          this.setState({
-            swiper,
-          });*/
         }}
       >
         {images.map((image, i) => {
@@ -168,65 +161,65 @@ const Default = (props: GalleryProps): ReactElement | null => {
       ) : null}
     </div>
   );
-} 
+};
 
 const Mosaic = (props: GalleryProps): ReactElement | null => {
   const {
     id,
-	images,
-	captionenabled,
-	caption,
-	bleed,
-	credit,
-	creditenabled,
-  lang
+    images,
+    captionenabled,
+    caption,
+    bleed,
+    credit,
+    creditenabled,
+    devices,
+    lang,
   } = props;
-  const classNames = ['media', 'gallery'];
-	let captionContent = '';
-	if (caption && lang) {
-		captionContent =
-			typeof caption === 'string' ? caption : caption[`${lang}`];
-	}
+  const classNames = ["media", "gallery", styles["gallery"]];
+  let captionContent = "";
+  if (caption && lang) {
+    captionContent = typeof caption === "string" ? caption : caption[`${lang}`];
+  }
 
-	if (bleed) {
-		classNames.push('bleed');
-	}
+  if (bleed) {
+    classNames.push("bleed");
+  }
 
-	if (!images.length) {
-		return null;
-	}
+  if (!images.length) {
+    return null;
+  }
 
-	return (
-		<div id={id} className={classNames.join(' ')}>
-			<div>
-				{images.map(({ imageurl }) => (
-					<MosaicTile key={imageurl} url={imageurl} />
-				))}
-			</div>
-			{captionenabled === 'on' && caption ? (
-				<Caption content={captionContent} />
-			) : null}
-			{creditenabled === 'on' && credit ? (
-				<Credit content={credit} style={{}} />
-			) : null}
-		</div>
-	);
-}
+  applyDeviceVisibility(classNames, devices, styles);
 
+  return (
+    <div id={id} className={classNames.join(" ")}>
+      <div className={styles["mosaic"]}>
+        {images.map(({ imageurl }) => (
+          <MosaicTile key={imageurl} url={imageurl} />
+        ))}
+      </div>
+      {captionenabled === "on" && caption ? (
+        <Caption content={captionContent} />
+      ) : null}
+      {creditenabled === "on" && credit ? (
+        <Credit content={credit} style={{}} />
+      ) : null}
+    </div>
+  );
+};
 
 function MosaicTile({ url, caption }: MosaicTileProps) {
-	return (
-		<div>
-			<img src={url} alt={caption} />
-		</div>
-	);
+  return (
+    <div>
+      <img src={url} alt={caption} />
+    </div>
+  );
 }
 
 interface MosaicTileProps {
-	url: string;
-	caption?: string;
+  url: string;
+  caption?: string;
 }
-
 
 interface GalleryProps extends Canvasflow.Component.Gallery {
   index?: number;

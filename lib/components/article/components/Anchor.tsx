@@ -1,11 +1,10 @@
+import { Canvasflow, applyDeviceVisibility } from "../../../Canvasflow";
 import styles from "../article.module.css";
 
-export const Anchor = ({ name }: AnchorProps) => {
-  return <span id={name} className={styles["anchor"]} />;
+export const Anchor = ({ name, devices }: Canvasflow.Component.Anchor) => {
+  const classNames = [styles["anchor"]];
+  applyDeviceVisibility(classNames, devices, styles);
+  return <span id={name} className={classNames.join(" ")} />;
 };
 
 export default Anchor;
-
-interface AnchorProps {
-  name: string;
-}

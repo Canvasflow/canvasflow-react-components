@@ -1,3 +1,8 @@
+import {
+  Styles as S,
+  mergeDeep as _mergeDeep,
+  Builder as _Builder,
+} from "./components/article/Styles";
 export namespace Canvasflow {
   export interface Style {
     id: string;
@@ -37,12 +42,12 @@ export namespace Canvasflow {
     /**
      * List of features that are required by the user to read the article
      */
-    features: Array<string>;
+    features?: Array<string>;
 
     /**
      * Order of the article
      */
-    index: number;
+    index?: number;
 
     /**
      * Style used by the article
@@ -53,6 +58,18 @@ export namespace Canvasflow {
      * List of {@link Component.Type} that compose the article
      */
     components: Array<Component.Type>;
+  }
+
+  /**
+   * This is an object handles canvasflow styling
+   */
+  export namespace Styles {
+    export const resolveInheritance = S.resolveInheritance;
+    export const reduceStyles = S.reduceStyles;
+    export const mergeParentProperties = S.mergeParentProperties;
+    export const overwriteProperties = S.overwriteProperties;
+    export const mergeDeep = _mergeDeep;
+    export const Builder = _Builder;
   }
 
   /**
@@ -173,8 +190,8 @@ export namespace Canvasflow {
       articleid: string;
       PublicationID?: number;
       unit?: {
-        imagewidth: 'px' | 'pt'
-      }
+        imagewidth: "px" | "pt";
+      };
     }
 
     /**
@@ -220,29 +237,29 @@ export namespace Canvasflow {
       link?: string;
       url?: string;
       imageclip:
-      | "none"
-      | "circle"
-      | "ellipse"
-      | "triangle"
-      | "trapezoid"
-      | "parallelogram"
-      | "rhombus"
-      | "pentagon"
-      | "hexagon"
-      | "heptagon"
-      | "octagon"
-      | "nonagon"
-      | "decogon"
-      | "bevel"
-      | "rabbet"
-      | "leftarrow"
-      | "rightarrow"
-      | "leftpoint"
-      | "rightpoint"
-      | "rightchevron"
-      | "leftchevron"
-      | "star"
-      | "close";
+        | "none"
+        | "circle"
+        | "ellipse"
+        | "triangle"
+        | "trapezoid"
+        | "parallelogram"
+        | "rhombus"
+        | "pentagon"
+        | "hexagon"
+        | "heptagon"
+        | "octagon"
+        | "nonagon"
+        | "decogon"
+        | "bevel"
+        | "rabbet"
+        | "leftarrow"
+        | "rightarrow"
+        | "leftpoint"
+        | "rightpoint"
+        | "rightchevron"
+        | "leftchevron"
+        | "star"
+        | "close";
       linktype: string;
       lightbox: OnOff;
       imageframestyle?: string;
@@ -299,18 +316,18 @@ export namespace Canvasflow {
       lng: `${number}` | number;
       marker: OnOff;
       mapstyle:
-      | "google"
-      | "apple"
-      | "greyscale"
-      | "lightdream"
-      | "midnight"
-      | "navigation"
-      | "oldtimer"
-      | "paledawn"
-      | "paper"
-      | "retro"
-      | "schoolmap"
-      | "subtleblue";
+        | "google"
+        | "apple"
+        | "greyscale"
+        | "lightdream"
+        | "midnight"
+        | "navigation"
+        | "oldtimer"
+        | "paledawn"
+        | "paper"
+        | "retro"
+        | "schoolmap"
+        | "subtleblue";
     }
 
     // TODO Implement component
@@ -464,6 +481,24 @@ export const isTextComponent = (c: Canvasflow.Component.Type): boolean => {
 
   return textComponents.has(component);
 };
+
+export function applyDeviceVisibility(
+  classNames: Array<string>,
+  devices: Canvasflow.Component.Devices,
+  styles: CSSModuleClasses,
+) {
+  if (devices.phone === "off") {
+    classNames.push(styles["hide-mobile"]);
+  }
+
+  if (devices.tablet === "off") {
+    classNames.push(styles["hide-tablet"]);
+  }
+
+  if (devices.desktop === "off") {
+    classNames.push(styles["hide-desktop"]);
+  }
+}
 
 type CreateArrayWithLengthX<
   LENGTH extends number,

@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { Canvasflow } from "../../../Canvasflow";
+import { Canvasflow, applyDeviceVisibility } from "../../../Canvasflow";
 import styles from "./../article.module.css";
 
 export const Text = (props: TextProps): ReactElement | null => {
@@ -19,7 +19,14 @@ export const Text = (props: TextProps): ReactElement | null => {
     lang,
   } = props;
 
-  const classNames: Array<string> = ["component", "text", component];
+  const classNames: Array<string> = [
+    styles["component"],
+    "component",
+    "text",
+    component,
+  ];
+
+  applyDeviceVisibility(classNames, devices, styles);
 
   // Set text content base on language
   let content = text;
@@ -82,19 +89,6 @@ export const Text = (props: TextProps): ReactElement | null => {
 
   if (dropcap === "on") {
     classNames.push("dropcap");
-  }
-
-  // Hide component in device size
-  if (devices.phone === "off") {
-    classNames.push(styles["hide-mobile"]);
-  }
-
-  if (devices.tablet === "off") {
-    classNames.push(styles["hide-tablet"]);
-  }
-
-  if (devices.desktop === "off") {
-    classNames.push(styles["hide-desktop"]);
   }
 
   return (

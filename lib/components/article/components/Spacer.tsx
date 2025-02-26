@@ -1,40 +1,43 @@
 import { ReactElement } from "react";
-import { Canvasflow } from "../../../Canvasflow";
+import { Canvasflow, applyDeviceVisibility } from "../../../Canvasflow";
+import styles from "../article.module.css";
 
 export const Spacer = (
   props: Canvasflow.Component.Spacer,
 ): ReactElement | null => {
-  const { id, bleed, margin } = props;
+  const { id, bleed, margin, devices } = props;
   const containerStyle: any = {
     clear: "both",
   };
 
-  const className = ["spacer"];
+  const classNames = ["spacer", styles["spacer"]];
 
   switch (margin) {
     case "margin-1":
-      className.push("v-small");
+      classNames.push("v-small");
       break;
     case "margin-20":
-      className.push("small");
+      classNames.push("small");
       break;
     case "margin-75":
-      className.push("large");
+      classNames.push("large");
       break;
     case "margin-100":
-      className.push("v-large");
+      classNames.push("v-large");
       break;
     default:
-      className.push("medium");
+      classNames.push("medium");
       break;
   }
 
   if (bleed) {
-    className.push("bleed");
+    classNames.push("bleed");
   }
 
+  applyDeviceVisibility(classNames, devices, styles);
+
   return (
-    <div id={id} className={className.join(" ")} style={containerStyle}>
+    <div id={id} className={classNames.join(" ")} style={containerStyle}>
       <br />
     </div>
   );

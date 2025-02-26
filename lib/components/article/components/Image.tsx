@@ -1,6 +1,8 @@
-import { Canvasflow } from "../../../Canvasflow";
+import { Canvasflow, applyDeviceVisibility } from "../../../Canvasflow";
 import { Caption } from "./Caption";
 import { Credit } from "./Credit";
+
+import styles from "../article.module.css";
 
 export const Image = (props: ImageProps) => {
   const {
@@ -15,7 +17,7 @@ export const Image = (props: ImageProps) => {
     caption,
     credit,
     width,
-    component,
+    devices,
     captionenabled,
     creditenabled,
     style,
@@ -24,7 +26,7 @@ export const Image = (props: ImageProps) => {
     lang,
   } = props;
 
-  let classNames = ["media", component];
+  let classNames = ["media", "image", styles["image"]];
   const containerStyle: any = {};
   const imageStyle: any = {
     pointerEvents: "none",
@@ -100,12 +102,14 @@ export const Image = (props: ImageProps) => {
   if (credit) {
     creditContent = credit;
   }
-  
+
   const captionEnabled: boolean =
     captionenabled === "on" && !onlyShowCaptionInLightbox && !!captionContent;
 
   const creditEnabled: boolean =
     creditenabled === "on" && !onlyShowCreditInLightbox;
+
+  applyDeviceVisibility(classNames, devices, styles);
 
   return (
     <figure

@@ -14,14 +14,15 @@ export class Styles {
     return stylesMap;
   }
 
-  private static reduceStyles(
+  static reduceStyles(
     acc: Map<string, Canvasflow.Style>,
-    style: Canvasflow.Style) {
+    style: Canvasflow.Style,
+  ) {
     acc.set(`${style.id}`, style);
     return acc;
   }
 
-  private static mergeParentProperties(
+  static mergeParentProperties(
     style: Canvasflow.Style,
     stylesMap: Map<string, Canvasflow.Style>,
   ): Canvasflow.Style {
@@ -41,10 +42,7 @@ export class Styles {
     }
 
     // Avoid recalculation
-    const parent = Styles.mergeParentProperties(
-      parentStyle,
-      stylesMap,
-    );
+    const parent = Styles.mergeParentProperties(parentStyle, stylesMap);
     parent.parent = null;
     stylesMap.set(`${parent.id}`, parent);
 
@@ -62,7 +60,7 @@ export class Styles {
     return style;
   }
 
-  private static overwriteProperties(
+  static overwriteProperties(
     properties: { [key: string]: any },
     overwrite: { [key: string]: any },
   ) {
@@ -83,10 +81,7 @@ export class Styles {
         result[property] = {};
       }
 
-      result[property] = Styles.mergeDeep(
-        result[property],
-        overwrite[property],
-      );
+      result[property] = mergeDeep(result[property], overwrite[property]);
     }
 
     // Hack for system
@@ -95,7 +90,7 @@ export class Styles {
         result["divider"];
 
       const dividers = result.dividers.map((props: any) =>
-        Styles.mergeDeep(
+        mergeDeep(
           {
             style,
             bleed,
@@ -113,42 +108,45 @@ export class Styles {
 
     return result;
   }
-
-  /**
-   * Deep merge two objects.
-   * @param target
-   * @param ...sources
-   */
-  private static mergeDeep(target: any, ...sources: any): any {
-    if (!sources.length) return target;
-    const source = sources.shift();
-
-    if (isObject(target) && isObject(source)) {
-      for (const key in source) {
-        if (isObject(source[key])) {
-          if (!target[key]) Object.assign(target, { [key]: {} });
-          Styles.mergeDeep(target[key], source[key]);
-        } else {
-          Object.assign(target, { [key]: source[key] });
-        }
-      }
-    }
-
-    return Styles.mergeDeep(target, ...sources);
-  }
 }
 
-export class StyleBuilder {
+export class Builder {
   articles: Array<Canvasflow.Article>;
   styles: Array<Canvasflow.Style>;
-  constructor(articles: Array<Canvasflow.Article>, styles: Array<Canvasflow.Style>) {
+  constructor(
+    articles: Array<Canvasflow.Article>,
+    styles: Array<Canvasflow.Style>,
+  ) {
     this.articles = articles;
     this.styles = styles;
   }
 
-  build(): string {
-    return '';
+  async build(): Promise<string> {
+    return "";
   }
+}
+
+/**
+ * Deep merge two objects.
+ * @param target
+ * @param ...sources
+ */
+export function mergeDeep(target: any, ...sources: any): any {
+  if (!sources.length) return target;
+  const source = sources.shift();
+
+  if (isObject(target) && isObject(source)) {
+    for (const key in source) {
+      if (isObject(source[key])) {
+        if (!target[key]) Object.assign(target, { [key]: {} });
+        mergeDeep(target[key], source[key]);
+      } else {
+        Object.assign(target, { [key]: source[key] });
+      }
+    }
+  }
+
+  return mergeDeep(target, ...sources);
 }
 
 function isObject(item: any) {
