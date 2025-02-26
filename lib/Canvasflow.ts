@@ -248,29 +248,29 @@ export namespace Canvasflow {
       link?: string;
       url?: string;
       imageclip?:
-        | "none"
-        | "circle"
-        | "ellipse"
-        | "triangle"
-        | "trapezoid"
-        | "parallelogram"
-        | "rhombus"
-        | "pentagon"
-        | "hexagon"
-        | "heptagon"
-        | "octagon"
-        | "nonagon"
-        | "decogon"
-        | "bevel"
-        | "rabbet"
-        | "leftarrow"
-        | "rightarrow"
-        | "leftpoint"
-        | "rightpoint"
-        | "rightchevron"
-        | "leftchevron"
-        | "star"
-        | "close";
+      | "none"
+      | "circle"
+      | "ellipse"
+      | "triangle"
+      | "trapezoid"
+      | "parallelogram"
+      | "rhombus"
+      | "pentagon"
+      | "hexagon"
+      | "heptagon"
+      | "octagon"
+      | "nonagon"
+      | "decogon"
+      | "bevel"
+      | "rabbet"
+      | "leftarrow"
+      | "rightarrow"
+      | "leftpoint"
+      | "rightpoint"
+      | "rightchevron"
+      | "leftchevron"
+      | "star"
+      | "close";
       linktype?: string;
       lightbox?: OnOff;
       imageframestyle?: string;
@@ -327,18 +327,18 @@ export namespace Canvasflow {
       lng: `${number}` | number;
       marker: OnOff;
       mapstyle:
-        | "google"
-        | "apple"
-        | "greyscale"
-        | "lightdream"
-        | "midnight"
-        | "navigation"
-        | "oldtimer"
-        | "paledawn"
-        | "paper"
-        | "retro"
-        | "schoolmap"
-        | "subtleblue";
+      | "google"
+      | "apple"
+      | "greyscale"
+      | "lightdream"
+      | "midnight"
+      | "navigation"
+      | "oldtimer"
+      | "paledawn"
+      | "paper"
+      | "retro"
+      | "schoolmap"
+      | "subtleblue";
     }
 
     export interface Video extends BaseComponent {
@@ -407,13 +407,11 @@ export namespace Canvasflow {
       fit: "fit-width" | "fit-height";
     }
 
-    // TODO Implement component
     export interface Custom extends BaseComponent {
       component: "custom";
       content: string;
     }
 
-    // TODO Implement component
     export interface Twitter extends BaseComponent {
       component: "twitter";
       height?: number | `${number}`;
@@ -424,6 +422,7 @@ export namespace Canvasflow {
       type: "feed" | "tweet";
     }
 
+    // TODO Implement component
     export interface Infogram extends BaseComponent {
       component: "infogram";
     }
@@ -488,7 +487,6 @@ export namespace Canvasflow {
       };
     }
 
-    // TODO Implement component
     export interface Container extends BaseComponent {
       component: "container";
       styles: Array<`${number}` | number>;
