@@ -1,6 +1,10 @@
 {
   "extends": "./tsconfig.json",
   "include": ["lib"],
+  "exclude": [
+    "lib/**/*.spec.ts",
+    "lib/**/*.test.ts",
+  ],
   "build": {
     "copyPublicDir": false
     }

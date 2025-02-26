@@ -47,6 +47,7 @@ function useStyle(props: ArticleProps): Response {
     ArticleID,
     style,
     components,
+    
   };
   const [css, setCSS] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(!!styles);

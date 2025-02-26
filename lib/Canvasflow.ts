@@ -57,7 +57,7 @@ export namespace Canvasflow {
     /**
      * Stores the name of the article
      */
-    name: { [key: string]: string } | string;
+    name?: { [key: string]: string } | string;
 
     /**
      * List of {@link Component.Type} that compose the article
@@ -67,7 +67,7 @@ export namespace Canvasflow {
     /**
      * Stores pages that are used for replica version
      */
-    pages: Array<string>;
+    pages?: Array<string>;
   }
 
   /**
@@ -550,8 +550,10 @@ export function applyDeviceVisibility(
     tablet: "on",
     desktop: "on",
   },
-  styles: CSSModuleClasses,
-) {
+  styles: {
+    readonly [key: string]: string;
+  },
+): void {
   if (devices.phone === "off") {
     classNames.push(styles["hide-mobile"]);
   }
