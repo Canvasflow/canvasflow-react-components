@@ -71,7 +71,12 @@ const Default = (props: GalleryProps): ReactElement | null => {
 
   const containerStyle: any = {};
 
-  const classNames = ["media", "gallery", styles["gallery"]];
+  const classNames = [
+    styles["component"],
+    "media",
+    "gallery",
+    styles["gallery"],
+  ];
   if (bleed === "on") {
     classNames.push("bleed");
   }

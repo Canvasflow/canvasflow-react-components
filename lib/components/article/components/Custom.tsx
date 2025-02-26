@@ -9,7 +9,7 @@ export const Custom = (
 ): ReactElement | null => {
   const { id, bleed = false, content, devices } = props;
 
-  const classNames = [];
+  const classNames = [styles["component"]];
   if (bleed) {
     classNames.push("bleed");
   }

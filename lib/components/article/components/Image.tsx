@@ -30,7 +30,7 @@ export const Image = (props: ImageProps) => {
     lang,
   } = props;
 
-  let classNames = ["media", "image", styles["image"]];
+  let classNames = [styles["component"], "media", "image", styles["image"]];
   const containerStyle: any = {};
   const imageStyle: any = {
     pointerEvents: "none",

@@ -10,7 +10,7 @@ export const Spacer = (
     clear: "both",
   };
 
-  const classNames = ["spacer", styles["spacer"]];
+  const classNames = ["spacer", styles["spacer"], styles["component"]];
 
   switch (margin) {
     case "margin-1":

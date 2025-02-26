@@ -9,7 +9,7 @@ export const TikTok = (props: TikTokProps) => {
   const [content, setContent] = useState("");
   const [error, setError] = useState("");
 
-  const className = [styles["tiktok"], "media", "tiktok"];
+  const className = [styles["component"], styles["tiktok"], "media", "tiktok"];
 
   if (bleed) {
     className.push("bleed");

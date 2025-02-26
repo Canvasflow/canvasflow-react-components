@@ -5,7 +5,7 @@ import { Canvasflow, applyDeviceVisibility } from "../../../Canvasflow";
 // TODO Implement columns
 export const Columns = (props: ColumnsProps): ReactElement | null => {
   const { id, children, devices } = props;
-  const classNames = [styles["columns"]];
+  const classNames = [styles["component"], styles["columns"]];
   applyDeviceVisibility(classNames, devices, styles);
   const css: Array<string> = [];
   return (

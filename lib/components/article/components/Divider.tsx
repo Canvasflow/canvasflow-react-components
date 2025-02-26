@@ -6,7 +6,7 @@ export const Divider = (
   props: Canvasflow.Component.Divider,
 ): ReactElement | null => {
   const { id, bleed, style, devices } = props;
-  const classNames = ["divider", styles["divider"]];
+  const classNames = ["divider", styles["divider"], styles["component"]];
 
   const containerStyle: any = {
     clear: "both",

@@ -112,9 +112,9 @@ export const ComponentStory: Story = {
     credit: "credit test",
 
     devices: {
-      tablet: "on",
-      phone: "on",
-      desktop: "on",
+      "tablet": "off",
+      "phone": "on",
+      "desktop": "off"
     },
     images: [
       {

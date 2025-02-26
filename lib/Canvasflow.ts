@@ -330,9 +330,32 @@ export namespace Canvasflow {
         | "subtleblue";
     }
 
-    // TODO Implement component
     export interface Video extends BaseComponent {
       component: "video";
+      poster?: {
+        imageurl: string;
+        cacheparam: `${number}`;
+      };
+      aspectRatio: string;
+      loop: OnOff;
+      caption?: string;
+      controlsenabled?: OnOff;
+      credit?: string;
+      linktype?: "none" | "web" | "page";
+      posterenabled?: OnOff;
+      language?: "en";
+      captionenabled?: OnOff;
+      moviepath?: string;
+      weblink?: string;
+      vidtype?: "youtube";
+      pagelink?: string;
+      movietype?: string;
+      explodefullwidth?: OnOff;
+      creditenabled?: OnOff;
+      youtubesuggest?: OnOff;
+      autoplay?: OnOff;
+      articleid: `${number}`;
+      vidid: string;
     }
 
     // TODO Implement component
