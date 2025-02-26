@@ -7,8 +7,12 @@ import _Style from "./canvasflow/Style";
 import _Article from "./canvasflow/Article";
 import _Component, {
   applyDeviceVisibility as _applyDeviceVisibility,
+  isTextComponent as _isTextComponent,
 } from "./canvasflow/Component";
 export namespace Canvasflow {
+  /**
+   * This is an object representing a Canvasflow Style
+   */
   export type Style = _Style;
   /**
    * This is an object representing a Canvasflow Article.
@@ -65,3 +69,4 @@ export namespace Canvasflow {
 }
 
 export const applyDeviceVisibility = _applyDeviceVisibility;
+export const isTextComponent = _isTextComponent;
