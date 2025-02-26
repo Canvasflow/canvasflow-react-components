@@ -1,4 +1,4 @@
-import * as format from 'css-format';
+import { format } from "@projectwallace/format-css";
 import { Canvasflow } from "../../Canvasflow";
 
 export class Styles {
@@ -137,7 +137,7 @@ export class Builder {
 
   // TODO Format the css that comes in
   pretty(css: string) {
-    return css;
+    return format(css);
   }
 
   processArticleStyles(): void {
@@ -172,7 +172,6 @@ export class Builder {
           break;
       }
     }
-    console.log(style);
   }
 
   mapCanvas(selector: string, properties: any): string {
