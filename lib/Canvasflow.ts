@@ -309,8 +309,8 @@ export namespace Canvasflow {
 
     export interface Map extends BaseComponent {
       component: "map";
-      captionenabled: OnOff;
-      caption: string;
+      captionenabled?: OnOff;
+      caption?: string;
       zoom: number;
       lat: `${number}` | number;
       lng: `${number}` | number;
