@@ -1,5 +1,8 @@
 import { ReactElement } from "react";
-import { Canvasflow, applyDeviceVisibility } from "../../../Canvasflow";
+import {
+  applyDeviceVisibility,
+  Component,
+} from "../../../canvasflow/Component";
 import styles from "./../article.module.css";
 
 export const Text = (props: TextProps): ReactElement | null => {
@@ -103,7 +106,7 @@ export const Text = (props: TextProps): ReactElement | null => {
   );
 };
 
-interface TextProps extends Canvasflow.Component.Text {
+interface TextProps extends Component.Text {
   lang?: string;
 }
 
