@@ -2,7 +2,7 @@ import {
   Styles as S,
   mergeDeep as _mergeDeep,
   Builder as _Builder,
-} from "./components/article/Styles";
+} from "./components/styles/Styles";
 export namespace Canvasflow {
   export interface Style {
     id: string;
@@ -148,7 +148,7 @@ export namespace Canvasflow {
       language?: string;
       PublicationID?: number | `${number}`;
       animation?: any;
-      cacheparam?: `${number}` | number
+      cacheparam?: `${number}` | number;
       articleid?: `${number}` | number;
       style?: any;
       htmlclass?: string;
@@ -259,29 +259,29 @@ export namespace Canvasflow {
       link?: string;
       url?: string;
       imageclip?:
-      | "none"
-      | "circle"
-      | "ellipse"
-      | "triangle"
-      | "trapezoid"
-      | "parallelogram"
-      | "rhombus"
-      | "pentagon"
-      | "hexagon"
-      | "heptagon"
-      | "octagon"
-      | "nonagon"
-      | "decogon"
-      | "bevel"
-      | "rabbet"
-      | "leftarrow"
-      | "rightarrow"
-      | "leftpoint"
-      | "rightpoint"
-      | "rightchevron"
-      | "leftchevron"
-      | "star"
-      | "close";
+        | "none"
+        | "circle"
+        | "ellipse"
+        | "triangle"
+        | "trapezoid"
+        | "parallelogram"
+        | "rhombus"
+        | "pentagon"
+        | "hexagon"
+        | "heptagon"
+        | "octagon"
+        | "nonagon"
+        | "decogon"
+        | "bevel"
+        | "rabbet"
+        | "leftarrow"
+        | "rightarrow"
+        | "leftpoint"
+        | "rightpoint"
+        | "rightchevron"
+        | "leftchevron"
+        | "star"
+        | "close";
       linktype?: string;
       lightbox?: OnOff;
       imageframestyle?: string;
@@ -306,7 +306,7 @@ export namespace Canvasflow {
       lang?: string;
       imageurl: string;
       imagelink?: string;
-      behaviour?: any
+      behaviour?: any;
     }
 
     export interface Gallery extends BaseComponent {
@@ -337,18 +337,18 @@ export namespace Canvasflow {
       lng: `${number}` | number;
       marker: OnOff;
       mapstyle:
-      | "google"
-      | "apple"
-      | "greyscale"
-      | "lightdream"
-      | "midnight"
-      | "navigation"
-      | "oldtimer"
-      | "paledawn"
-      | "paper"
-      | "retro"
-      | "schoolmap"
-      | "subtleblue";
+        | "google"
+        | "apple"
+        | "greyscale"
+        | "lightdream"
+        | "midnight"
+        | "navigation"
+        | "oldtimer"
+        | "paledawn"
+        | "paper"
+        | "retro"
+        | "schoolmap"
+        | "subtleblue";
     }
 
     export interface Video extends BaseComponent {
@@ -521,8 +521,15 @@ export namespace Canvasflow {
   }
 }
 
-export const isTextComponent = (c: Canvasflow.Component.Type): boolean => {
-  const { component } = c;
+export const isTextComponent = (
+  c: Canvasflow.Component.Type | string,
+): boolean => {
+  let component: string = "";
+  if (typeof c === "string") {
+    component = c;
+  } else {
+    component = c.component;
+  }
   const textComponents = new Set([
     "headline",
     "title",
