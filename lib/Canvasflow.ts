@@ -123,6 +123,10 @@ export namespace Canvasflow {
       phone: OnOff;
     }
 
+    /**
+     * This is an object that represent the properties that are shared across
+     * all the components
+     */
     interface BaseComponent {
       id: string;
       devices?: Devices;
@@ -130,6 +134,7 @@ export namespace Canvasflow {
       expandfullwidth?: OnOff;
       component: Component;
       unselectable?: OnOff;
+      language?: string;
     }
 
     /**
@@ -209,6 +214,12 @@ export namespace Canvasflow {
       | "footer"
       | "imagecaption"
       | `text${TextRange}`;
+
+    /**
+     * This value defines the maximum amount of `text{number}`components
+     * that are supported
+     */
+    export const MAX_TEXT_COMPONENTS = 40;
 
     /**
      * Type that represent the range for text component.
@@ -421,7 +432,7 @@ export namespace Canvasflow {
       component: "instagram";
       language?: string;
       params: {
-        videoID: "Cqva6aOM8Fp";
+        videoID: string;
         type: "reel";
       };
       articleid?: `${number}` | number;
@@ -480,6 +491,10 @@ export namespace Canvasflow {
     // TODO Implement component
     export interface Container extends BaseComponent {
       component: "container";
+      styles: Array<`${number}` | number>;
+      role: string;
+      direction: "vertical" | "horizontal";
+      components: Array<Type>;
     }
 
     export interface Spacer extends BaseComponent {
@@ -496,7 +511,6 @@ export namespace Canvasflow {
 
 export const isTextComponent = (c: Canvasflow.Component.Type): boolean => {
   const { component } = c;
-  const MAX_COMPONENTS = 40;
   const textComponents = new Set([
     "headline",
     "title",
@@ -510,7 +524,7 @@ export const isTextComponent = (c: Canvasflow.Component.Type): boolean => {
     "imagecaption",
   ]);
 
-  for (let i = 0; i < MAX_COMPONENTS; i++) {
+  for (let i = 0; i < Canvasflow.Component.MAX_TEXT_COMPONENTS; i++) {
     textComponents.add(`text${i + 1}`);
   }
 
