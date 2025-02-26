@@ -4,13 +4,18 @@ import { mapComponent, MapArgs } from "./Article.utils";
 import styles from "./article.module.css";
 
 export const Article = (props: ArticleProps) => {
-  const { id, ArticleID, components, lang, index } = props;
+  const { id, ArticleID, components, lang, index, style } = props;
 
   const { css, error, isLoading } = useStyle(props);
 
   const mapArgs: MapArgs = {
     lang,
   };
+
+  const classNames = [styles["article"]];
+  if(style) {
+    classNames.push(`style-${style}`)
+  }
 
   if (isLoading && styles) {
     return <div>Loading</div>;
@@ -24,10 +29,13 @@ export const Article = (props: ArticleProps) => {
       id={`article-${id}`}
       data-article-id={ArticleID}
       data-index={index}
-      className={styles["article"]}
+      className={classNames.join(' ')}
     >
       <div className={[styles["canvas"], "canvas"].join(" ")}>
+        <div>
         {components.map(mapComponent(mapArgs))}
+        </div>
+        
       </div>
       {css ? <style>{css}</style> : null}
     </article>
