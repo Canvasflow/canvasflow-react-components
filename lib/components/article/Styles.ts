@@ -112,16 +112,22 @@ export class Styles {
 
 export class Builder {
   articles: Array<Canvasflow.Article>;
-  styles: Array<Canvasflow.Style>;
+  styles: Map<string, Canvasflow.Style>;
   constructor(
     articles: Array<Canvasflow.Article>,
-    styles: Array<Canvasflow.Style>,
+    styles: Array<Canvasflow.Style> | Map<string, Canvasflow.Style>,
   ) {
     this.articles = articles;
-    this.styles = styles;
+    if (Array.isArray(styles)) {
+      this.styles = Styles.resolveInheritance(styles)
+    } else {
+      this.styles = styles;
+    }
   }
 
   async build(): Promise<string> {
+    const { styles, articles } = this;
+    console.log(styles, articles);
     return "12312312";
   }
 }
