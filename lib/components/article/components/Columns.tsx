@@ -1,6 +1,7 @@
 import { ReactElement, ReactNode } from "react";
 import styles from "../article.module.css";
-import { Canvasflow, applyDeviceVisibility } from "../../../Canvasflow";
+import { Canvasflow } from "../../../Canvasflow";
+import { applyDeviceVisibility } from "../../../canvasflow/Component";
 
 // TODO Implement columns
 export const Columns = (props: ColumnsProps): ReactElement | null => {

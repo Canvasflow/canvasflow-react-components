@@ -37,7 +37,7 @@ export namespace Component {
    * Represents if a property is left or right
    * @internal
    */
-  type LeftRight = "left" | "right";
+  export type LeftRight = "left" | "right";
 
   /**
    * This is an object that represent the devices that are supported by

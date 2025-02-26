@@ -1,4 +1,5 @@
-import { Canvasflow, applyDeviceVisibility } from "../../../Canvasflow";
+import { Canvasflow } from "../../../Canvasflow";
+import { applyDeviceVisibility } from "../../../canvasflow/Component";
 import styles from "../article.module.css";
 
 export const Anchor = ({ name, devices }: Canvasflow.Component.Anchor) => {

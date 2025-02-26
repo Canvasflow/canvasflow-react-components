@@ -1,5 +1,6 @@
 import { ReactElement } from "react";
-import { Canvasflow, isTextComponent } from "../../Canvasflow";
+import { isTextComponent } from "../../canvasflow/Component";
+import { Canvasflow } from "../../Canvasflow";
 import Text from "./components/Text";
 import Image from "./components/Image";
 import Gallery from "./components/Gallery";

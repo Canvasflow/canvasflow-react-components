@@ -5,7 +5,9 @@ import {
 } from "./components/styles/Styles";
 import _Style from "./canvasflow/Style";
 import _Article from "./canvasflow/Article";
-import _Component from "./canvasflow/Component";
+import _Component, {
+  applyDeviceVisibility as _applyDeviceVisibility,
+} from "./canvasflow/Component";
 export namespace Canvasflow {
   export type Style = _Style;
   /**
@@ -58,5 +60,8 @@ export namespace Canvasflow {
     export type Container = _Component.Container;
     export type Spacer = _Component.Spacer;
     export type Divider = _Component.Divider;
+    export type Twitter = _Component.Twitter;
   }
 }
+
+export const applyDeviceVisibility = _applyDeviceVisibility;
