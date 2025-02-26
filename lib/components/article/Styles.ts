@@ -137,7 +137,7 @@ export class Builder {
 
   // TODO Format the css that comes in
   pretty(css: string) {
-    return format(css);
+    return css;
   }
 
   processArticleStyles(): void {
