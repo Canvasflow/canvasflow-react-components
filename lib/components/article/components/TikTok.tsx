@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import InnerHTML from "dangerously-set-html-content";
 
+import { Canvasflow } from "../../../Canvasflow";
+
 import styles from "../article.module.css";
 
-export const TikTok = (props: TikTokProps) => {
+export const TikTok = (props: Canvasflow.Component.TikTok) => {
   const { id, bleed, params } = props;
   const { username, videoID } = params;
   const [content, setContent] = useState("");
@@ -59,15 +61,3 @@ export const TikTok = (props: TikTokProps) => {
 };
 
 export default TikTok;
-
-interface TikTokProps {
-  id: string;
-  language?: string;
-  bleed?: boolean;
-  params: Params;
-}
-
-interface Params {
-  username: string;
-  videoID: string;
-}
