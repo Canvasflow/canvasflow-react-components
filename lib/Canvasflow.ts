@@ -125,7 +125,7 @@ export namespace Canvasflow {
 
     interface BaseComponent {
       id: string;
-      devices: Devices;
+      devices?: Devices;
       bleed?: OnOff | LeftRight;
       expandfullwidth?: OnOff;
       component: Component;
@@ -236,7 +236,7 @@ export namespace Canvasflow {
       fixedwidth?: OnOff;
       link?: string;
       url?: string;
-      imageclip:
+      imageclip?:
         | "none"
         | "circle"
         | "ellipse"
@@ -484,7 +484,11 @@ export const isTextComponent = (c: Canvasflow.Component.Type): boolean => {
 
 export function applyDeviceVisibility(
   classNames: Array<string>,
-  devices: Canvasflow.Component.Devices,
+  devices: Canvasflow.Component.Devices = {
+    phone: "on",
+    tablet: "on",
+    desktop: "on",
+  },
   styles: CSSModuleClasses,
 ) {
   if (devices.phone === "off") {
