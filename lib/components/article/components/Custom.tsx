@@ -1,16 +1,32 @@
-import { ReactElement } from "react";
+import { ReactElement, useRef } from "react";
 import InnerHTML from "dangerously-set-html-content";
-import styles from "../article.module.css";
 
+import styles from "../article.module.css";
+import { useComponentAnimation } from "../Articles.hooks";
 import { Canvasflow, applyDeviceVisibility } from "../../../Canvasflow";
 
-export const Custom = (
-  props: Canvasflow.Component.Custom,
-): ReactElement | null => {
-  const { id, bleed = false, content, devices } = props;
+export const Custom = (props: CustomProps): ReactElement | null => {
+  const {
+    id,
+    bleed = "off",
+    content,
+    devices,
+    animation,
+    isSelected = true,
+  } = props;
+  const ref = useRef(null);
+  const animationClasses = useComponentAnimation({
+    ref,
+    animation,
+    isSelected,
+  });
 
-  const classNames = [styles["component"]];
-  if (bleed) {
+  const classNames = [
+    styles["component"],
+    styles["custom"],
+    ...animationClasses,
+  ];
+  if (bleed === "on") {
     classNames.push("bleed");
   }
 
@@ -21,10 +37,14 @@ export const Custom = (
   applyDeviceVisibility(classNames, devices, styles);
 
   return (
-    <div id={id} className={classNames.join(" ")}>
+    <div id={id} ref={ref} className={classNames.join(" ")}>
       <InnerHTML html={content} />
     </div>
   );
 };
+
+interface CustomProps extends Canvasflow.Component.Custom {
+  isSelected?: boolean;
+}
 
 export default Custom;

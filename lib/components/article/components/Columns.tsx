@@ -1,17 +1,71 @@
-import { ReactElement, ReactNode } from "react";
+import { ReactElement, ReactNode, useRef } from "react";
 import styles from "../article.module.css";
 import { Canvasflow } from "../../../Canvasflow";
 import { applyDeviceVisibility } from "../../../canvasflow/Component";
+import { useComponentAnimation } from "../Articles.hooks";
 
 // TODO Implement columns
 export const Columns = (props: ColumnsProps): ReactElement | null => {
-  const { id, children, devices } = props;
-  const classNames = [styles["component"], styles["columns"]];
-  applyDeviceVisibility(classNames, devices, styles);
+  const {
+    id,
+    children,
+    devices,
+    animation,
+    isSelected,
+    expandfullwidth,
+    bleed,
+    multicolcount,
+    multicolwidth,
+    contentmode,
+    background,
+    imageurl,
+  } = props;
+  const ref = useRef(null);
+  const animationClasses = useComponentAnimation({
+    ref,
+    animation,
+    isSelected,
+  });
+
   const css: Array<string> = [];
+
+  const classNames = [styles["columns"]];
+
+  const classNamesContainer = [
+    "columns",
+    styles["component"],
+    ...animationClasses,
+  ];
+
+  applyDeviceVisibility(classNames, devices, styles);
+
+  if (expandfullwidth === "on") {
+    classNamesContainer.push("row-full");
+  }
+
+  if (bleed === "on") {
+    classNamesContainer.push("bleed");
+  }
+  if (multicolcount && multicolwidth && contentmode === "multicol") {
+    css.push(`#${id} > div > div {
+			columns: ${multicolcount} ${multicolwidth}px;
+			column-rule: 1px dotted #ddd;
+			column-gap: 2rem;
+		}`);
+  }
+
+  if (background === "image" && imageurl) {
+    css.push(`#${id} {
+			background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), url('${imageurl}');
+			margin-left: auto;
+			margin-right: auto;
+			background-position: 50% 50%;
+			justify-content: center;
+		}`);
+  }
   return (
-    <section id={id} className={classNames.join(" ")}>
-      <div>{children}</div>
+    <section id={id} className={classNamesContainer.join(" ")}>
+      <div className={classNames.join(" ")}>{children}</div>
       {css.length ? <style>{css.join("")}</style> : null}
     </section>
   );
@@ -19,6 +73,7 @@ export const Columns = (props: ColumnsProps): ReactElement | null => {
 
 interface ColumnsProps extends Canvasflow.Component.Columns {
   children: ReactNode;
+  isSelected?: boolean;
 }
 
 export default Columns;

@@ -1,16 +1,44 @@
-import { ReactElement } from "react";
-import { Canvasflow, applyDeviceVisibility } from "../../../Canvasflow";
+import { ReactElement, useRef } from "react";
+
+import { useComponentAnimation } from "../Articles.hooks";
 import styles from "../article.module.css";
 
-export const Divider = (
-  props: Canvasflow.Component.Divider,
-): ReactElement | null => {
-  const { id, bleed, style, devices } = props;
-  const classNames = ["divider", styles["divider"], styles["component"]];
+import { Canvasflow, applyDeviceVisibility } from "../../../Canvasflow";
+
+export const Divider = (props: DividerProps): ReactElement | null => {
+  const {
+    id,
+    bleed,
+    style,
+    devices,
+    isSelected = true,
+    animation,
+    expandfullwidth,
+  } = props;
+  const ref = useRef(null);
+  const animationClasses = useComponentAnimation({
+    ref,
+    animation,
+    isSelected,
+  });
+
+  const classNames = [
+    "divider",
+    styles["divider"],
+    styles["component"],
+    ...animationClasses,
+  ];
 
   const containerStyle: any = {
     clear: "both",
   };
+
+  const componentStyle: any = {};
+
+  if (expandfullwidth === "on") {
+    componentStyle.minWidth = "100%";
+    componentStyle.width = "100%";
+  }
 
   if (style) {
     classNames.push(style);
@@ -21,13 +49,20 @@ export const Divider = (
 
   applyDeviceVisibility(classNames, devices, styles);
 
-  const componentStyle: any = {};
-
   return (
-    <div id={id} style={containerStyle} className={classNames.join(" ")}>
+    <div
+      id={id}
+      ref={ref}
+      style={containerStyle}
+      className={classNames.join(" ")}
+    >
       <hr style={componentStyle} />
     </div>
   );
 };
+
+interface DividerProps extends Canvasflow.Component.Divider {
+  isSelected?: boolean;
+}
 
 export default Divider;
