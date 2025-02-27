@@ -68,7 +68,7 @@ export namespace Component {
     articleid?: `${number}` | number;
     style?: any;
     htmlclass?: string;
-    pagelink?: `${number}` | number;
+    pagelink?: `${number}` | number | string;
   }
 
   /**
@@ -175,29 +175,29 @@ export namespace Component {
     link?: string;
     url?: string;
     imageclip?:
-      | "none"
-      | "circle"
-      | "ellipse"
-      | "triangle"
-      | "trapezoid"
-      | "parallelogram"
-      | "rhombus"
-      | "pentagon"
-      | "hexagon"
-      | "heptagon"
-      | "octagon"
-      | "nonagon"
-      | "decogon"
-      | "bevel"
-      | "rabbet"
-      | "leftarrow"
-      | "rightarrow"
-      | "leftpoint"
-      | "rightpoint"
-      | "rightchevron"
-      | "leftchevron"
-      | "star"
-      | "close";
+    | "none"
+    | "circle"
+    | "ellipse"
+    | "triangle"
+    | "trapezoid"
+    | "parallelogram"
+    | "rhombus"
+    | "pentagon"
+    | "hexagon"
+    | "heptagon"
+    | "octagon"
+    | "nonagon"
+    | "decogon"
+    | "bevel"
+    | "rabbet"
+    | "leftarrow"
+    | "rightarrow"
+    | "leftpoint"
+    | "rightpoint"
+    | "rightchevron"
+    | "leftchevron"
+    | "star"
+    | "close";
     linktype?: string;
     lightbox?: OnOff;
     imageframestyle?: string;
@@ -254,18 +254,18 @@ export namespace Component {
     pagelink: `${number}` | number;
     marker: OnOff;
     mapstyle:
-      | "google"
-      | "apple"
-      | "greyscale"
-      | "lightdream"
-      | "midnight"
-      | "navigation"
-      | "oldtimer"
-      | "paledawn"
-      | "paper"
-      | "retro"
-      | "schoolmap"
-      | "subtleblue";
+    | "google"
+    | "apple"
+    | "greyscale"
+    | "lightdream"
+    | "midnight"
+    | "navigation"
+    | "oldtimer"
+    | "paledawn"
+    | "paper"
+    | "retro"
+    | "schoolmap"
+    | "subtleblue";
   }
 
   export interface Video extends BaseComponent {

@@ -18,11 +18,6 @@ export const DESKTOP_QUERY = `
 /* STYLES IN DESKTOP */
 @media only screen and (min-width: ${Breakpoints.Desktop}px)`;
 
-type InlineStyleValueSelector = {
-  selector: string;
-  styles: Array<string>;
-};
-
 export class Styles {
   static resolveInheritance(
     styles: Array<Canvasflow.Style>,
@@ -133,17 +128,17 @@ export class Styles {
   }
 }
 
+interface DeviceStyles {
+  mobile: Map<string, Array<Canvasflow.Style>>;
+  tablet: Map<string, Array<Canvasflow.Style>>;
+  desktop: Map<string, Array<Canvasflow.Style>>;
+}
+
 export class Builder {
   articles: Array<Canvasflow.Article>;
   styles: Map<string, Canvasflow.Style>;
-  deviceStyles: {
-    mobile: Set<string>;
-    tablet: Set<string>;
-    desktop: Set<string>;
-  };
+  devices: DeviceStyles;
   response: Array<string>;
-
-  inlineStyleSelector: Map<string, InlineStyleValueSelector>;
 
   constructor(
     articles: Array<Canvasflow.Article>,
@@ -155,20 +150,19 @@ export class Builder {
     } else {
       this.styles = styles;
     }
-    this.deviceStyles = {
-      mobile: new Set(),
-      tablet: new Set(),
-      desktop: new Set(),
+    this.devices = {
+      mobile: new Map(),
+      tablet: new Map(),
+      desktop: new Map(),
     };
     this.response = [];
-    this.inlineStyleSelector = new Map();
   }
 
   async build(): Promise<string> {
     this.response = [];
-    this.inlineStyleSelector = new Map();
     // 1. Process article styles
     this.processArticleStyles();
+    this.processDeviceStyles();
     return format(this.response.join("\n"));
   }
 
@@ -187,6 +181,20 @@ export class Builder {
     if (!style) {
       return;
     }
+    if (style.tablet) {
+      const tabletStyle = this.styles.get(style.tablet);
+      if (tabletStyle && !this.devices.tablet.get(styleId)) {
+        this.devices.tablet.set(styleId, [tabletStyle]);
+      }
+    }
+
+    if (style.desktop) {
+      const desktopStyle = this.styles.get(style.desktop);
+      if (desktopStyle && !this.devices.desktop.get(styleId)) {
+        this.devices.tablet.set(styleId, [desktopStyle]);
+      }
+    }
+
     const css = new CSS(style);
     this.response.push(css.get());
   };
@@ -212,6 +220,14 @@ export class Builder {
       }
     }
   };
+
+  processDeviceStyles = () => {
+    const devices: any = this.devices;
+    for (const k in devices) {
+      const device = devices[k] as Map<string, Array<Canvasflow.Style>>;
+      console.log(device);
+    }
+  }
 }
 
 /**
