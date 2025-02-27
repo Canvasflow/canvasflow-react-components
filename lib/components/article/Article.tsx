@@ -4,7 +4,7 @@ import { mapComponent, MapArgs } from "./Article.utils";
 import styles from "./article.module.css";
 
 export const Article = (props: ArticleProps) => {
-  const { id, ArticleID, components, lang, index, style } = props;
+  const { id, ArticleID, components, lang = "en", index, style } = props;
 
   const { css, error, isLoading } = useStyle(props);
 
@@ -13,8 +13,8 @@ export const Article = (props: ArticleProps) => {
   };
 
   const classNames = [styles["article"]];
-  if(style) {
-    classNames.push(`style-${style}`)
+  if (style) {
+    classNames.push(`style-${style}`);
   }
 
   if (isLoading && styles) {
@@ -29,13 +29,10 @@ export const Article = (props: ArticleProps) => {
       id={`article-${id}`}
       data-article-id={ArticleID}
       data-index={index}
-      className={classNames.join(' ')}
+      className={classNames.join(" ")}
     >
       <div className={[styles["canvas"], "canvas"].join(" ")}>
-        <div>
-        {components.map(mapComponent(mapArgs))}
-        </div>
-        
+        <div>{components.map(mapComponent(mapArgs))}</div>
       </div>
       {css ? <style>{css}</style> : null}
     </article>
@@ -55,7 +52,6 @@ function useStyle(props: ArticleProps): Response {
     ArticleID,
     style,
     components,
-    
   };
   const [css, setCSS] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(!!styles);

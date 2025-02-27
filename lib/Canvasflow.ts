@@ -2,8 +2,9 @@ import {
   Styles as S,
   mergeDeep as _mergeDeep,
   Builder as _Builder,
-} from "./components/styles/Styles";
-import _Style from "./canvasflow/Style";
+  Breakpoints as _Breakpoints,
+} from "./canvasflow/styles/Styles";
+import _Style from "./canvasflow/styles/Style";
 import _Article from "./canvasflow/Article";
 import _Component, {
   applyDeviceVisibility as _applyDeviceVisibility,
@@ -29,6 +30,7 @@ export namespace Canvasflow {
     export const overwriteProperties = S.overwriteProperties;
     export const mergeDeep = _mergeDeep;
     export const Builder = _Builder;
+    export const Breakpoints = _Breakpoints;
   }
 
   /**
@@ -67,6 +69,8 @@ export namespace Canvasflow {
     export type Twitter = _Component.Twitter;
   }
 }
+
+export default Canvasflow;
 
 export const applyDeviceVisibility = _applyDeviceVisibility;
 export const isTextComponent = _isTextComponent;

@@ -2,7 +2,7 @@ export const PT_TO_EM_FACTOR = 1 / 10.111;
 export const PT_TO_EM_FACTOR_LINE_HEIGHT = 1 / 10.111;
 
 import { Canvasflow } from "../../Canvasflow";
-import { isTextComponent } from "../../canvasflow/Component";
+import { isTextComponent } from "../Component";
 
 export class CSS {
   selector: string;

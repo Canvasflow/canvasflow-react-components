@@ -1,6 +1,27 @@
 import { format } from "@projectwallace/format-css";
 import { Canvasflow } from "../../Canvasflow";
-// import { CSS } from "./CSS";
+import { CSS } from "./CSS";
+export const DEFAULT_UNIT = "px";
+
+export enum Breakpoints {
+  Tablet = 767,
+  Desktop = 1024,
+}
+
+export const MOBILE_QUERY = `
+/* STYLES IN MOBILE */
+@media only screen and (max-width: ${Breakpoints.Tablet - 1}px)`;
+export const TABLET_QUERY = `
+/* STYLES IN TABLET */
+@media only screen and (min-width:${Breakpoints.Tablet}px) and (max-width:${Breakpoints.Desktop}px)`;
+export const DESKTOP_QUERY = `
+/* STYLES IN DESKTOP */
+@media only screen and (min-width: ${Breakpoints.Desktop}px)`;
+
+type InlineStyleValueSelector = {
+  selector: string;
+  styles: Array<string>;
+};
 
 export class Styles {
   static resolveInheritance(
@@ -115,7 +136,14 @@ export class Styles {
 export class Builder {
   articles: Array<Canvasflow.Article>;
   styles: Map<string, Canvasflow.Style>;
-  css: Array<string> = [];
+  deviceStyles: {
+    mobile: Set<string>;
+    tablet: Set<string>;
+    desktop: Set<string>;
+  };
+  response: Array<string>;
+
+  inlineStyleSelector: Map<string, InlineStyleValueSelector>;
 
   constructor(
     articles: Array<Canvasflow.Article>,
@@ -127,17 +155,21 @@ export class Builder {
     } else {
       this.styles = styles;
     }
+    this.deviceStyles = {
+      mobile: new Set(),
+      tablet: new Set(),
+      desktop: new Set(),
+    };
+    this.response = [];
+    this.inlineStyleSelector = new Map();
   }
 
   async build(): Promise<string> {
+    this.response = [];
+    this.inlineStyleSelector = new Map();
     // 1. Process article styles
     this.processArticleStyles();
-    return this.pretty(this.css.join("\n"));
-  }
-
-  // TODO Format the css that comes in
-  pretty(css: string) {
-    return format(css);
+    return format(this.response.join("\n"));
   }
 
   processArticleStyles = () => {
@@ -155,8 +187,30 @@ export class Builder {
     if (!style) {
       return;
     }
-    // const css = new CSS(style);
-    // this.css.push(css.get());
+    const css = new CSS(style);
+    this.response.push(css.get());
+  };
+
+  processAdStyle = () => {
+    for (const { id, components } of this.articles) {
+      if (!components) {
+        continue;
+      }
+      const isAd = isArticleAnAd(components);
+      if (isAd) {
+        const css = [
+          `#article-${id} .canvas {
+                  overflow: hidden;
+                  height: 100%;
+                  max-height: 100%;
+              }`,
+        ];
+        css.push(`#article-${id} .canvas > div {
+                  height: 100%;
+              }`);
+        this.response.push(css.join("\n"));
+      }
+    }
   };
 }
 
@@ -185,4 +239,19 @@ export function mergeDeep(target: any, ...sources: any): any {
 
 function isObject(item: any) {
   return item && typeof item === "object" && !Array.isArray(item);
+}
+
+export function getColSplit(total: number, colSplit: any) {
+  if (total === 1) {
+    return "1fr";
+  }
+
+  return colSplit
+    .split("-")
+    .map((split: any) => `${split}fr`)
+    .join(" ");
+}
+
+function isArticleAnAd(components: Array<Canvasflow.Component.Type>) {
+  return components?.length === 1 && components[0].component === "advert";
 }
