@@ -1,5 +1,3 @@
-export { Input } from "./components/Input";
-export { Label } from "./components/Label";
 export { Canvasflow } from "./Canvasflow";
 // Article
 export { Article } from "./components/article/Article";

@@ -3,6 +3,8 @@ import { Canvasflow } from "../../Canvasflow";
 import { mapComponent, MapArgs } from "./Article.utils";
 import styles from "./article.module.css";
 
+import "animate.css";
+
 export const Article = (props: ArticleProps) => {
   const { id, ArticleID, components, lang = "en", index, style } = props;
 

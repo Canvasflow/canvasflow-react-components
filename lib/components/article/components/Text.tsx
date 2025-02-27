@@ -1,8 +1,9 @@
-import { ReactElement } from "react";
+import { ReactElement, useRef } from "react";
 import {
   applyDeviceVisibility,
   Component,
 } from "../../../canvasflow/Component";
+import { useComponentAnimation } from "../Articles.hooks";
 import styles from "./../article.module.css";
 
 export const Text = (props: TextProps): ReactElement | null => {
@@ -15,18 +16,27 @@ export const Text = (props: TextProps): ReactElement | null => {
     dropcap = "off",
     style,
     imageurl,
+    animation,
     imageenabled,
     IMAGECAPTION,
     devices,
     text_lang,
     lang,
+    isSelected,
   } = props;
+  const ref = useRef(null);
+  const animationClasses = useComponentAnimation({
+    ref,
+    animation,
+    isSelected,
+  });
 
   const classNames: Array<string> = [
     styles["component"],
     "component",
     "text",
     component,
+    ...animationClasses,
   ];
 
   applyDeviceVisibility(classNames, devices, styles);
@@ -75,7 +85,7 @@ export const Text = (props: TextProps): ReactElement | null => {
   }
 
   // Works if we want to embbed image in text component
-  if (imageenabled) {
+  if (imageenabled === "on") {
     if (imageurl) {
       const caption = IMAGECAPTION
         ? `<figcaption>${IMAGECAPTION}</figcaption>`
@@ -97,6 +107,7 @@ export const Text = (props: TextProps): ReactElement | null => {
   return (
     <div
       id={id}
+      ref={ref}
       style={componentStyle}
       className={classNames.map((c) => c?.trim()).join(" ")}
       dangerouslySetInnerHTML={{
@@ -108,6 +119,7 @@ export const Text = (props: TextProps): ReactElement | null => {
 
 interface TextProps extends Component.Text {
   lang?: string;
+  isSelected?: boolean;
 }
 
 export default Text;
