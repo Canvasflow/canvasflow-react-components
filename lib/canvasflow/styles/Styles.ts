@@ -23,7 +23,7 @@ export class Styles {
     styles: Array<Canvasflow.Style>,
   ): Map<string, Canvasflow.Style> {
     const stylesMap: Map<string, Canvasflow.Style> = styles.reduce(
-      Styles.reduceStyles,
+      Styles.mapStyles,
       new Map(),
     );
     for (const style of styles) {
@@ -32,7 +32,7 @@ export class Styles {
     return stylesMap;
   }
 
-  static reduceStyles(
+  static mapStyles(
     acc: Map<string, Canvasflow.Style>,
     style: Canvasflow.Style,
   ) {
@@ -76,6 +76,23 @@ export class Styles {
     stylesMap.set(style.id, style);
 
     return style;
+  }
+
+  static reduceStyles(
+    acc: Canvasflow.Style | undefined,
+    style: Canvasflow.Style,
+  ): Canvasflow.Style {
+    if (!acc) {
+      return style;
+    }
+    acc.id = [acc.id, style.id].join(' ');
+    acc.name = [acc.name, style.name].join(' ')
+    acc.properties = Styles.overwriteProperties(
+      acc.properties,
+      style.properties,
+    );
+
+    return acc;
   }
 
   static overwriteProperties(
@@ -162,6 +179,11 @@ export class Builder {
     this.response = [];
     // 1. Process article styles
     this.processArticleStyles();
+
+    // 2. Process styles in component
+    this.processComponentStyles();
+
+    // 2. Process all the styling based on devices
     this.processDeviceStyles();
     return format(this.response.join("\n"));
   }
@@ -184,20 +206,26 @@ export class Builder {
     if (style.tablet) {
       const tabletStyle = this.styles.get(style.tablet);
       if (tabletStyle && !this.devices.tablet.get(styleId)) {
-        this.devices.tablet.set(styleId, [tabletStyle]);
+        this.devices.tablet.set(`.style-${styleId}`, [tabletStyle]);
       }
     }
 
     if (style.desktop) {
       const desktopStyle = this.styles.get(style.desktop);
       if (desktopStyle && !this.devices.desktop.get(styleId)) {
-        this.devices.tablet.set(styleId, [desktopStyle]);
+        this.devices.desktop.set(`.style-${styleId}`, [desktopStyle]);
       }
     }
 
     const css = new CSS(style);
     this.response.push(css.get());
   };
+
+  processComponentStyles() {
+    for (const article of this.articles) {
+      processComponentStyles(article.components, this.styles, this.devices);
+    }
+  }
 
   processAdStyle = () => {
     for (const { id, components } of this.articles) {
@@ -225,9 +253,30 @@ export class Builder {
     const devices: any = this.devices;
     for (const k in devices) {
       const device = devices[k] as Map<string, Array<Canvasflow.Style>>;
-      console.log(device);
+      if (!device.size) continue;
+      let prefix: string = "";
+      switch (k) {
+        case "tablet":
+          prefix = TABLET_QUERY;
+          break;
+        case "desktop":
+          prefix = DESKTOP_QUERY;
+          break;
+        default:
+          prefix = MOBILE_QUERY;
+      }
+
+      const styling = [];
+      for (const [selector, styles] of device) {
+        const reducedStyles = styles.reduce(Styles.reduceStyles);
+
+        const css = new CSS(reducedStyles, selector);
+        styling.push(css.get());
+      }
+
+      this.response.push([prefix, "{", styling.join(" "), "}"].join("\n"));
     }
-  }
+  };
 }
 
 /**
@@ -270,4 +319,62 @@ export function getColSplit(total: number, colSplit: any) {
 
 function isArticleAnAd(components: Array<Canvasflow.Component.Type>) {
   return components?.length === 1 && components[0].component === "advert";
+}
+
+function processComponentStyles(
+  components: Array<Canvasflow.Component.Type>,
+  styles: Map<string, Canvasflow.Style>,
+  devices: DeviceStyles,
+  parent?: string,
+) {
+  for (const component of components) {
+    const { id } = component;
+    // CSS Selector for the style
+    const selector = parent ? [parent, `#${id}`].join(' ') : `#${id}`;
+    switch (component.component) {
+      case "columns":
+        // Activate the recursivity for the rest of components
+        for (const column of component.columns) {
+          processComponentStyles(column, styles, devices, selector);
+        }
+
+        // The column doesn't have any style so there is nothing to do
+        if (!component.styles.length) {
+          break;
+        }
+
+        // Map numeric styles to objects
+        const columnStyles = component.styles
+          .map((s) => styles.get(`${s}`));
+
+        for (const style of columnStyles) {
+          // If the style doesn't exist in the map we ignore it
+          if (!style) {
+            continue;
+          }
+          // We get a list of the devices that are supported by this style
+          // We use a set to confirm that the items do not repeat
+          // `mobile`, `tablet`, `desktop`
+          const supportedDevices = new Set([...style.supportedDevices]);
+
+          // We iterate for evert device that is supported
+          for (const device of supportedDevices) {
+            const deviceStyles = devices[device];
+            const styling = deviceStyles.get(selector);
+            // There was already a style so we add it
+            if (styling) {
+              styling.push(style);
+              deviceStyles.set(selector, styling);
+              continue;
+            }
+            // There wasn't any style so we create it
+            deviceStyles.set(selector, [style]);
+          }
+        }
+
+        break;
+      default:
+        continue;
+    }
+  }
 }
