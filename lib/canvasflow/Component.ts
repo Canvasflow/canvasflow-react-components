@@ -68,6 +68,7 @@ export namespace Component {
     articleid?: `${number}` | number;
     style?: any;
     htmlclass?: string;
+    pagelink?: `${number}` | number;
   }
 
   /**
@@ -114,7 +115,6 @@ export namespace Component {
     externallinktarget?: OnOff;
     imagelink?: string;
     channels?: any;
-    pagelink?: string;
     tag?: string;
     displayname?: string;
     excludedchannels?: Array<any>;
@@ -251,6 +251,7 @@ export namespace Component {
     zoom: number;
     lat: `${number}` | number;
     lng: `${number}` | number;
+    pagelink: `${number}` | number;
     marker: OnOff;
     mapstyle:
       | "google"
@@ -408,6 +409,7 @@ export namespace Component {
     imagepositiontop?: number;
     horizontalpadding?: number;
     align: string;
+
     video: {
       autoloop: boolean;
       poster: string;
