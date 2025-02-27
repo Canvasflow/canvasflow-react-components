@@ -9,7 +9,7 @@ export const TestArticle = () => {
   }
   return (
     <div className={styles["test-article"]}>
-      <Article {...article} styles={data.styles} />
+      <Article {...article} styles={data.styles} isSelected={true} />
     </div>
   );
 };

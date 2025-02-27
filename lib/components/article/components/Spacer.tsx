@@ -1,16 +1,29 @@
-import { ReactElement } from "react";
+import { ReactElement, useRef } from "react";
 import { Canvasflow, applyDeviceVisibility } from "../../../Canvasflow";
 import styles from "../article.module.css";
 
-export const Spacer = (
-  props: Canvasflow.Component.Spacer,
-): ReactElement | null => {
-  const { id, bleed, margin, devices } = props;
+import { useComponentAnimation } from "../Articles.hooks";
+
+export const Spacer = (props: SpacerProps): ReactElement | null => {
+  const { id, bleed, margin, devices, isSelected, animation } = props;
+  const ref = useRef(null);
+  const animationClasses = useComponentAnimation({
+    ref,
+    animation,
+    isSelected,
+  });
+
   const containerStyle: any = {
     clear: "both",
   };
 
-  const classNames = ["spacer", styles["spacer"], styles["component"]];
+  const classNames = [
+    "component",
+    styles["component"],
+    "spacer",
+    styles["spacer"],
+    ...animationClasses,
+  ];
 
   switch (margin) {
     case "margin-1":
@@ -30,17 +43,26 @@ export const Spacer = (
       break;
   }
 
-  if (bleed) {
+  if (bleed === "on") {
     classNames.push("bleed");
   }
 
   applyDeviceVisibility(classNames, devices, styles);
 
   return (
-    <div id={id} className={classNames.join(" ")} style={containerStyle}>
+    <div
+      id={id}
+      ref={ref}
+      className={classNames.join(" ")}
+      style={containerStyle}
+    >
       <br />
     </div>
   );
 };
+
+interface SpacerProps extends Canvasflow.Component.Spacer {
+  isSelected?: boolean;
+}
 
 export default Spacer;

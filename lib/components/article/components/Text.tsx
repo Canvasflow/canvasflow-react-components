@@ -1,10 +1,9 @@
 import { ReactElement, useRef } from "react";
-import {
-  applyDeviceVisibility,
-  Component,
-} from "../../../canvasflow/Component";
-import { useComponentAnimation } from "../Articles.hooks";
+
+import { Canvasflow, applyDeviceVisibility } from "../../../Canvasflow";
 import styles from "./../article.module.css";
+
+import { useComponentAnimation } from "../Articles.hooks";
 
 export const Text = (props: TextProps): ReactElement | null => {
   const {
@@ -117,7 +116,7 @@ export const Text = (props: TextProps): ReactElement | null => {
   );
 };
 
-interface TextProps extends Component.Text {
+interface TextProps extends Canvasflow.Component.Text {
   lang?: string;
   isSelected?: boolean;
 }

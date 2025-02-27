@@ -67,7 +67,9 @@ function mapArticle(
     return (
       <span key={index}>
         <SwiperSlide virtualIndex={index} className={classNames.join(" ")}>
-          <Article lang={lang} {...article} />
+          {({ isVisible }) => (
+            <Article lang={lang} {...article} isSelected={isVisible} />
+          )}
         </SwiperSlide>
       </span>
     );
