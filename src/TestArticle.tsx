@@ -21,34 +21,34 @@ export const TestArticle = () => {
     return <div>Loading</div>;
   }
 
-  const { article } = data.data;
+  const { article } = data;
+
   return (
     <div className={styles["test-article"]}>
-      <Article {...article} styles={data.data.styles} isSelected={true} />
+      <Article {...article} styles={data.styles} isSelected={true} />
     </div>
   );
 };
 
 async function getRequestData(): Promise<Data> {
-  const options = {
+  const options: any = {
     method: "POST",
     headers: { "Content-Type": "application/json", "app-key": APP_KEY },
-    body: {
+    body: JSON.stringify({
       query:
         "query GetArticle($id:ID!){article(id:$id){id name thumbnail index style slug audio ArticleID isFeatured components}styles{id name description properties supportedDevices type parent tablet desktop created lastModified}}",
       variables: {
         id: ARTICLE_ID,
       },
-    },
+    }),
   };
 
   const response = await fetch(ENDPOINT, options);
-  return await response.json();
+  const { data } = await response.json();
+  return data;
 }
 
 interface Data {
-  data: {
-    article: Canvasflow.Article | null;
-    styles: Array<Canvasflow.Style>;
-  };
+  article: Canvasflow.Article;
+  styles: Array<Canvasflow.Style>;
 }
