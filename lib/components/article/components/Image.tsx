@@ -38,6 +38,9 @@ export const Image = (props: ImageProps) => {
     onSelectArticle,
   } = props;
   const ref = useRef(null);
+  if(id === 'Comp-9688709') {
+    console.log(props);
+  }
   useInternalLinks({
     id,
     ref,

@@ -12,6 +12,13 @@
         "args": ["run", "--test-timeout=0", "${relativeFile}"],
         "smartStep": true,
         "console": "integratedTerminal"
+      },
+      {
+        "type": "chrome",
+        "request": "launch",
+        "name": "Debug in Browser",
+        "url": "http://localhost:5173",
+        "webRoot": "${workspaceFolder}"
       }
     ]
   }

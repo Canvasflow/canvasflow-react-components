@@ -419,9 +419,8 @@ export class CSS {
 
       letter_spacing =
         letter_spacing !== undefined
-          ? `letter-spacing: ${parseFloat(letter_spacing)}${
-              unit["letter_spacing"]
-            };`
+          ? `letter-spacing: ${parseFloat(letter_spacing)}${unit["letter_spacing"]
+          };`
           : "";
       margin_top =
         margin_top !== undefined
@@ -479,7 +478,7 @@ export class CSS {
   mapBleed = (properties: any): string => {
     const defaultUnit = "px";
     const response: Array<string> = [];
-    const { paddingLeft, paddingRight, unit } = properties;
+    const { padding_left, padding_right, unit } = properties;
     if (!unit) {
       return "";
     }
@@ -487,28 +486,24 @@ export class CSS {
       response.unshift(`/* Bleed */`);
     }
 
-    if (paddingLeft !== undefined) {
+    if (padding_left !== undefined) {
       response.push(`${this.selector} .canvas > div > .bleed-left {
-                    margin-left: -${paddingLeft}${
-                      unit["paddingLeft"] ?? defaultUnit
-                    } !important;
+                    margin-left: -${padding_left}${unit["paddingLeft"] ?? defaultUnit
+        } !important;
                 }`);
       response.push(`${this.selector} .canvas > div > .bleed {
-                    margin-left: -${paddingLeft}${
-                      unit["paddingLeft"] ?? defaultUnit
-                    } !important;
+                    margin-left: -${padding_left}${unit["paddingLeft"] ?? defaultUnit
+        } !important;
                 }`);
     }
-    if (paddingRight !== undefined) {
+    if (padding_right !== undefined) {
       response.push(`${this.selector} .canvas > div > .bleed-right {
-                    margin-right: -${paddingRight}${
-                      unit["paddingRight"] ?? defaultUnit
-                    } !important;
+                    margin-right: -${padding_right}${unit["paddingRight"] ?? defaultUnit
+        } !important;
                 }`);
       response.push(`${this.selector} .canvas > div > .bleed {
-                    margin-right: -${paddingRight}${
-                      unit["paddingRight"] ?? defaultUnit
-                    } !important;
+                    margin-right: -${padding_right}${unit["paddingRight"] ?? defaultUnit
+        } !important;
                 }`);
     }
 
@@ -575,9 +570,9 @@ export class CSS {
     if (anchor_text_decoration_color) {
       response.push(`${this.selector} .${component} a {
                 text-decoration-color: #${anchor_text_decoration_color.replace(
-                  "#",
-                  "",
-                )};
+        "#",
+        "",
+      )};
             }`);
     }
 
@@ -678,8 +673,7 @@ function getPadding(properties: any): string {
   }
   if (padding_bottom !== undefined) {
     response.push(
-      `padding-bottom: ${padding_bottom}${
-        unit["padding_bottom"] ?? defaultUnit
+      `padding-bottom: ${padding_bottom}${unit["padding_bottom"] ?? defaultUnit
       };`,
     );
   }
@@ -755,18 +749,16 @@ function getBorder(properties: any): string {
 
   if (border_radius) {
     if (border_radius_position === "all") {
-      const borderRadiusCSS = `border-radius: ${border_radius}${
-        unit?.border_radius ?? defaultUnit
-      };`;
+      const borderRadiusCSS = `border-radius: ${border_radius}${unit?.border_radius ?? defaultUnit
+        };`;
       response.push(borderRadiusCSS);
     } else {
       if (Array.isArray(border_radius_position)) {
         response.push(
           border_radius_position
             .map((edge: string) => {
-              return `border-${edge}-radius: ${border_radius}${
-                unit?.border_radius ?? defaultUnit
-              };`;
+              return `border-${edge}-radius: ${border_radius}${unit?.border_radius ?? defaultUnit
+                };`;
             })
             .join("\n"),
         );
@@ -790,8 +782,7 @@ function getBorder(properties: any): string {
   if (border_edge) {
     if (border_edge === "all") {
       response.push(
-        `border: ${border_width || 1}${
-          unit?.borderWidth ?? defaultUnit
+        `border: ${border_width || 1}${unit?.borderWidth ?? defaultUnit
         } ${border_type || "solid"};`,
       );
     } else {
@@ -799,9 +790,8 @@ function getBorder(properties: any): string {
         border_edge
           .split("-")
           .map((edge: string) => {
-            return `border-${edge}: ${border_width}${
-              unit?.borderWidth ?? defaultUnit
-            } ${border_type || "solid"};`;
+            return `border-${edge}: ${border_width}${unit?.borderWidth ?? defaultUnit
+              } ${border_type || "solid"};`;
           })
           .join("\n"),
       );
@@ -853,8 +843,7 @@ function getFont(properties: any): string {
   if (letter_spacing !== undefined && unit?.letter_spacing) {
     if (unit.letter_spacing === "pt") {
       response.push(
-        `letter-spacing: ${
-          parseFloat(`${letter_spacing}`) * PT_TO_EM_FACTOR
+        `letter-spacing: ${parseFloat(`${letter_spacing}`) * PT_TO_EM_FACTOR
         }rem;`,
       );
     } else {
@@ -902,8 +891,7 @@ function getFontSize(properties: any): string {
   if (line_height !== undefined && unit?.line_height) {
     if (unit.line_height === "pt") {
       response.push(
-        `line-height: ${
-          (parseFloat(`${line_height}`) * PT_TO_EM_FACTOR_LINE_HEIGHT) / 1.6
+        `line-height: ${(parseFloat(`${line_height}`) * PT_TO_EM_FACTOR_LINE_HEIGHT) / 1.6
         }rem;`,
       );
     } else {
@@ -942,9 +930,8 @@ function getDropcapFont(properties: any): string {
   } else {
     response.push(
       dropcap_font_size
-        ? `font-size: ${parseFloat(`${dropcap_font_size}`)}${
-            unit["dropcap_font_size"]
-          };`
+        ? `font-size: ${parseFloat(`${dropcap_font_size}`)}${unit["dropcap_font_size"]
+        };`
         : `font-size: 4em;`,
     );
   }

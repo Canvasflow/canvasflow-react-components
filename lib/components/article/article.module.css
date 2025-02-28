@@ -5,8 +5,7 @@
 }
 
 .articles-virtual article {
-    height: 100%;
-    overflow-y: auto;
+    
 }
 
 .articles-virtual article > div {
@@ -16,11 +15,10 @@
     ARTICLE
 */
 .article {
-    position: relative;
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden;
-    box-sizing: border-box;
+    display: block;
+    height: 100%;
+    overflow-y: auto;
+    
 }
 
 .article p {
