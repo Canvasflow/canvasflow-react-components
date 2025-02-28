@@ -143,13 +143,13 @@ export namespace Component {
    * This value defines the maximum amount of `text{number}`components
    * that are supported
    */
-  export const MAX_TEXT_COMPONENTS = 40;
+  export const MAX_TEXT_COMPONENTS = 60;
 
   /**
    * Type that represent the range for text component.
    * From `text1` to `text40`
    */
-  export type TextRange = NumericRange<CreateArrayWithLengthX<1>, 40>;
+  export type TextRange = NumericRange<CreateArrayWithLengthX<1>, 60>;
 
   /**
    * ----------------------------------------------
@@ -267,8 +267,6 @@ export namespace Component {
       | "schoolmap"
       | "subtleblue";
     fullwidth?: OnOff;
-    latitude?: string;
-    longitude?: string;
   }
 
   export interface Video extends BaseComponent {
@@ -470,6 +468,7 @@ export function isTextComponent(c: Component.Type | string): boolean {
     "blockquote",
     "footer",
     "imagecaption",
+    "credit",
   ]);
 
   for (let i = 0; i < Component.MAX_TEXT_COMPONENTS; i++) {

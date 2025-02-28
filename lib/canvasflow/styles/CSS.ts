@@ -3,15 +3,18 @@ export const PT_TO_EM_FACTOR_LINE_HEIGHT = 1 / 10.111;
 
 import { Canvasflow } from "../../Canvasflow";
 import { isTextComponent } from "../Component";
+import { Logger } from "../Logger";
 
 export class CSS {
   selector: string;
   properties: any;
   style: Canvasflow.Style;
+  logger: Logger;
   constructor(style: Canvasflow.Style, selector?: string) {
     this.properties = style.properties;
     this.selector = selector ?? `.style-${style.id}`;
     this.style = style;
+    this.logger = new Logger("CSS");
   }
 
   get(): string {
@@ -49,8 +52,12 @@ export class CSS {
         return this.mapButtons(properties);
       case "gallery":
         return this.mapGallery(properties);
+      case "styleblocks":
+      case "video":
+      case "tabs":
+        return null;
       default:
-        console.error(`Property not supported: (${property})`, properties);
+        this.logger.error(`Property not supported: (${property})`, properties);
         return null;
     }
   };
@@ -444,8 +451,6 @@ export class CSS {
                 ${margin_top}
                 ${textTransform}
             }`;
-
-      console.log(`CSS: `, css);
 
       response.push(css);
     }

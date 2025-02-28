@@ -2,35 +2,45 @@ import { ReactElement } from "react";
 import { Canvasflow } from "../../../Canvasflow";
 import styles from "./../article.module.css";
 import { Caption } from "./Caption";
-
-//import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
 // TODO check library
 export const Map = (props: Canvasflow.Component.Map): ReactElement | null => {
   const {
     id = "",
-    latitude,
-    longitude,
+    lat,
+    lng,
     zoom = 5,
     caption = "",
     captionenabled = false,
     bleed,
     fullwidth,
   } = props;
-  const className = [styles["map"], "media"];
+  const className = [styles["map"], "media", styles["component"]];
   if (bleed && !fullwidth) {
     className.push("bleed");
   }
+
+  const latitude: number = parseFloat(`${lat}`);
+  const longitude: number = parseFloat(`${lng}`);
+
   return (
     <figure id={id} className={className.join(" ")}>
-      {/* <MapContainer
-      // center={[latitude, longitude]}
-      // zoom={zoom}
-      // scrollWheelZoom={false}
+      <MapContainer
+        zoom={zoom}
+        scrollWheelZoom={false}
+        center={[latitude, longitude]}
       >
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        <Marker position={[latitude, longitude]} />
-      </MapContainer> */}
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        <Marker position={[latitude, longitude]}>
+          {captionenabled && caption ? (
+            <Popup>{<Caption content={caption} />}</Popup>
+          ) : null}
+        </Marker>
+      </MapContainer>
       {captionenabled && caption ? <Caption content={caption} /> : null}
     </figure>
   );

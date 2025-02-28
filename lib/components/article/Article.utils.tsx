@@ -33,6 +33,7 @@ export function mapComponent(args: MapArgs): (c: Type) => ReactElement | null {
     if (isTextComponent(c)) {
       return (
         <Text
+          key={key}
           lang={lang}
           originArticle={originArticle}
           onSelectArticle={onSelectArticle}
@@ -70,7 +71,7 @@ export function mapComponent(args: MapArgs): (c: Type) => ReactElement | null {
           <Instagram key={key} {...(c as Canvasflow.Component.Instagram)} />
         );
       case "table":
-        return <Table {...(c as Canvasflow.Component.Table)} />;
+        return <Table key={key} {...(c as Canvasflow.Component.Table)} />;
       case "columns":
         const columns = c as Canvasflow.Component.Columns;
         return (
@@ -85,11 +86,13 @@ export function mapComponent(args: MapArgs): (c: Type) => ReactElement | null {
       /*case "tiktok":
           return <TikTok {...(c as Canvasflow.Component.TikTok)} />;*/
       case "container":
-        return <Container {...(c as Canvasflow.Component.Container)} />;
+        return (
+          <Container key={key} {...(c as Canvasflow.Component.Container)} />
+        );
       case "spacer":
-        return <Spacer {...(c as Canvasflow.Component.Spacer)} />;
+        return <Spacer key={key} {...(c as Canvasflow.Component.Spacer)} />;
       case "divider":
-        return <Divider {...(c as Canvasflow.Component.Divider)} />;
+        return <Divider key={key} {...(c as Canvasflow.Component.Divider)} />;
       default:
         return null;
     }
