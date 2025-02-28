@@ -3,6 +3,12 @@ import { Caption } from "./Caption";
 import { Credit } from "./Credit";
 
 import styles from "../article.module.css";
+import { useRef } from "react";
+import {
+  OnSelectArticleFn,
+  OriginArticle,
+  useInternalLinks,
+} from "./Component.hooks";
 
 export const Image = (props: ImageProps) => {
   const {
@@ -28,7 +34,16 @@ export const Image = (props: ImageProps) => {
     onlyShowCaptionInLightbox,
     onlyShowCreditInLightbox,
     lang,
+    originArticle,
+    onSelectArticle,
   } = props;
+  const ref = useRef(null);
+  useInternalLinks({
+    id,
+    ref,
+    originArticle,
+    callbackfn: onSelectArticle,
+  });
 
   let classNames = [styles["component"], "media", "image", styles["image"]];
   const containerStyle: any = {};
@@ -118,6 +133,7 @@ export const Image = (props: ImageProps) => {
   return (
     <figure
       id={id}
+      ref={ref}
       className={classNames.join(" ")}
       style={containerStyle}
       //   onKeyDown={click}
@@ -141,6 +157,8 @@ export default Image;
 
 interface ImageProps extends Canvasflow.Component.Image {
   lang?: string;
+  originArticle?: OriginArticle;
+  onSelectArticle?: OnSelectArticleFn;
 }
 
 function getClipPath(imageClip: string) {

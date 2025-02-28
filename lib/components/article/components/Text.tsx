@@ -31,6 +31,7 @@ export const Text = (props: TextProps): ReactElement | null => {
     onSelectArticle,
   } = props;
   const ref = useRef(null);
+  console.log(`Ref:`, ref);
   useInternalLinks({
     id,
     ref,
