@@ -175,29 +175,29 @@ export namespace Component {
     link?: string;
     url?: string;
     imageclip?:
-    | "none"
-    | "circle"
-    | "ellipse"
-    | "triangle"
-    | "trapezoid"
-    | "parallelogram"
-    | "rhombus"
-    | "pentagon"
-    | "hexagon"
-    | "heptagon"
-    | "octagon"
-    | "nonagon"
-    | "decogon"
-    | "bevel"
-    | "rabbet"
-    | "leftarrow"
-    | "rightarrow"
-    | "leftpoint"
-    | "rightpoint"
-    | "rightchevron"
-    | "leftchevron"
-    | "star"
-    | "close";
+      | "none"
+      | "circle"
+      | "ellipse"
+      | "triangle"
+      | "trapezoid"
+      | "parallelogram"
+      | "rhombus"
+      | "pentagon"
+      | "hexagon"
+      | "heptagon"
+      | "octagon"
+      | "nonagon"
+      | "decogon"
+      | "bevel"
+      | "rabbet"
+      | "leftarrow"
+      | "rightarrow"
+      | "leftpoint"
+      | "rightpoint"
+      | "rightchevron"
+      | "leftchevron"
+      | "star"
+      | "close";
     linktype?: string;
     lightbox?: OnOff;
     imageframestyle?: string;
@@ -254,18 +254,21 @@ export namespace Component {
     pagelink: `${number}` | number;
     marker: OnOff;
     mapstyle:
-    | "google"
-    | "apple"
-    | "greyscale"
-    | "lightdream"
-    | "midnight"
-    | "navigation"
-    | "oldtimer"
-    | "paledawn"
-    | "paper"
-    | "retro"
-    | "schoolmap"
-    | "subtleblue";
+      | "google"
+      | "apple"
+      | "greyscale"
+      | "lightdream"
+      | "midnight"
+      | "navigation"
+      | "oldtimer"
+      | "paledawn"
+      | "paper"
+      | "retro"
+      | "schoolmap"
+      | "subtleblue";
+    fullwidth?: OnOff;
+    latitude?: string;
+    longitude?: string;
   }
 
   export interface Video extends BaseComponent {
@@ -285,7 +288,13 @@ export namespace Component {
     captionenabled?: OnOff;
     moviepath?: string;
     weblink?: string;
-    vidtype?: "youtube";
+    vidtype?:
+      | "youtube"
+      | "vimeo"
+      | "brightcove"
+      | "tiktok"
+      | "hosted"
+      | "movie";
     pagelink?: string;
     movietype?: string;
     explodefullwidth?: OnOff;
@@ -294,6 +303,10 @@ export namespace Component {
     autoplay?: OnOff;
     articleid: `${number}`;
     vidid: string;
+    hostedurl?: string;
+    fullwidth?: OnOff;
+    params?: any;
+    hostedplaceholderurl?: string;
   }
 
   // TODO Implement component
@@ -347,6 +360,7 @@ export namespace Component {
     name: string;
     articleid?: `${number}` | number;
     type: "feed" | "tweet";
+    tweetid?: string;
   }
 
   // TODO Implement component
@@ -359,7 +373,7 @@ export namespace Component {
     language?: string;
     params: {
       videoID: string;
-      type: "reel";
+      type: "reel" | "tv";
     };
     articleid?: `${number}` | number;
   }

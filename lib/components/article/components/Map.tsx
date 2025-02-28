@@ -1,9 +1,39 @@
 import { ReactElement } from "react";
 import { Canvasflow } from "../../../Canvasflow";
-// TODO Implement map
+import styles from "./../article.module.css";
+import { Caption } from "./Caption";
+
+//import { MapContainer, TileLayer, Marker } from "react-leaflet";
+
+// TODO check library
 export const Map = (props: Canvasflow.Component.Map): ReactElement | null => {
-  console.log(props);
-  return null;
+  const {
+    id = "",
+    latitude,
+    longitude,
+    zoom = 5,
+    caption = "",
+    captionenabled = false,
+    bleed,
+    fullwidth,
+  } = props;
+  const className = [styles["map"], "media"];
+  if (bleed && !fullwidth) {
+    className.push("bleed");
+  }
+  return (
+    <figure id={id} className={className.join(" ")}>
+      {/* <MapContainer
+      // center={[latitude, longitude]}
+      // zoom={zoom}
+      // scrollWheelZoom={false}
+      >
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <Marker position={[latitude, longitude]} />
+      </MapContainer> */}
+      {captionenabled && caption ? <Caption content={caption} /> : null}
+    </figure>
+  );
 };
 
 export default Map;
