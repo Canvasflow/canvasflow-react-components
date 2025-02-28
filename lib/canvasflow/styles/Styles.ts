@@ -4,16 +4,20 @@ import { CSS } from "./CSS";
 export const DEFAULT_UNIT = "px";
 
 export enum Breakpoints {
-  Tablet = 767,
+  Tablet = 768,
   Desktop = 1024,
 }
+
+// 0 - 767 Phone
+// 768 - 1023 Tablet
+// 1024
 
 export const MOBILE_QUERY = `
 /* STYLES IN MOBILE */
 @media only screen and (max-width: ${Breakpoints.Tablet - 1}px)`;
 export const TABLET_QUERY = `
 /* STYLES IN TABLET */
-@media only screen and (min-width:${Breakpoints.Tablet}px) and (max-width:${Breakpoints.Desktop}px)`;
+@media only screen and (min-width:${Breakpoints.Tablet}px) and (max-width:${Breakpoints.Desktop - 1}px)`;
 export const DESKTOP_QUERY = `
 /* STYLES IN DESKTOP */
 @media only screen and (min-width: ${Breakpoints.Desktop}px)`;
@@ -85,8 +89,8 @@ export class Styles {
     if (!acc) {
       return style;
     }
-    acc.id = [acc.id, style.id].join(' ');
-    acc.name = [acc.name, style.name].join(' ')
+    acc.id = [acc.id, style.id].join(" ");
+    acc.name = [acc.name, style.name].join(" ");
     acc.properties = Styles.overwriteProperties(
       acc.properties,
       style.properties,
@@ -330,7 +334,7 @@ function processComponentStyles(
   for (const component of components) {
     const { id } = component;
     // CSS Selector for the style
-    const selector = parent ? [parent, `#${id}`].join(' ') : `#${id}`;
+    const selector: string = parent ? [parent, `#${id}`].join(" ") : `#${id}`;
     switch (component.component) {
       case "columns":
         // Activate the recursivity for the rest of components
@@ -343,38 +347,56 @@ function processComponentStyles(
           break;
         }
 
-        // Map numeric styles to objects
-        const columnStyles = component.styles
-          .map((s) => styles.get(`${s}`));
-
-        for (const style of columnStyles) {
-          // If the style doesn't exist in the map we ignore it
-          if (!style) {
-            continue;
-          }
-          // We get a list of the devices that are supported by this style
-          // We use a set to confirm that the items do not repeat
-          // `mobile`, `tablet`, `desktop`
-          const supportedDevices = new Set([...style.supportedDevices]);
-
-          // We iterate for evert device that is supported
-          for (const device of supportedDevices) {
-            const deviceStyles = devices[device];
-            const styling = deviceStyles.get(selector);
-            // There was already a style so we add it
-            if (styling) {
-              styling.push(style);
-              deviceStyles.set(selector, styling);
-              continue;
-            }
-            // There wasn't any style so we create it
-            deviceStyles.set(selector, [style]);
-          }
+        processStylesInComponent(selector, component.styles, styles, devices);
+        break;
+      case "image":
+        if (!component.styles) {
+          break;
+        }
+        // The column doesn't have any style so there is nothing to do
+        if (!component.styles.length) {
+          break;
         }
 
+        processStylesInComponent(selector, component.styles, styles, devices);
         break;
       default:
         continue;
+    }
+  }
+}
+
+function processStylesInComponent(
+  selector: string,
+  componentStyles: Array<number | `${number}`>,
+  styles: Map<string, Canvasflow.Style>,
+  devices: DeviceStyles,
+) {
+  // Map numeric styles to objects
+  const imageStyles = componentStyles.map((s) => styles.get(`${s}`));
+
+  for (const style of imageStyles) {
+    // If the style doesn't exist in the map we ignore it
+    if (!style) {
+      continue;
+    }
+    // We get a list of the devices that are supported by this style
+    // We use a set to confirm that the items do not repeat
+    // `mobile`, `tablet`, `desktop`
+    const supportedDevices = new Set([...style.supportedDevices]);
+
+    // We iterate for evert device that is supported
+    for (const device of supportedDevices) {
+      const deviceStyles = devices[device];
+      const styling = deviceStyles.get(selector);
+      // There was already a style so we add it
+      if (styling) {
+        styling.push(style);
+        deviceStyles.set(selector, styling);
+        continue;
+      }
+      // There wasn't any style so we create it
+      deviceStyles.set(selector, [style]);
     }
   }
 }
