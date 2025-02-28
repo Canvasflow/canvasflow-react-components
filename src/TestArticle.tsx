@@ -4,8 +4,8 @@ import Article from "../lib/components/article/Article";
 import styles from "./App.module.css";
 
 const ENDPOINT = "https://graphql.canvasflow.io/graphql";
-const APP_KEY = "e3f0ccab-1300-45d3-9dc9-45ae9920ba3d";
-const ARTICLE_ID = "53884";
+const APP_KEY = "9411a5d8-a9e8-413e-86dc-4664bb67b0c7";
+const ARTICLE_ID = "54416";
 
 export const TestArticle = () => {
   const [data, setData] = useState<null | Data>(null);
