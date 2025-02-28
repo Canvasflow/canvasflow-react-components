@@ -19,6 +19,10 @@ export namespace Canvasflow {
    * This is an object representing a Canvasflow Article.
    */
   export type Article = _Article;
+  export type Font = {
+    name: string;
+    urls: Array<string>
+  }
 
   /**
    * This is an object handles canvasflow styling

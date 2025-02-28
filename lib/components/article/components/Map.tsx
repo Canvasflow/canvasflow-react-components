@@ -4,7 +4,6 @@ import styles from "./../article.module.css";
 import { Caption } from "./Caption";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
-// TODO check library
 export const Map = (props: Canvasflow.Component.Map): ReactElement | null => {
   const {
     id = "",

@@ -210,14 +210,14 @@ export class Builder {
     if (style.tablet) {
       const tabletStyle = this.styles.get(style.tablet);
       if (tabletStyle && !this.devices.tablet.get(styleId)) {
-        this.devices.tablet.set(`.style-${styleId}`, [tabletStyle]);
+        this.devices.tablet.set(`.style-${styleId} `, [tabletStyle]);
       }
     }
 
     if (style.desktop) {
       const desktopStyle = this.styles.get(style.desktop);
       if (desktopStyle && !this.devices.desktop.get(styleId)) {
-        this.devices.desktop.set(`.style-${styleId}`, [desktopStyle]);
+        this.devices.desktop.set(`.style-${styleId} `, [desktopStyle]);
       }
     }
 
@@ -357,7 +357,7 @@ function processComponentStyles(
         if (!component.styles.length) {
           break;
         }
-
+        console.log(component)
         processStylesInComponent(selector, component.styles, styles, devices);
         break;
       default:

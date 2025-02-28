@@ -12,7 +12,7 @@ export class CSS {
   logger: Logger;
   constructor(style: Canvasflow.Style, selector?: string) {
     this.properties = style.properties;
-    this.selector = selector ?? `.style-${style.id}`;
+    this.selector = selector ?? `.style-${style.id} `;
     this.style = style;
     this.logger = new Logger("CSS");
   }
@@ -337,9 +337,9 @@ export class CSS {
     const css = [margin, padding];
     const filteredCSS = css.filter((i) => i).join("\n");
     if (filteredCSS.length) {
-      response.push(`${this.selector} .image {
-                    ${filteredCSS}
-                }`);
+      response.push(`${this.selector}.image {
+        ${filteredCSS}
+      }`);
     }
 
     return response.join("\n");
@@ -782,7 +782,7 @@ function getBorder(properties: any): string {
   if (border_edge) {
     if (border_edge === "all") {
       response.push(
-        `border: ${border_width || 1}${unit?.borderWidth ?? defaultUnit
+        `border: ${border_width || 1}${unit?.border_width ?? defaultUnit
         } ${border_type || "solid"};`,
       );
     } else {
@@ -790,7 +790,7 @@ function getBorder(properties: any): string {
         border_edge
           .split("-")
           .map((edge: string) => {
-            return `border-${edge}: ${border_width}${unit?.borderWidth ?? defaultUnit
+            return `border-${edge}: ${border_width}${unit?.border_width ?? defaultUnit
               } ${border_type || "solid"};`;
           })
           .join("\n"),
@@ -844,10 +844,10 @@ function getFont(properties: any): string {
     if (unit.letter_spacing === "pt") {
       response.push(
         `letter-spacing: ${parseFloat(`${letter_spacing}`) * PT_TO_EM_FACTOR
-        }rem;`,
+        }em;`,
       );
     } else {
-      response.push(`letter-spacing: ${letter_spacing}${unit.letterSpacing};`);
+      response.push(`letter-spacing: ${letter_spacing}${unit.letter_spacing};`);
     }
   }
 
