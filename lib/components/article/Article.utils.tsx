@@ -21,15 +21,24 @@ import Container from "./components/Container";
 import Spacer from "./components/Spacer";
 import Divider from "./components/Divider";
 
+import { OnSelectArticleFn, OriginArticle } from "./components/Component.hooks";
+
 type Type = Canvasflow.Component.Type;
 
 export function mapComponent(args: MapArgs): (c: Type) => ReactElement | null {
-  const { lang } = args;
+  const { lang, originArticle, onSelectArticle } = args;
   return (c: Type): ReactElement | null => {
     const { id, component } = c;
     const key = id;
     if (isTextComponent(c)) {
-      return <Text lang={lang} {...(c as Canvasflow.Component.Text)} />;
+      return (
+        <Text
+          lang={lang}
+          originArticle={originArticle}
+          onSelectArticle={onSelectArticle}
+          {...(c as Canvasflow.Component.Text)}
+        />
+      );
     }
     switch (component) {
       case "image":
@@ -89,4 +98,6 @@ export function mapComponent(args: MapArgs): (c: Type) => ReactElement | null {
 
 export interface MapArgs {
   lang?: string;
+  originArticle?: OriginArticle;
+  onSelectArticle?: OnSelectArticleFn;
 }

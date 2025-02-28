@@ -4,6 +4,11 @@ import { Canvasflow, applyDeviceVisibility } from "../../../Canvasflow";
 import styles from "./../article.module.css";
 
 import { useComponentAnimation } from "../Articles.hooks";
+import {
+  useInternalLinks,
+  OnSelectArticleFn,
+  OriginArticle,
+} from "./Component.hooks";
 
 export const Text = (props: TextProps): ReactElement | null => {
   const {
@@ -22,8 +27,16 @@ export const Text = (props: TextProps): ReactElement | null => {
     text_lang,
     lang,
     isSelected,
+    originArticle,
+    onSelectArticle,
   } = props;
   const ref = useRef(null);
+  useInternalLinks({
+    id,
+    ref,
+    originArticle,
+    callbackfn: onSelectArticle,
+  });
   const animationClasses = useComponentAnimation({
     ref,
     animation,
@@ -119,6 +132,8 @@ export const Text = (props: TextProps): ReactElement | null => {
 interface TextProps extends Canvasflow.Component.Text {
   lang?: string;
   isSelected?: boolean;
+  originArticle?: OriginArticle;
+  onSelectArticle?: OnSelectArticleFn;
 }
 
 export default Text;
