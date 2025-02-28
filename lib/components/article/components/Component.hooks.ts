@@ -9,10 +9,8 @@ export function useInternalLinks(args: InternalLinksArgs) {
     if (!ref) return;
     if (!ref.current) return;
     if (!id) return;
-    const element = document.getElementById(id);
-    if (!element) {
-      return;
-    }
+
+    const element = ref.current as HTMLElement;
     const anchors = element.querySelectorAll("a");
     Array.from(anchors).filter(filterInternalLink).forEach(
       addArticleListener({
