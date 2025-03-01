@@ -368,10 +368,9 @@ export namespace Component {
 
   export interface Instagram extends BaseComponent {
     component: "instagram";
-    language?: string;
     params: {
       videoID: string;
-      type: "reel" | "tv";
+      type: "reel" | "tv" | "post";
     };
     articleid?: `${number}` | number;
   }
@@ -383,7 +382,6 @@ export namespace Component {
 
   export interface TikTok extends BaseComponent {
     component: "tiktok";
-    language?: string;
     params: {
       username: string;
       videoID: string;

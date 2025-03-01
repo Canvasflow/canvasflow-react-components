@@ -31,6 +31,7 @@ export const Text = (props: TextProps): ReactElement | null => {
     isSelected,
     originArticle,
     onSelectArticle,
+    isDebug = false,
   } = props;
   const ref = useRef(null);
 
@@ -121,15 +122,27 @@ export const Text = (props: TextProps): ReactElement | null => {
 
   const sanitizedData = DOMPurify.sanitize(`${image} ${content} ${clearer}`);
 
+  if (isDebug) {
+    return (
+      <div
+        id={id}
+        ref={ref}
+        style={componentStyle}
+        className={classNames.map((c) => c?.trim()).join(" ")}
+      >
+        {ReactHtmlParser(sanitizedData)}
+      </div>
+    );
+  }
+
   return (
     <div
       id={id}
       ref={ref}
       style={componentStyle}
       className={classNames.map((c) => c?.trim()).join(" ")}
-    >
-      {ReactHtmlParser(sanitizedData)}
-    </div>
+      dangerouslySetInnerHTML={{ __html: sanitizedData }}
+    />
   );
 };
 
@@ -138,6 +151,7 @@ interface TextProps extends Canvasflow.Component.Text {
   isSelected?: boolean;
   originArticle?: OriginArticle;
   onSelectArticle?: OnSelectArticleFn;
+  isDebug?: boolean;
 }
 
 export default Text;

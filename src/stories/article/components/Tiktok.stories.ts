@@ -9,7 +9,16 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {
-    id: { control: "text" },
+    id: {
+      table: {
+        disable: true,
+      },
+    },
+    component: {
+      table: {
+        disable: true,
+      },
+    },
     params: {
       username: { control: "text" },
       videoID: { control: "text" },
@@ -22,7 +31,8 @@ type Story = StoryObj<typeof meta>;
 
 export const ComponentStory: Story = {
   args: {
-    id: "test",
+    id: "cf-123123",
+    component: "tiktok",
     params: {
       username: "@vibra_musical",
       videoID: "7367054920157039905",

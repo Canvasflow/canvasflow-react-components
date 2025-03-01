@@ -26,7 +26,8 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const ImageStory: Story = {
+export const ComponentStory: Story = {
+  name: "Default Advert",
   args: {
     id: "CF-123123123",
     component: "advert",
