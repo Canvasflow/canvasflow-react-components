@@ -1,4 +1,6 @@
 import { ReactElement, useRef } from "react";
+import DOMPurify from "dompurify";
+import ReactHtmlParser from "html-react-parser";
 
 import { Canvasflow, applyDeviceVisibility } from "../../../Canvasflow";
 import styles from "./../article.module.css";
@@ -117,16 +119,17 @@ export const Text = (props: TextProps): ReactElement | null => {
     classNames.push("dropcap");
   }
 
+  const sanitizedData = DOMPurify.sanitize(`${image} ${content} ${clearer}`);
+
   return (
     <div
       id={id}
       ref={ref}
       style={componentStyle}
       className={classNames.map((c) => c?.trim()).join(" ")}
-      dangerouslySetInnerHTML={{
-        __html: `${image} ${content} ${clearer}`,
-      }}
-    />
+    >
+      {ReactHtmlParser(sanitizedData)}
+    </div>
   );
 };
 

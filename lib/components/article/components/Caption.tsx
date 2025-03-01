@@ -1,4 +1,6 @@
 import styles from "../article.module.css";
+import DOMPurify from "dompurify";
+import ReactHtmlParser from "html-react-parser";
 
 export const Caption = (props: CaptionProps) => {
   const { content, style = {} } = props;
@@ -9,9 +11,11 @@ export const Caption = (props: CaptionProps) => {
 
   const classNames = [styles["imagecaption"], "imagecaption"];
 
+  const sanitizedData = DOMPurify.sanitize(content);
+
   return (
     <figcaption className={classNames.join(" ")} style={style}>
-      <p dangerouslySetInnerHTML={{ __html: content }} />
+      <p>{ReactHtmlParser(sanitizedData)}</p>
     </figcaption>
   );
 };

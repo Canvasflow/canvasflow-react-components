@@ -1,5 +1,5 @@
 import { ReactElement, useRef } from "react";
-import InnerHTML from "dangerously-set-html-content";
+import ReactHtmlParser from "html-react-parser";
 
 import styles from "../article.module.css";
 import { useComponentAnimation } from "../Articles.hooks";
@@ -38,7 +38,7 @@ export const Custom = (props: CustomProps): ReactElement | null => {
 
   return (
     <div id={id} ref={ref} className={classNames.join(" ")}>
-      <InnerHTML html={content} />
+      {ReactHtmlParser(content)}
     </div>
   );
 };
