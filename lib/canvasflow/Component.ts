@@ -333,16 +333,16 @@ export namespace Component {
   export interface Advert extends BaseComponent {
     component: "advert";
     imageurl: string;
-    height: number;
-    width: number;
-    linktype: "none" | "web" | "page";
+    height?: number;
+    width?: number;
+    linktype?: "none" | "web" | "page";
     imagelink?: string;
-    externallinktarget: OnOff;
+    externallinktarget?: OnOff;
     advertlink?: `/article/${number}`;
     pagelink?: number;
-    unselectable: OnOff;
-    imgunselectable: OnOff;
-    fit: "fit-width" | "fit-height";
+    unselectable?: OnOff;
+    imgunselectable?: OnOff;
+    fit?: "fit-width" | "fit-height";
   }
 
   export interface Custom extends BaseComponent {
