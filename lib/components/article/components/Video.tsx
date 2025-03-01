@@ -200,7 +200,6 @@ const Movie = (props: MovieProps) => {
 
   const extension = url.split(".").pop();
   return (
-    // eslint-disable-next-line jsx-a11y/media-has-caption
     <video {...opts} style={style}>
       <source src={url} type={`video/${extension}`} />
       Sorry, your browser does not support embedded videos.

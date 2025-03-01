@@ -110,11 +110,10 @@ export const ComponentStory: Story = {
     caption: "caption test",
     creditenabled: "off",
     credit: "credit test",
-
     devices: {
-      "tablet": "off",
+      "tablet": "on",
       "phone": "on",
-      "desktop": "off"
+      "desktop": "on"
     },
     images: [
       {

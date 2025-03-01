@@ -4,7 +4,6 @@ import { Canvasflow } from "../../../Canvasflow";
 import { applyDeviceVisibility } from "../../../canvasflow/Component";
 import { useComponentAnimation } from "../Articles.hooks";
 
-// TODO Implement columns
 export const Columns = (props: ColumnsProps): ReactElement | null => {
   const {
     id,
