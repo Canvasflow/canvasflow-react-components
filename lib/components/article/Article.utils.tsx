@@ -77,7 +77,7 @@ export function mapComponent(args: MapArgs): (c: Type) => ReactElement | null {
         return (
           <Columns key={key} {...columns}>
             {columns.columns.map((comp: Array<Type>, index: number) => (
-              <div key={`${key}-columns-${index}`}>
+              <div key={`${key}-columns-${index}`} className="column">
                 {comp.map(mapComponent(args))}
               </div>
             ))}

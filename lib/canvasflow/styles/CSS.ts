@@ -10,11 +10,13 @@ export class CSS {
   properties: any;
   style: Canvasflow.Style;
   logger: Logger;
-  constructor(style: Canvasflow.Style, selector?: string) {
+  device?: string;
+  constructor(style: Canvasflow.Style, selector?: string, device?: string) {
     this.properties = style.properties;
     this.selector = selector ?? `.style-${style.id} `;
     this.style = style;
     this.logger = new Logger("CSS");
+    this.device = device;
   }
 
   get(): string {

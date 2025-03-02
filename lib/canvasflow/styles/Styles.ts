@@ -23,38 +23,32 @@ export const DESKTOP_QUERY = `
 @media only screen and (min-width: ${Breakpoints.Desktop}px)`;
 
 export class Styles {
-  static resolveInheritance(
+  static resolveInheritance = (
     styles: Array<Canvasflow.Style>,
-  ): Map<string, Canvasflow.Style> {
+  ): Map<string, Canvasflow.Style> => {
     const stylesMap: Map<string, Canvasflow.Style> = styles.reduce(
       Styles.mapStyles,
       new Map(),
     );
     for (const style of styles) {
-      if (style.id === '22705') {
-        console.log(`Before`, style);
-      }
-      const mergedStyle = Styles.mergeParentProperties(style, stylesMap);
-      if (mergedStyle.id === '22705') {
-        console.log(`After`, style);
-      }
+      const mergedStyle = Styles.mergeParentProperties(clone(style), stylesMap);
       stylesMap.set(`${mergedStyle.id}`, mergedStyle);
     }
     return stylesMap;
   }
 
-  static mapStyles(
+  static mapStyles = (
     acc: Map<string, Canvasflow.Style>,
     style: Canvasflow.Style,
-  ) {
+  ) => {
     acc.set(`${style.id}`, style);
     return acc;
   }
 
-  static mergeParentProperties(
+  static mergeParentProperties = (
     style: Canvasflow.Style,
     stylesMap: Map<string, Canvasflow.Style>,
-  ): Canvasflow.Style {
+  ): Canvasflow.Style => {
     // I don't have parent so i return
     if (!style.parent) {
       return style;
@@ -89,18 +83,20 @@ export class Styles {
     return style;
   }
 
-  static reduceStyles(
+
+
+  static reduceStyles = (
     acc: Canvasflow.Style | undefined,
     style: Canvasflow.Style,
-  ): Canvasflow.Style {
+  ): Canvasflow.Style => {
     if (!acc) {
-      return style;
+      return clone(style);
     }
     acc.id = [acc.id, style.id].join(" ");
     acc.name = [acc.name, style.name].join(" ");
     acc.properties = Styles.overwriteProperties(
-      acc.properties,
-      style.properties,
+      clone(acc.properties),
+      clone(style.properties),
     );
 
     return acc;
@@ -211,10 +207,6 @@ export class Builder {
 
   processArticleStyle = (styleId: string) => {
     const style = this.styles.get(styleId);
-    if (styleId === '22705') {
-      console.log(style);
-    }
-
     if (!style) {
       return;
     }
@@ -238,7 +230,8 @@ export class Builder {
 
   processComponentStyles() {
     for (const article of this.articles) {
-      processComponentStyles(article.components, this.styles, this.devices);
+      processComponentStyles(article.components, this.styles,
+        this.devices, this.response);
     }
   }
 
@@ -285,7 +278,7 @@ export class Builder {
       for (const [selector, styles] of device) {
         const reducedStyles = styles.reduce(Styles.reduceStyles);
 
-        const css = new CSS(reducedStyles, selector);
+        const css = new CSS(reducedStyles, selector, k);
         styling.push(css.get());
       }
 
@@ -340,6 +333,7 @@ function processComponentStyles(
   components: Array<Canvasflow.Component.Type>,
   styles: Map<string, Canvasflow.Style>,
   devices: DeviceStyles,
+  response: Array<string>,
   parent?: string,
 ) {
   for (const component of components) {
@@ -348,9 +342,10 @@ function processComponentStyles(
     const selector: string = parent ? [parent, `#${id}`].join(" ") : `#${id}`;
     switch (component.component) {
       case "columns":
+        processColumnStyles(component as Canvasflow.Component.Columns, response);
         // Activate the recursivity for the rest of components
         for (const column of component.columns) {
-          processComponentStyles(column, styles, devices, selector);
+          processComponentStyles(column, styles, devices, response, selector);
         }
 
         // The column doesn't have any style so there is nothing to do
@@ -368,7 +363,6 @@ function processComponentStyles(
         if (!component.styles.length) {
           break;
         }
-        console.log(component)
         processStylesInComponent(selector, component.styles, styles, devices);
         break;
       default:
@@ -383,17 +377,20 @@ function processStylesInComponent(
   styles: Map<string, Canvasflow.Style>,
   devices: DeviceStyles,
 ) {
-  // Map numeric styles to objects
-  const imageStyles = componentStyles.map((s) => styles.get(`${s}`));
 
-  for (const style of imageStyles) {
+  // Map numeric styles to objects
+  const componentStyle = componentStyles.map((s) => styles.get(`${s}`));
+
+  for (const style of componentStyle) {
     // If the style doesn't exist in the map we ignore it
     if (!style) {
       continue;
     }
+
     // We get a list of the devices that are supported by this style
     // We use a set to confirm that the items do not repeat
     // `mobile`, `tablet`, `desktop`
+
     const supportedDevices = new Set([...style.supportedDevices]);
 
     // We iterate for evert device that is supported
@@ -403,15 +400,48 @@ function processStylesInComponent(
       // There was already a style so we add it
       if (styling) {
         styling.push(style);
-        deviceStyles.set(selector, styling);
+        deviceStyles.set(selector, clone(styling));
         continue;
       }
+
       // There wasn't any style so we create it
-      deviceStyles.set(selector, [style]);
+      deviceStyles.set(selector, [clone(style)]);
     }
+  }
+}
+
+function processColumnStyles(component: Canvasflow.Component.Columns, response: Array<string>) {
+  const {
+    id,
+    columns,
+    colsplit,
+    gutter,
+    collapsetype
+  } = component;
+  const total = columns.length;
+  const css = `#${id} > :first-child {
+  display: grid; 
+  grid-template-columns: ${getColSplit(total, colsplit)}; 
+  grid-template-rows: 1fr; 
+  gap: 0px ${gutter !== undefined ? gutter : 0}px; 
+  grid-template-areas: 
+  "${columns.map(() => '.').join(' ')}"; 
+}`;
+  const collapseCSS = [
+    `#${id} > :first-child {`,
+    'display: flex;',
+    'flex-direction: column;',
+    '}'
+  ].join('\n');
+  response.push(css)
+  if (collapsetype === 'responsive') {
+    response.push(`${MOBILE_QUERY} { ${collapseCSS} }`);
+  } else if (collapsetype === 'tablet') {
+    response.push(`${TABLET_QUERY} { ${collapseCSS} }`);
   }
 }
 
 function clone(obj: any) {
   return JSON.parse(JSON.stringify(obj));
 }
+
