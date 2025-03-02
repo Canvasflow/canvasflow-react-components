@@ -31,7 +31,14 @@ export class Styles {
       new Map(),
     );
     for (const style of styles) {
-      Styles.mergeParentProperties(style, stylesMap);
+      if (style.id === '22705') {
+        console.log(`Before`, style);
+      }
+      const mergedStyle = Styles.mergeParentProperties(style, stylesMap);
+      if (mergedStyle.id === '22705') {
+        console.log(`After`, style);
+      }
+      stylesMap.set(`${mergedStyle.id}`, mergedStyle);
     }
     return stylesMap;
   }
@@ -66,7 +73,7 @@ export class Styles {
     // Avoid recalculation
     const parent = Styles.mergeParentProperties(parentStyle, stylesMap);
     parent.parent = null;
-    stylesMap.set(`${parent.id}`, parent);
+    stylesMap.set(`${parent.id}`, clone(parent));
 
     // In here we overwrite the parents properties with the children style
     const properties = Styles.overwriteProperties(
@@ -77,7 +84,7 @@ export class Styles {
     style.properties = properties;
     style.parent = null;
 
-    stylesMap.set(style.id, style);
+    stylesMap.set(style.id, clone(style));
 
     return style;
   }
@@ -204,6 +211,10 @@ export class Builder {
 
   processArticleStyle = (styleId: string) => {
     const style = this.styles.get(styleId);
+    if (styleId === '22705') {
+      console.log(style);
+    }
+
     if (!style) {
       return;
     }
@@ -399,4 +410,8 @@ function processStylesInComponent(
       deviceStyles.set(selector, [style]);
     }
   }
+}
+
+function clone(obj: any) {
+  return JSON.parse(JSON.stringify(obj));
 }
