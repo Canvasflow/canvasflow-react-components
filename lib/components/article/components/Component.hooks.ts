@@ -68,6 +68,8 @@ function addArticleListener(args: ListenerArgs) {
     el.onclick = (e) => {
       e.preventDefault();
       if (!callbackfn) return;
+      console.log(`TARGET ARTICLE: `, targetArticleId);
+      console.log(`ELEMENT: `, elementId);
       callbackfn(targetArticleId, elementId);
     };
   };

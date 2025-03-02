@@ -131,3 +131,6 @@ dist
 
 # Debugging purposes
 *.test.css
+
+# Storybook
+storybook-static
