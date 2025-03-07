@@ -61,6 +61,7 @@ export namespace Component {
     imagemargin?: string | `${number}` | number;
     component: Component;
     unselectable?: OnOff;
+    align?: LeftRight | "center" | "float-left" | "float-right";
     language?: string;
     PublicationID?: number | `${number}`;
     animation?: any;
@@ -158,7 +159,6 @@ export namespace Component {
    */
 
   export interface Image extends BaseComponent {
-    align?: LeftRight | "center" | "float-left" | "float-right";
     fullwidth?: OnOff;
     styles?: Array<number | `${number}`>;
     types?: Array<string>;
@@ -317,7 +317,7 @@ export namespace Component {
     text: string;
     pagetarget: "external" | "lightbox" | "internal";
     resource: "none" | "url" | "page";
-    align: LeftRight | "center";
+
     style: "none" | string;
     size: "frontstyle" | "xsmall" | "small" | "medium" | "large" | "xlarge";
     link: string;
@@ -340,6 +340,7 @@ export namespace Component {
     externallinktarget?: OnOff;
     advertlink?: `/article/${number}`;
     pagelink?: number;
+    types?: Array<string>;
     unselectable?: OnOff;
     imgunselectable?: OnOff;
     fit?: "fit-width" | "fit-height";
@@ -348,6 +349,11 @@ export namespace Component {
   export interface Custom extends BaseComponent {
     component: "custom";
     content: string;
+    height?: `${number}` | number;
+    templateId?: `${number}` | number;
+    captionenabled?: OnOff;
+    caption?: string;
+    inlinecontent?: OnOff;
   }
 
   export interface Twitter extends BaseComponent {
@@ -418,8 +424,6 @@ export namespace Component {
     gradientangle?: number;
     imagepositiontop?: number;
     horizontalpadding?: number;
-    align: string;
-
     video: {
       autoloop: boolean;
       poster: string;

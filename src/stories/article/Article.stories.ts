@@ -3,7 +3,7 @@ import Article from "../../../lib/components/article/Article";
 import Canvasflow from "../../../lib/Canvasflow";
 
 const meta = {
-    title: "Article",
+    title: "Article/Article",
     component: Article,
     parameters: {
         layout: "centered",

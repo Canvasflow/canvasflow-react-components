@@ -47,6 +47,8 @@ export const Articles = (props: ArticlesProps) => {
   );
 };
 
+export default Articles;
+
 interface ArticlesProps {
   articles: Array<Canvasflow.Article>;
   styles: Array<Canvasflow.Style>;
