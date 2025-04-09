@@ -6,6 +6,36 @@ import styles from "./article.module.css";
 import "animate.css";
 
 export const Article = (props: ArticleProps) => {
+  const { withStyle = false } = props;
+  if (withStyle) {
+    return <ArticleWithStyle {...props} />;
+  }
+  const { id, ArticleID, components, lang = "en", index, style } = props;
+
+  const mapArgs: MapArgs = {
+    lang,
+  };
+
+  const classNames = [styles["article"]];
+  if (style) {
+    classNames.push(`style-${style}`);
+  }
+
+  return (
+    <article
+      id={`article-${id}`}
+      data-article-id={ArticleID}
+      data-index={index}
+      className={classNames.join(" ")}
+    >
+      <div className={[styles["canvas"], "canvas"].join(" ")}>
+        <div>{components.map(mapComponent(mapArgs))}</div>
+      </div>
+    </article>
+  );
+};
+
+const ArticleWithStyle = (props: ArticleProps) => {
   const { id, ArticleID, components, lang = "en", index, style } = props;
 
   const { css, error, isLoading } = useStyle(props);
@@ -45,6 +75,7 @@ interface ArticleProps extends Canvasflow.Article {
   lang?: string;
   isSelected?: boolean;
   styles?: Array<Canvasflow.Style>;
+  withStyle: boolean;
 }
 
 function useStyle(props: ArticleProps): Response {

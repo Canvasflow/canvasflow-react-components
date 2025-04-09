@@ -9,7 +9,13 @@ import styles from "./article.module.css";
 import { useStyles } from "./Articles.hooks";
 
 export const Articles = (props: ArticlesProps) => {
-  const { articles, lang = "en", onSwiper } = props;
+  const {
+    articles,
+    lang = "en",
+    onSwiper,
+    onArticleChange,
+    onIndexChange,
+  } = props;
 
   const { css, isLoading, error } = useStyles({
     articles,
@@ -22,7 +28,7 @@ export const Articles = (props: ArticlesProps) => {
     return <div className={styles["error"]}>{error.message}</div>;
   }
   return (
-    <>
+    <div className={styles["articles"]}>
       <Swiper
         modules={[Virtual]}
         updateOnWindowResize={true}
@@ -34,6 +40,21 @@ export const Articles = (props: ArticlesProps) => {
         direction="horizontal"
         maxBackfaceHiddenSlides={20}
         preventClicks={true}
+        onSlideChange={(swiper: SwiperClass) => {
+          const { activeIndex } = swiper;
+          if (onIndexChange) {
+            onIndexChange(activeIndex);
+          }
+
+          if (!onArticleChange) {
+            return;
+          }
+          const article = articles[activeIndex];
+          if (!article) {
+            return;
+          }
+          onArticleChange(article);
+        }}
         virtual
         onSwiper={onSwiper}
         scrollbar={{
@@ -43,7 +64,7 @@ export const Articles = (props: ArticlesProps) => {
         {articles.map(mapArticle({ lang }))}
       </Swiper>
       <style>{css}</style>
-    </>
+    </div>
   );
 };
 
@@ -55,6 +76,8 @@ interface ArticlesProps {
   lang?: string;
   index?: number;
   onSwiper?: (swiper: SwiperClass) => void;
+  onArticleChange?: (article: Canvasflow.Article) => void;
+  onIndexChange?: (index: number) => void;
 }
 
 type ArticleType = Canvasflow.Article;
@@ -67,13 +90,20 @@ function mapArticle(
   return (article: ArticleType, index: number): ReactElement | null => {
     article.index = index;
     return (
-      <span key={index}>
-        <SwiperSlide virtualIndex={index} className={classNames.join(" ")}>
-          {({ isVisible }) => (
-            <Article lang={lang} {...article} isSelected={isVisible} />
-          )}
-        </SwiperSlide>
-      </span>
+      <SwiperSlide
+        key={article.id}
+        virtualIndex={index}
+        className={classNames.join(" ")}
+      >
+        {({ isVisible }) => (
+          <Article
+            lang={lang}
+            isSelected={isVisible}
+            withStyle={false}
+            {...article}
+          />
+        )}
+      </SwiperSlide>
     );
   };
 }

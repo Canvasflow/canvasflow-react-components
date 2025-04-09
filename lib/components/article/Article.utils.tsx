@@ -9,7 +9,7 @@ import Video from "./components/Video";
 import Audio from "./components/Audio";
 import Button from "./components/Button";
 import Anchor from "./components/Anchor";
-import Advert from "./components/Advert";
+// import Advert from "./components/Advert";
 import Custom from "./components/Custom";
 import Twitter from "./components/Twitter";
 import Infogram from "./components/Infogram";
@@ -42,6 +42,7 @@ export function mapComponent(args: MapArgs): (c: Type) => ReactElement | null {
       );
     }
     switch (component) {
+      case "advert":
       case "image":
         return (
           <Image key={key} lang={lang} {...(c as Canvasflow.Component.Image)} />
@@ -58,8 +59,8 @@ export function mapComponent(args: MapArgs): (c: Type) => ReactElement | null {
         return <Button key={key} {...(c as Canvasflow.Component.Button)} />;
       case "anchor":
         return <Anchor key={key} {...(c as Canvasflow.Component.Anchor)} />;
-      case "advert":
-        return <Advert key={key} {...(c as Canvasflow.Component.Advert)} />;
+      /*case "advert":
+        return <Advert key={key} {...(c as Canvasflow.Component.Advert)} />;*/
       case "custom":
         return <Custom key={key} {...(c as Canvasflow.Component.Custom)} />;
       case "twitter":

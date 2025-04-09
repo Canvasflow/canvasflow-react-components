@@ -10,6 +10,7 @@ import {
   useInternalLinks,
   OnSelectArticleFn,
   OriginArticle,
+  useInView,
 } from "./Component.hooks";
 
 export const Text = (props: TextProps): ReactElement | null => {
@@ -34,6 +35,11 @@ export const Text = (props: TextProps): ReactElement | null => {
     isDebug = false,
   } = props;
   const ref = useRef(null);
+
+  const isVisible = useInView(ref);
+  if (id === "Cf2-883172248") {
+    console.log(`Is ${id} visible: `, isVisible);
+  }
 
   useInternalLinks({
     id,

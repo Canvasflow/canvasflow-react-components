@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import Canvasflow from "../lib/Canvasflow";
-import Article from "../lib/components/article/Article";
+import { Articles } from "../lib/components/article/Articles";
+import { Article } from "../lib/components/article/Article";
 import styles from "./App.module.css";
 
-const ENDPOINT = "https://graphql.canvasflow.io/graphql";
-const APP_KEY = "9411a5d8-a9e8-413e-86dc-4664bb67b0c7";
-const ARTICLE_ID = "54416";
+const ENDPOINT = "https://graphql0.canvasflow.io/graphql";
+const APP_KEY = "6c0edeab-ff92-4506-9d2c-76fcdf673444";
+const ISSUE_ID = "1197";
 
 export const TestArticle = () => {
   const [data, setData] = useState<null | Data>(null);
@@ -13,10 +14,10 @@ export const TestArticle = () => {
     getRequestData()
       .then((r) => {
         setData(r);
-        return loadFonts(r.fonts)
+        return loadFonts(r.fonts);
       })
       .then(() => {
-        console.log(`Load fonts successfully`)
+        console.log(`Load fonts successfully`);
       })
       .catch(console.error);
   }, []);
@@ -25,11 +26,26 @@ export const TestArticle = () => {
     return <div>Loading</div>;
   }
 
-  const { article } = data;
+  const { issue } = data;
+
+  const articles = issue.articles as Array<Canvasflow.Article>;
 
   return (
-    <div className={styles["test-article"]} style={{fontSize: '62.5%'}}>
-      <Article {...article} styles={data.styles} isSelected={true} />
+    <div
+      className={styles["test-article"]}
+      style={{ fontSize: "62.5%", width: "100vw", height: "100vh" }}
+    >
+      <Articles
+        articles={articles}
+        index={3}
+        styles={data.styles}
+        onIndexChange={(i) => {
+          console.log(`INDEX: `, i);
+        }}
+        onArticleChange={(article) => {
+          console.log(`The article has changed:`, article);
+        }}
+      />
     </div>
   );
 };
@@ -39,10 +55,17 @@ async function getRequestData(): Promise<Data> {
     method: "POST",
     headers: { "Content-Type": "application/json", "app-key": APP_KEY },
     body: JSON.stringify({
-      query:
-        "query GetArticle($id:ID!){article(id:$id){id name thumbnail index style slug audio ArticleID isFeatured components}styles{id name description properties supportedDevices type parent tablet desktop created lastModified}fonts {name urls}}",
+      query: `query GetIssue($id: ID!){
+          issue(id: $id) {
+            id
+            articles {
+              id name thumbnail index style slug audio ArticleID isFeatured components
+            }
+          }
+        styles{id name description properties supportedDevices type parent tablet desktop created lastModified}fonts {name urls}
+        }`,
       variables: {
-        id: ARTICLE_ID,
+        id: ISSUE_ID,
       },
     }),
   };
@@ -53,7 +76,7 @@ async function getRequestData(): Promise<Data> {
 }
 
 interface Data {
-  article: Canvasflow.Article;
+  issue: any;
   styles: Array<Canvasflow.Style>;
   fonts: Array<Canvasflow.Font>;
 }
@@ -63,31 +86,31 @@ async function loadFonts(fonts: Array<Canvasflow.Font>): Promise<void> {
 }
 
 async function loadFont(font: Canvasflow.Font): Promise<void> {
-	const { name, urls } = font;
-	const promises = [];
+  const { name, urls } = font;
+  const promises = [];
 
-	for (const url of urls) {
-		if (!/.woff2$/.test(url)) {
-			continue;
-		}
-		// THIS DOWNLOADS THE FONT
+  for (const url of urls) {
+    if (!/.woff2$/.test(url)) {
+      continue;
+    }
+    // THIS DOWNLOADS THE FONT
 
-		promises.push(
-			new Promise<void>((resolve) => {
-				const fontFace = new FontFace(name, `url(${url})`);
-				fontFace
-					.load()
-					.then((loadedFace) => {
-						document.fonts.add(loadedFace);
-						resolve();
-					})
-					.catch((err) => {
-						console.error(err);
-						resolve();
-					});
-			}),
-		);
-	}
+    promises.push(
+      new Promise<void>((resolve) => {
+        const fontFace = new FontFace(name, `url(${url})`);
+        fontFace
+          .load()
+          .then((loadedFace) => {
+            document.fonts.add(loadedFace);
+            resolve();
+          })
+          .catch((err) => {
+            console.error(err);
+            resolve();
+          });
+      }),
+    );
+  }
 
-	await Promise.all(promises);
+  await Promise.all(promises);
 }

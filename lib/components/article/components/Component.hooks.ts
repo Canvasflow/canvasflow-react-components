@@ -1,4 +1,4 @@
-import { RefObject, useEffect } from "react";
+import { RefObject, useEffect, useState } from "react";
 
 /*
 Function use to handle internal links in components
@@ -100,3 +100,29 @@ export type OriginArticle = {
   id: string;
   ArticleID: string;
 };
+
+/**
+ * Custom React hook to track the visibility of an element using the Intersection Observer API.
+ *
+ * @param options - Configuration options for the Intersection Observer.
+ * @returns An array with a boolean indicating visibility and a ref to attach to the target element.
+ */
+export function useInView(
+  ref: RefObject<HTMLElement>,
+  options?: IntersectionObserverInit,
+): boolean {
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  useEffect(() => {
+    if (!ref) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsVisible(entry.isIntersecting);
+    }, options);
+    const current = ref.current;
+    if (!current) return;
+    observer.observe(current);
+    return () => {
+      observer.unobserve(current);
+    };
+  }, [ref, options]);
+  return isVisible;
+}
