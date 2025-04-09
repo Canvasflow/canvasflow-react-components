@@ -1,6 +1,20 @@
 import { useState, useMemo, RefObject, useEffect } from "react";
 import { Canvasflow } from "../../Canvasflow";
 
+export function useScrollTop(ref: RefObject<HTMLElement>, isSelected: boolean) {
+  useEffect(() => {
+    if (!ref) return;
+    if (isSelected) return;
+    const { current } = ref;
+    if (!current) {
+      return;
+    }
+    setTimeout(() => {
+      current.scroll({ top: 0, behavior: "smooth" });
+    }, 1000);
+  }, [ref, isSelected]);
+}
+
 export function useStyles({ articles, styles }: StylesProps): Response {
   const [css, setCSS] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);

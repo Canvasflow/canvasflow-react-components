@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Canvasflow } from "../../Canvasflow";
 import { mapComponent, MapArgs } from "./Article.utils";
 import styles from "./article.module.css";
 
 import "animate.css";
+import { useScrollTop } from "./Articles.hooks";
 
 export const Article = (props: ArticleProps) => {
-  const { withStyle = false } = props;
+  const { withStyle = false, isSelected } = props;
+  const ref = useRef(null);
+  useScrollTop(ref, !!isSelected);
   if (withStyle) {
     return <ArticleWithStyle {...props} />;
   }
@@ -24,6 +27,7 @@ export const Article = (props: ArticleProps) => {
   return (
     <article
       id={`article-${id}`}
+      ref={ref}
       data-article-id={ArticleID}
       data-index={index}
       className={classNames.join(" ")}
