@@ -7,6 +7,7 @@ import { useRef } from "react";
 import {
   OnSelectArticleFn,
   OriginArticle,
+  useComponentAnimation,
   useInternalLinks,
 } from "./Component.hooks";
 
@@ -16,6 +17,7 @@ export const Image = (props: ImageProps) => {
     fullwidth,
     align,
     bleed,
+    animation,
     fixedwidth,
     imageurl,
     htmlclass,
@@ -38,9 +40,7 @@ export const Image = (props: ImageProps) => {
     onSelectArticle,
   } = props;
   const ref = useRef(null);
-  if(id === 'Comp-9688709') {
-    console.log(props);
-  }
+  const animationClasses = useComponentAnimation(ref, animation);
   useInternalLinks({
     id,
     ref,
@@ -48,7 +48,13 @@ export const Image = (props: ImageProps) => {
     callbackfn: onSelectArticle,
   });
 
-  let classNames = [styles["component"], "media", "image", styles["image"]];
+  let classNames = [
+    styles["component"],
+    "media",
+    "image",
+    styles["image"],
+    ...animationClasses,
+  ];
   const containerStyle: any = {};
   const imageStyle: any = {
     pointerEvents: "none",

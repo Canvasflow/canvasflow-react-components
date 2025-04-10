@@ -64,12 +64,23 @@ export namespace Component {
     align?: LeftRight | "center" | "float-left" | "float-right";
     language?: string;
     PublicationID?: number | `${number}`;
-    animation?: any;
+    animation?: Animation;
     cacheparam?: `${number}` | number;
     articleid?: `${number}` | number;
     style?: any;
     htmlclass?: string;
     pagelink?: `${number}` | number | string;
+  }
+
+  export interface Animation {
+    type: string;
+    params: AnimationParams;
+  }
+
+  export interface AnimationParams {
+    delay: number;
+    repeat: string | number;
+    speed: any;
   }
 
   /**

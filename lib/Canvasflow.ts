@@ -21,8 +21,8 @@ export namespace Canvasflow {
   export type Article = _Article;
   export type Font = {
     name: string;
-    urls: Array<string>
-  }
+    urls: Array<string>;
+  };
 
   /**
    * This is an object handles canvasflow styling
@@ -71,6 +71,8 @@ export namespace Canvasflow {
     export type Spacer = _Component.Spacer;
     export type Divider = _Component.Divider;
     export type Twitter = _Component.Twitter;
+    export type Animation = _Component.Animation;
+    export type AnimationParams = _Component.AnimationParams;
   }
 }
 

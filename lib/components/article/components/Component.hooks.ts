@@ -1,4 +1,5 @@
 import { RefObject, useEffect, useState } from "react";
+import Canvasflow from "../../../Canvasflow";
 
 /*
 Function use to handle internal links in components
@@ -100,6 +101,72 @@ export type OriginArticle = {
   id: string;
   ArticleID: string;
 };
+
+/**
+ * React hook that process animations
+ */
+
+export function useComponentAnimation(
+  ref: RefObject<HTMLElement>,
+  animation?: Canvasflow.Component.Animation,
+  options?: IntersectionObserverInit,
+): Array<string> {
+  const [classNames, setClassNames] = useState<Array<string>>([]);
+
+  const isVisible = useInView(ref, options);
+
+  useEffect(() => {
+    const hasAnimation = animation && animation.type !== "none";
+
+    if (!hasAnimation || !ref || !isVisible) return;
+
+    const { current } = ref;
+    if (!current) return;
+
+    const { type, params } = animation;
+    const classNames = [
+      ...getAnimationName(type),
+      ...getAnimationParams(current, params),
+    ];
+    setClassNames(classNames);
+  }, [isVisible, ref, animation]);
+
+  return classNames;
+}
+
+function getAnimationName(type: string) {
+  const classNames = ["animate__animated"];
+  classNames.push(`animate__${type}`);
+
+  return classNames;
+}
+
+export function getAnimationParams(
+  element: any,
+  params: Canvasflow.Component.AnimationParams,
+): Array<string> {
+  const classNames: Array<string> = [];
+  if (!params) {
+    return classNames;
+  }
+  const { delay, speed } = params;
+  let { repeat } = params;
+
+  repeat = repeat === "infinite" ? "infinite" : parseInt(`${repeat}`);
+
+  if (delay) {
+    element.style.setProperty("--animate-delay", `${delay}s`);
+    classNames.push(`animate__delay-1s`);
+  }
+  if (repeat) {
+    element.style.setProperty("--animate-repeat", `${repeat}`);
+    classNames.push(`animate__repeat-1`);
+  }
+  if (speed) {
+    classNames.push(`animate__${speed}`);
+  }
+  return classNames;
+}
 
 /**
  * Custom React hook to track the visibility of an element using the Intersection Observer API.
