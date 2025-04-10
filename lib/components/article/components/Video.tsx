@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { RefObject, useEffect, useRef, useState } from "react";
 import { ReactElement } from "react";
 import { Canvasflow } from "../../../Canvasflow";
 import InnerHTML from "dangerously-set-html-content";
 
 import styles from "./../article.module.css";
+import { useComponentAnimation } from "./Component.hooks";
 
 export const Video = (
   props: Canvasflow.Component.Video,
@@ -29,14 +30,17 @@ export const Video = (
     weblink,
     params,
     vidtype,
+    animation,
     vidid,
     hostedplaceholderurl, //CHECK THIS
     posterenabled,
     movietype,
   } = props;
+  const ref = useRef(null);
   let component = null;
   const type = vidtype;
-  const className = [styles["video"], "media", "video"];
+  const animationClasses = useComponentAnimation(ref, animation);
+  const className = [styles["video"], "media", "video", ...animationClasses];
   const containerStyle: any = {
     // marginTop,
     // marginBottom,
@@ -57,6 +61,7 @@ export const Video = (
       className.push(styles["youtube-video"]);
       component = (
         <iframe
+          ref={ref}
           title={"Video"}
           style={componentStyle}
           src={`https://www.youtube.com/embed/${vidid}?rel=0&enablejsapi=1`}
@@ -68,6 +73,7 @@ export const Video = (
     case "vimeo":
       component = (
         <iframe
+          ref={ref}
           title={"Video"}
           src={`https://player.vimeo.com/video/${vidid}`}
           width="100%"
@@ -82,6 +88,7 @@ export const Video = (
       if (params?.accountID && params?.videoID) {
         component = (
           <iframe
+            ref={ref}
             title="Brightcove video"
             src={`https://players.brightcove.net/${params.accountID}/default_default/index.html?videoId=${params.videoID}`}
             allowFullScreen
@@ -100,6 +107,7 @@ export const Video = (
     case "movie":
       component = (
         <Movie
+          ref={ref}
           autoplay={autoplay === "on"}
           loop={loop === "on"}
           posterEnabled={posterenabled === "on"}
@@ -126,7 +134,12 @@ export const Video = (
 
   if ((linktype === "web" || linktype === "page") && weblink) {
     return (
-      <div id={id} className={className.join(" ")} style={containerStyle}>
+      <div
+        ref={ref}
+        id={id}
+        className={className.join(" ")}
+        style={containerStyle}
+      >
         <a href={weblink}>{component}</a>
         {creditenabled === "on" && credit ? <Credit content={credit} /> : null}
         {captionenabled === "on" && caption ? (
@@ -137,7 +150,12 @@ export const Video = (
   }
 
   return (
-    <div id={id} className={className.join(" ")} style={containerStyle}>
+    <div
+      ref={ref}
+      id={id}
+      className={className.join(" ")}
+      style={containerStyle}
+    >
       {component}
       {creditenabled === "on" && credit ? <Credit content={credit} /> : null}
       {captionenabled === "on" && caption ? (
@@ -170,8 +188,16 @@ interface CreditProps {
 }
 
 const Movie = (props: MovieProps) => {
-  const { url, autoplay, loop, controls, style, posterEnabled, posterUrl } =
-    props;
+  const {
+    ref,
+    url,
+    autoplay,
+    loop,
+    controls,
+    style,
+    posterEnabled,
+    posterUrl,
+  } = props;
   const [opts, setOpts] = useState({});
   useEffect(() => {
     const attributes: any = {};
@@ -192,7 +218,7 @@ const Movie = (props: MovieProps) => {
       attributes.poster = posterUrl;
     }
     setOpts(attributes);
-  }, [url, autoplay, loop, controls]);
+  }, [url, autoplay, loop, controls, ref, posterEnabled, posterUrl]);
 
   if (!url) {
     return null;
@@ -200,7 +226,7 @@ const Movie = (props: MovieProps) => {
 
   const extension = url.split(".").pop();
   return (
-    <video {...opts} style={style}>
+    <video ref={ref} {...opts} style={style}>
       <source src={url} type={`video/${extension}`} />
       Sorry, your browser does not support embedded videos.
     </video>
@@ -208,6 +234,7 @@ const Movie = (props: MovieProps) => {
 };
 
 interface MovieProps {
+  ref: RefObject<HTMLVideoElement>;
   url?: string;
   autoplay: boolean;
   loop: boolean;
@@ -231,7 +258,7 @@ function TikTok(props: TikTokProps) {
         setContent(html);
       })
       .catch((err) => setError(err.message));
-  }, [content]);
+  }, [content, username, videoID]);
 
   if (error) {
     return (
@@ -307,7 +334,7 @@ function useExternalScripts({ async, url, attributes }: ExternalScriptArgs) {
         head.removeChild(script);
       }
     };
-  }, [url]);
+  }, [url, async, attributes]);
 }
 
 interface ExternalScriptArgs {

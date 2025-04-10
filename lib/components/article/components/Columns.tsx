@@ -2,7 +2,7 @@ import { ReactElement, ReactNode, useRef } from "react";
 import styles from "../article.module.css";
 import { Canvasflow } from "../../../Canvasflow";
 import { applyDeviceVisibility } from "../../../canvasflow/Component";
-import { useComponentAnimation } from "../Articles.hooks";
+import { useComponentAnimation } from "./Component.hooks";
 
 export const Columns = (props: ColumnsProps): ReactElement | null => {
   const {
@@ -10,7 +10,6 @@ export const Columns = (props: ColumnsProps): ReactElement | null => {
     children,
     devices,
     animation,
-    isSelected,
     expandfullwidth,
     bleed,
     multicolcount,
@@ -20,11 +19,7 @@ export const Columns = (props: ColumnsProps): ReactElement | null => {
     imageurl,
   } = props;
   const ref = useRef(null);
-  const animationClasses = useComponentAnimation({
-    ref,
-    animation,
-    isSelected,
-  });
+  const animationClasses = useComponentAnimation(ref, animation);
 
   const css: Array<string> = [];
 

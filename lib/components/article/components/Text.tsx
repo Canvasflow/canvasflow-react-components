@@ -5,12 +5,12 @@ import ReactHtmlParser from "html-react-parser";
 import { Canvasflow, applyDeviceVisibility } from "../../../Canvasflow";
 import styles from "./../article.module.css";
 
-import { useComponentAnimation } from "../Articles.hooks";
 import {
   useInternalLinks,
   OnSelectArticleFn,
   OriginArticle,
   useInView,
+  useComponentAnimation,
 } from "./Component.hooks";
 
 export const Text = (props: TextProps): ReactElement | null => {
@@ -29,7 +29,6 @@ export const Text = (props: TextProps): ReactElement | null => {
     devices,
     text_lang,
     lang,
-    isSelected,
     originArticle,
     onSelectArticle,
     isDebug = false,
@@ -47,11 +46,7 @@ export const Text = (props: TextProps): ReactElement | null => {
     originArticle,
     callbackfn: onSelectArticle,
   });
-  const animationClasses = useComponentAnimation({
-    ref,
-    animation,
-    isSelected,
-  });
+  const animationClasses = useComponentAnimation(ref, animation);
 
   const classNames: Array<string> = [
     styles["component"],

@@ -2,16 +2,12 @@ import { ReactElement, useRef } from "react";
 import { Canvasflow, applyDeviceVisibility } from "../../../Canvasflow";
 import styles from "../article.module.css";
 
-import { useComponentAnimation } from "../Articles.hooks";
+import { useComponentAnimation } from "./Component.hooks";
 
 export const Spacer = (props: SpacerProps): ReactElement | null => {
-  const { id, bleed, margin, devices, isSelected, animation } = props;
+  const { id, bleed, margin, devices, animation } = props;
   const ref = useRef(null);
-  const animationClasses = useComponentAnimation({
-    ref,
-    animation,
-    isSelected,
-  });
+  const animationClasses = useComponentAnimation(ref, animation);
 
   const containerStyle: any = {
     clear: "both",

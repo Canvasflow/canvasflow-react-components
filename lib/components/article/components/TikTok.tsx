@@ -1,17 +1,27 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import InnerHTML from "dangerously-set-html-content";
 
 import { Canvasflow } from "../../../Canvasflow";
 
 import styles from "../article.module.css";
+import { useComponentAnimation } from "./Component.hooks";
 
 export const TikTok = (props: Canvasflow.Component.TikTok) => {
-  const { id, bleed, params } = props;
+  const ref = useRef(null);
+  const { id, bleed, params, animation } = props;
   const { username, videoID } = params;
   const [content, setContent] = useState("");
   const [error, setError] = useState("");
 
-  const className = [styles["component"], styles["tiktok"], "media", "tiktok"];
+  const animationClasses = useComponentAnimation(ref, animation);
+
+  const className = [
+    styles["component"],
+    styles["tiktok"],
+    "media",
+    "tiktok",
+    ...animationClasses,
+  ];
 
   if (bleed) {
     className.push("bleed");
@@ -35,6 +45,7 @@ export const TikTok = (props: Canvasflow.Component.TikTok) => {
   if (error) {
     return (
       <div
+        ref={ref}
         style={{
           display: "flex",
           justifyContent: "center",

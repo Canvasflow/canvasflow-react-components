@@ -1,26 +1,14 @@
 import { ReactElement, useRef } from "react";
 
-import { useComponentAnimation } from "../Articles.hooks";
 import styles from "../article.module.css";
 
 import { Canvasflow, applyDeviceVisibility } from "../../../Canvasflow";
+import { useComponentAnimation } from "./Component.hooks";
 
 export const Divider = (props: DividerProps): ReactElement | null => {
-  const {
-    id,
-    bleed,
-    style,
-    devices,
-    isSelected = true,
-    animation,
-    expandfullwidth,
-  } = props;
+  const { id, bleed, style, devices, animation, expandfullwidth } = props;
   const ref = useRef(null);
-  const animationClasses = useComponentAnimation({
-    ref,
-    animation,
-    isSelected,
-  });
+  const animationClasses = useComponentAnimation(ref, animation);
 
   const classNames = [
     "divider",

@@ -2,24 +2,14 @@ import { ReactElement, useRef } from "react";
 import ReactHtmlParser from "html-react-parser";
 
 import styles from "../article.module.css";
-import { useComponentAnimation } from "../Articles.hooks";
+
 import { Canvasflow, applyDeviceVisibility } from "../../../Canvasflow";
+import { useComponentAnimation } from "./Component.hooks";
 
 export const Custom = (props: CustomProps): ReactElement | null => {
-  const {
-    id,
-    bleed = "off",
-    content,
-    devices,
-    animation,
-    isSelected = true,
-  } = props;
+  const { id, bleed = "off", content, devices, animation } = props;
   const ref = useRef(null);
-  const animationClasses = useComponentAnimation({
-    ref,
-    animation,
-    isSelected,
-  });
+  const animationClasses = useComponentAnimation(ref, animation);
 
   const classNames = [
     styles["component"],

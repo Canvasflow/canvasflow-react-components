@@ -64,7 +64,7 @@ export namespace Component {
     align?: LeftRight | "center" | "float-left" | "float-right";
     language?: string;
     PublicationID?: number | `${number}`;
-    animation?: Animation;
+    animation?: Animation | any;
     cacheparam?: `${number}` | number;
     articleid?: `${number}` | number;
     style?: any;

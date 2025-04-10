@@ -1,16 +1,25 @@
-import { ReactElement } from "react";
+import { ReactElement, useRef } from "react";
 import { Canvasflow } from "../../../Canvasflow";
 import styles from "./../article.module.css";
 
 import { InstagramEmbed } from "react-social-media-embed";
+import { useComponentAnimation } from "./Component.hooks";
 
 export const Instagram = (
   props: Canvasflow.Component.Instagram,
 ): ReactElement | null => {
-  const { id, bleed, params } = props;
+  const ref = useRef(null);
+  const { id, bleed, params, animation } = props;
   const { type, videoID } = params;
 
-  const className = [styles["instagram"], "media", "instagram"];
+  const animationClasses = useComponentAnimation(ref, animation);
+
+  const className = [
+    styles["instagram"],
+    "media",
+    "instagram",
+    ...animationClasses,
+  ];
 
   if (bleed) {
     className.push("bleed");
@@ -32,7 +41,7 @@ export const Instagram = (
   }
 
   return (
-    <div id={id} className={className.join(" ")}>
+    <div ref={ref} id={id} className={className.join(" ")}>
       <InstagramEmbed url={url} width={328} />
     </div>
   );
